@@ -12,3 +12,10 @@ type LoginReq struct {
 type LoginRes struct {
 	g.Meta `mime:"text/html" example:"string"`
 }
+
+type GetUserInfoReq struct {
+	g.Meta `path:"/getUserInfo" tags:"getUserInfo" method:"get" summary:"获取用户信息"`
+}
+type GetUserInfoRes struct {
+	g.Meta `mime:"text/html" example:"string"`
+}

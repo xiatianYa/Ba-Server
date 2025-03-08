@@ -6,13 +6,15 @@
 package service
 
 import (
+	v1 "Ba-Server/api/auth/v1"
+	"Ba-Server/internal/model/vo"
 	"context"
 )
 
 type (
 	IAuth interface {
-		//用户账号登录
-		UserNameLogin(ctx context.Context) (constantRoutes string, err error)
+		UserNameLogin(ctx context.Context, req *v1.LoginReq) (constantRoutes map[string]interface{}, err error)
+		GetUserInfo(ctx context.Context, req *v1.GetUserInfoReq) (constantRoutes vo.SysUserInfoVo, err error)
 	}
 )
 

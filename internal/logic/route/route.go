@@ -19,9 +19,7 @@ func New() service.IRoute {
 	return &sRoute{}
 }
 
-func (s sRoute) GetConstantRoutes(ctx context.Context) (constantRoutes map[string]interface{}, err error) {
-	// 构建返回的 map
-	result := make(map[string]interface{})
+func (s sRoute) GetConstantRoutes(ctx context.Context) (constantRoutes []map[string]interface{}, err error) {
 	data := []map[string]interface{}{
 		{
 			"name":      "403",
@@ -108,17 +106,13 @@ func (s sRoute) GetConstantRoutes(ctx context.Context) (constantRoutes map[strin
 			},
 		},
 	}
-	result["data"] = data
-	result["code"] = "200"
-	result["msg"] = "success"
-	return result, nil
+	return data, nil
 }
 
 func (s sRoute) GetUserRoutes(ctx context.Context) (userRouteVo vo.SysUserRouteVO, err error) {
 	//创建用户权限模型
 	userRoleModel := g.Model("sys_user_role")
-	//查询用户所拥有的权限
-	roleIds, err := userRoleModel.Where("user_id=?", 1).Array()
-	g.RequestFromCtx(ctx).Response.WriteJson(roleIds)
+	//查询用户角色
+	userRoleModel.Where("user_id=?", 1).Array()
 	return
 }

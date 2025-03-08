@@ -25,13 +25,13 @@ var (
 					hello.NewV1(),
 				)
 			})
-			s.Group("/", func(group *ghttp.RouterGroup) {
+			s.Group("/route", func(group *ghttp.RouterGroup) {
 				group.Middleware(ghttp.MiddlewareHandlerResponse)
 				group.Bind(
 					route.NewV1(),
 				)
 			})
-			s.Group("/", func(group *ghttp.RouterGroup) {
+			s.Group("/auth", func(group *ghttp.RouterGroup) {
 				group.Middleware(ghttp.MiddlewareHandlerResponse)
 				group.Bind(
 					auth.NewV1(),
