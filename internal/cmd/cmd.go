@@ -8,6 +8,7 @@ import (
 	"github.com/gogf/gf/v2/os/gcmd"
 
 	"Ba-Server/internal/controller/hello"
+	"Ba-Server/internal/controller/route"
 )
 
 var (
@@ -21,6 +22,12 @@ var (
 				group.Middleware(ghttp.MiddlewareHandlerResponse)
 				group.Bind(
 					hello.NewV1(),
+				)
+			})
+			s.Group("/", func(group *ghttp.RouterGroup) {
+				group.Middleware(ghttp.MiddlewareHandlerResponse)
+				group.Bind(
+					route.NewV1(),
 				)
 			})
 			s.Run()
