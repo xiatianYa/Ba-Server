@@ -5,5 +5,6 @@
 package logic
 
 import (
+	_ "Ba-Server/internal/logic/auth"
 	_ "Ba-Server/internal/logic/route"
 )

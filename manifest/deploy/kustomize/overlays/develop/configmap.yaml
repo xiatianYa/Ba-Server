@@ -11,4 +11,3 @@ data:
 
     logger:
       level : "all"
-      stdout: true
