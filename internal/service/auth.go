@@ -13,7 +13,6 @@ import (
 
 type (
 	IAuth interface {
-		UserNameLogin(ctx context.Context, req *v1.LoginReq) (constantRoutes map[string]interface{}, err error)
 		GetUserInfo(ctx context.Context, req *v1.GetUserInfoReq) (constantRoutes vo.SysUserInfoVo, err error)
 	}
 )

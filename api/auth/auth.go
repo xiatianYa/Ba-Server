@@ -11,6 +11,5 @@ import (
 )
 
 type IAuthV1 interface {
-	Login(ctx context.Context, req *v1.LoginReq) (res *v1.LoginRes, err error)
 	GetUserInfo(ctx context.Context, req *v1.GetUserInfoReq) (res *v1.GetUserInfoRes, err error)
 }
