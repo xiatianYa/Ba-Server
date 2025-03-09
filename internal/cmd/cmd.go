@@ -3,6 +3,7 @@ package cmd
 import (
 	"Ba-Server/internal/controller/auth"
 	"Ba-Server/internal/controller/route"
+	"Ba-Server/internal/service"
 	"context"
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/net/ghttp"
@@ -22,7 +23,8 @@ var (
 				return err
 			}
 			s.Group("/route", func(group *ghttp.RouterGroup) {
-				group.Middleware(ghttp.MiddlewareHandlerResponse)
+				group.Middleware(ghttp.MiddlewareHandlerResponse, service.Middleware().ResponseHandler)
+
 				//GToken 鉴权
 				err := gfToken.Middleware(ctx, group)
 				if err != nil {
@@ -33,7 +35,7 @@ var (
 				)
 			})
 			s.Group("/auth", func(group *ghttp.RouterGroup) {
-				group.Middleware(ghttp.MiddlewareHandlerResponse)
+				group.Middleware(ghttp.MiddlewareHandlerResponse, service.Middleware().ResponseHandler)
 				//GToken 鉴权
 				err := gfToken.Middleware(ctx, group)
 				if err != nil {

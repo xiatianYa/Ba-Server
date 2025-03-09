@@ -28,11 +28,6 @@ func Json(r *ghttp.Request, code int, message string, data ...interface{}) {
 	})
 }
 
-func SuccessExit(r *ghttp.Request, data interface{}) {
-	Json(r, 200, "请求成功", data)
-	r.Exit()
-}
-
 // JsonExit 返回标准JSON数据并退出当前HTTP执行函数。
 func JsonExit(r *ghttp.Request, code int, message string, data ...interface{}) {
 	Json(r, code, message, data...)
@@ -57,8 +52,14 @@ func dataReturn(r *ghttp.Request, code int, req ...interface{}) *JsonRes {
 	return response
 }
 
-// AuthError Auth 自定义异常
-func AuthError(r *ghttp.Request, message string) {
+// SuccessExit 请求成功
+func SuccessExit(r *ghttp.Request, data interface{}) {
+	Json(r, 200, "请求成功", data)
+	r.Exit()
+}
+
+// Error 请求异常
+func ErrorExit(r *ghttp.Request, message string) {
 	res := dataReturn(r, 401, message)
 	r.Response.WriteJsonExit(res)
 	r.Exit()

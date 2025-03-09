@@ -48,7 +48,7 @@ func loginFunc(r *ghttp.Request) (string, interface{}) {
 	var sysUser entity.SysUser
 	one, err := userModel.Where("user_name=?", Username).One()
 	if err != nil || one == nil {
-		response.AuthError(r, fmt.Sprintf("查找不到用户名 %s", Username))
+		response.ErrorExit(r, fmt.Sprintf("查找不到用户名 %s", Username))
 	}
 	gconv.Scan(one, &sysUser)
 
@@ -66,7 +66,7 @@ func loginFunc(r *ghttp.Request) (string, interface{}) {
 
 	// 密码比对
 	if calculatedHash != sysUser.Password {
-		response.AuthError(r, fmt.Sprintf("当前用户 %s 密码错误", Username))
+		response.ErrorExit(r, fmt.Sprintf("当前用户 %s 密码错误", Username))
 	}
 
 	// 更新用户登陆时间
@@ -75,12 +75,12 @@ func loginFunc(r *ghttp.Request) (string, interface{}) {
 	}).Update()
 
 	if err != nil {
-		response.AuthError(r, "更新用户登陆时间失败")
+		response.ErrorExit(r, "更新用户登陆时间失败")
 	}
 
 	infoVo, err := getUserInfoVo(sysUser)
 	if err != nil {
-		response.AuthError(r, "获取用户权限信息失败")
+		response.ErrorExit(r, "获取用户权限信息失败")
 	}
 
 	return consts.GTokenPrefix + strconv.FormatInt(sysUser.Id, 10), infoVo
