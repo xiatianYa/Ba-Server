@@ -15,7 +15,7 @@ type SysUserInfoVo struct {
 	// 用户性别
 	UserGender int `json:"userGender"`
 	// 用户权限列表
-	Roles []int64 `json:"roles"`
+	RoleCodes []string `json:"roles"`
 	// 用户权限按钮列表
 	Buttons []string `json:"buttons"`
 }

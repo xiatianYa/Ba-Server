@@ -5,7 +5,8 @@ import (
 )
 
 type GetUserInfoReq struct {
-	g.Meta `path:"/getUserInfo" tags:"getUserInfo" method:"get" summary:"获取用户信息"`
+	g.Meta     `path:"/getUserInfo" tags:"getUserInfo" method:"get" summary:"获取用户信息"`
+	Permission string `permission:"admin_permission"`
 }
 type GetUserInfoRes struct {
 	g.Meta `mime:"text/html" example:"string"`

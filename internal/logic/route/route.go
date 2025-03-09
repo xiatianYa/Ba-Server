@@ -1,10 +1,10 @@
 package route
 
 import (
+	"Ba-Server/internal/dao"
 	"Ba-Server/internal/model/vo"
 	"Ba-Server/internal/service"
 	"context"
-	"github.com/gogf/gf/v2/frame/g"
 )
 
 type (
@@ -111,7 +111,7 @@ func (s sRoute) GetConstantRoutes(ctx context.Context) (constantRoutes []map[str
 
 func (s sRoute) GetUserRoutes(ctx context.Context) (userRouteVo vo.SysUserRouteVO, err error) {
 	//创建用户权限模型
-	userRoleModel := g.Model("sys_user_role")
+	userRoleModel := dao.SysUserRole.Ctx(ctx)
 	//查询用户角色
 	userRoleModel.Where("user_id=?", 1).Array()
 	return

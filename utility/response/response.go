@@ -11,7 +11,6 @@ type JsonRes struct {
 	Code    int         `json:"code"` // 错误码((0:成功, 1:失败, >1:错误码))
 	Message string      `json:"msg"`  // 提示信息
 	Data    interface{} `json:"data"` // 返回数据(业务接口定义具体数据结构)
-	//Redirect string      `json:"redirect"` // 引导客户端跳转到指定路由
 }
 
 // Json 返回标准JSON数据。
@@ -29,6 +28,11 @@ func Json(r *ghttp.Request, code int, message string, data ...interface{}) {
 	})
 }
 
+func SuccessExit(r *ghttp.Request, data interface{}) {
+	Json(r, 200, "请求成功", data)
+	r.Exit()
+}
+
 // JsonExit 返回标准JSON数据并退出当前HTTP执行函数。
 func JsonExit(r *ghttp.Request, code int, message string, data ...interface{}) {
 	Json(r, code, message, data...)
@@ -44,12 +48,7 @@ func dataReturn(r *ghttp.Request, code int, req ...interface{}) *JsonRes {
 	if len(req) > 1 {
 		data = req[1]
 	}
-	//msg = GetCodeMsg(code, msg)
-	if code != 1 && !gconv.Bool(r.GetCtxVar("api_code")) {
-		code = 0
-	}
 	response := &JsonRes{
-		//ID:      r.GetCtxVar("RequestId").String(),
 		Code:    code,
 		Message: msg,
 		Data:    data,
@@ -58,16 +57,32 @@ func dataReturn(r *ghttp.Request, code int, req ...interface{}) *JsonRes {
 	return response
 }
 
-// Auth 认证失败
-func Auth(r *ghttp.Request) {
-	res := dataReturn(r, 999, "请登录")
+// AuthError Auth 自定义异常
+func AuthError(r *ghttp.Request, message string) {
+	res := dataReturn(r, 401, message)
 	r.Response.WriteJsonExit(res)
+	r.Exit()
 }
 
-// Auth 认证失败 被冻结拉黑
-func AuthBlack(r *ghttp.Request) {
-	res := dataReturn(r, 888, "您的账号被冻结拉黑，请联系管理员")
+// Auth 认证失败
+func Auth(r *ghttp.Request) {
+	res := dataReturn(r, 401, "用户未登录,请先登录")
 	r.Response.WriteJsonExit(res)
+	r.Exit()
+}
+
+// AuthBlack 认证失败 被冻结拉黑
+func AuthBlack(r *ghttp.Request) {
+	res := dataReturn(r, 401, "您的账号被冻结拉黑,请联系管理员")
+	r.Response.WriteJsonExit(res)
+	r.Exit()
+}
+
+// AuthPermission 权限认证失败(没有权限)
+func AuthPermission(r *ghttp.Request) {
+	res := dataReturn(r, 401, "非法权限,你没有权限操作,请联系管理员")
+	r.Response.WriteJsonExit(res)
+	r.Exit()
 }
 
 // JsonRedirect 返回标准JSON数据引导客户端跳转。
@@ -80,7 +95,6 @@ func JsonRedirect(r *ghttp.Request, code int, message, redirect string, data ...
 		Code:    code,
 		Message: message,
 		Data:    responseData,
-		//Redirect: redirect,
 	})
 }
 

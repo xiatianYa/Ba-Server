@@ -78,4 +78,13 @@ const (
 	THREE             = "3"
 	Token             = "token"
 	GTokenPrefix      = "ba:"
+	//for user
+	UserId     = "Id"
+	UserName   = "UserName"
+	UserAvatar = "Avatar"
+	UserEmail  = "UserEmail"
+	UserGender = "UserGender"
+	UserPhone  = "UserPhone"
+	RoleCodes  = "RoleCodes"
+	Buttons    = "Buttons"
 )
