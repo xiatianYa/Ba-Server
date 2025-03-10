@@ -14,10 +14,10 @@ type JsonRes struct {
 }
 
 // Json 返回标准JSON数据。
-func Json(r *ghttp.Request, code int, message string, data ...interface{}) {
+func Json(r *ghttp.Request, code int, message string, data interface{}) {
 	var responseData interface{}
-	if len(data) > 0 {
-		responseData = data[0]
+	if data != nil {
+		responseData = data
 	} else {
 		responseData = g.Map{}
 	}
@@ -29,8 +29,8 @@ func Json(r *ghttp.Request, code int, message string, data ...interface{}) {
 }
 
 // JsonExit 返回标准JSON数据并退出当前HTTP执行函数。
-func JsonExit(r *ghttp.Request, code int, message string, data ...interface{}) {
-	Json(r, code, message, data...)
+func JsonExit(r *ghttp.Request, code int, message string, data interface{}) {
+	Json(r, code, message, data)
 	r.Exit()
 }
 
@@ -58,7 +58,7 @@ func SuccessExit(r *ghttp.Request, data interface{}) {
 	r.Exit()
 }
 
-// Error 请求异常
+// ErrorExit Error 请求异常
 func ErrorExit(r *ghttp.Request, message string) {
 	res := dataReturn(r, 401, message)
 	r.Response.WriteJsonExit(res)
@@ -84,37 +84,4 @@ func AuthPermission(r *ghttp.Request) {
 	res := dataReturn(r, 401, "非法权限,你没有权限操作,请联系管理员")
 	r.Response.WriteJsonExit(res)
 	r.Exit()
-}
-
-// JsonRedirect 返回标准JSON数据引导客户端跳转。
-func JsonRedirect(r *ghttp.Request, code int, message, redirect string, data ...interface{}) {
-	responseData := interface{}(nil)
-	if len(data) > 0 {
-		responseData = data[0]
-	}
-	r.Response.WriteJson(JsonRes{
-		Code:    code,
-		Message: message,
-		Data:    responseData,
-	})
-}
-
-// JsonRedirectExit 返回标准JSON数据引导客户端跳转，并退出当前HTTP执行函数。
-func JsonRedirectExit(r *ghttp.Request, code int, message, redirect string, data ...interface{}) {
-	JsonRedirect(r, code, message, redirect, data...)
-	r.Exit()
-}
-
-func SuccessWithData(r *ghttp.Request, data interface{}) {
-	res := dataReturn(r, 1, "ok", data)
-	r.Response.WriteJsonExit(res)
-}
-
-// JsonResponse 数据返回通用JSON数据结构
-type JsonResponse struct {
-	//ID       string      `json:"id"`                 //
-	Code     int         `json:"code"`               // 错误码((1:成功, 0:失败, >1:错误码))
-	Message  string      `json:"message"`            // 提示信息
-	Data     interface{} `json:"data,omitempty"`     // 返回数据(业务接口定义具体数据结构)
-	Redirect string      `json:"redirect,omitempty"` // 引导客户端跳转到指定路由
 }

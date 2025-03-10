@@ -50,7 +50,7 @@ func loginFunc(r *ghttp.Request) (string, interface{}) {
 	if err != nil || one == nil {
 		response.ErrorExit(r, fmt.Sprintf("查找不到用户名 %s", Username))
 	}
-	gconv.Scan(one, &sysUser)
+	_ = gconv.Scan(one, &sysUser)
 
 	//校验用户是否被禁止登录
 	if consts.ZERO == sysUser.Status {

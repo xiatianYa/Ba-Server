@@ -7,9 +7,9 @@ import (
 
 type (
 	IRoute interface {
-		//获取常量路由
+		// GetConstantRoutes 获取常量路由
 		GetConstantRoutes(ctx context.Context) (constantRoutes []map[string]interface{}, err error)
-		//获取用户路由
+		// GetUserRoutes 获取用户路由
 		GetUserRoutes(ctx context.Context) (userRouteVo vo.SysUserRouteVO, err error)
 	}
 )
