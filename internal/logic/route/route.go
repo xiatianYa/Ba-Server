@@ -112,7 +112,7 @@ func (s sRoute) GetConstantRoutes(ctx context.Context) (constantRoutes []map[str
 	return data, nil
 }
 
-func (s sRoute) GetUserRoutes(ctx context.Context) (userRouteVo vo.SysUserRouteVO, err error) {
+func (s sRoute) GetUserRoutes(ctx context.Context) (sysUserInfoVo vo.SysUserRouteVO, err error) {
 	// 返回的路由结构
 	var resultRoute []domain.Route
 	// 用户用户的角色对应列表
