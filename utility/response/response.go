@@ -1,6 +1,7 @@
 package response
 
 import (
+	"Ba-Server/internal/consts"
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/net/ghttp"
 	"github.com/gogf/gf/v2/util/gconv"
@@ -54,34 +55,34 @@ func dataReturn(r *ghttp.Request, code int, req ...interface{}) *JsonRes {
 
 // SuccessExit 请求成功
 func SuccessExit(r *ghttp.Request, data interface{}) {
-	Json(r, 200, "请求成功", data)
+	Json(r, consts.SUCCESS, "请求成功", data)
 	r.Exit()
 }
 
 // ErrorExit Error 请求异常
 func ErrorExit(r *ghttp.Request, message string) {
-	res := dataReturn(r, 401, message)
+	res := dataReturn(r, consts.ERROR, message)
 	r.Response.WriteJsonExit(res)
 	r.Exit()
 }
 
 // Auth 认证失败
 func Auth(r *ghttp.Request) {
-	res := dataReturn(r, 401, "用户未登录,请先登录")
+	res := dataReturn(r, consts.ERROR, "用户未登录,请先登录")
 	r.Response.WriteJsonExit(res)
 	r.Exit()
 }
 
 // AuthBlack 认证失败 被冻结拉黑
 func AuthBlack(r *ghttp.Request) {
-	res := dataReturn(r, 401, "您的账号被冻结拉黑,请联系管理员")
+	res := dataReturn(r, consts.ERROR, "您的账号被冻结拉黑,请联系管理员")
 	r.Response.WriteJsonExit(res)
 	r.Exit()
 }
 
 // AuthPermission 权限认证失败(没有权限)
 func AuthPermission(r *ghttp.Request) {
-	res := dataReturn(r, 401, "非法权限,你没有权限操作,请联系管理员")
+	res := dataReturn(r, consts.ERROR, "非法权限,你没有权限操作,请联系管理员")
 	r.Response.WriteJsonExit(res)
 	r.Exit()
 }

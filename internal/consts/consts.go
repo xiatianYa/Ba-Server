@@ -1,6 +1,25 @@
 package consts
 
 const (
+	//GToken配置
+	GTokenPrefix        = "ba:"
+	GTokenLocalCache    = 1
+	GTokenRedisCache    = 2
+	GTokenNoMultiLogin  = true
+	GTokenYesMultiLogin = true
+	//用户相关配置
+	UserId     = "Id"
+	UserName   = "UserName"
+	UserAvatar = "Avatar"
+	UserEmail  = "UserEmail"
+	UserGender = "UserGender"
+	UserPhone  = "UserPhone"
+	RoleCodes  = "RoleCodes"
+	Buttons    = "Buttons"
+	//返回结果配置
+	SUCCESS = 200
+	ERROR   = 401
+	//系统常量配置
 	ADMIN             = "admin"
 	AMPERSAND         = "&"
 	AND               = "and"
@@ -77,14 +96,4 @@ const (
 	TWO               = "2"
 	THREE             = "3"
 	Token             = "token"
-	GTokenPrefix      = "ba:"
-	//for user
-	UserId     = "Id"
-	UserName   = "UserName"
-	UserAvatar = "Avatar"
-	UserEmail  = "UserEmail"
-	UserGender = "UserGender"
-	UserPhone  = "UserPhone"
-	RoleCodes  = "RoleCodes"
-	Buttons    = "Buttons"
 )

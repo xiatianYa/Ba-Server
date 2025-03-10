@@ -25,13 +25,13 @@ func StartBackendGToken() (gfAdminToken *gtoken.GfToken, err error) {
 	// 启动GToken
 	gfToken := &gtoken.GfToken{
 		ServerName:       "Ba-Server",
-		CacheMode:        2, //GRedis
+		CacheMode:        consts.GTokenRedisCache,
 		LoginPath:        "/login",
 		LoginBeforeFunc:  loginFunc,
 		LoginAfterFunc:   loginAfterFunc,
 		LogoutPath:       "/user/logout",
 		AuthExcludePaths: g.SliceStr{"/route/getConstantRoutes"},
-		MultiLogin:       true,
+		MultiLogin:       consts.GTokenNoMultiLogin,
 		AuthAfterFunc:    authAfterFunc,
 	}
 	err = gfToken.Start()
@@ -109,7 +109,7 @@ func loginAfterFunc(r *ghttp.Request, respData gtoken.Resp) {
 			"token":        respData.GetString("token"),
 			"refreshToken": respData.GetString("token"),
 		}
-		response.JsonExit(r, 200, "success", data)
+		response.JsonExit(r, consts.SUCCESS, "success", data)
 	}
 	return
 }
@@ -123,7 +123,7 @@ func authAfterFunc(r *ghttp.Request, respData gtoken.Resp) {
 		response.Auth(r)
 		return
 	}
-	// 根据请求路径校验用户是否有权限操作接口
+	//todo 根据请求路径校验用户是否有权限操作接口
 	if containsSubstring(sysUserInfoVo.Buttons, r.URL.Path) {
 		response.AuthPermission(r)
 		return
