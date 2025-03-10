@@ -31,5 +31,5 @@ type Meta struct {
 	// 路由查询参数
 	Query []KVPairs `json:"query" yaml:"query" description:"路由查询参数"`
 	// 路由权限按钮
-	Permissions []string `json:"permissions,omitempty" yaml:"permissions,omitempty" description:"路由权限按钮"`
+	Permissions []string `json:"permissions" yaml:"permissions" description:"路由权限按钮"`
 }
