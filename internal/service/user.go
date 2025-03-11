@@ -14,7 +14,7 @@ import (
 
 type (
 	IUser interface {
-		GetSysUserPage(ctx context.Context, req *v1.GetSysUserPageReq) (pages int, total int, records []vo.SysUserVo, err error)
+		GetSysUserPage(ctx context.Context, req *v1.GetSysUserPageReq) (total int, records []*vo.SysUserVo, err error)
 		GetUserInfoVo(ctx context.Context, sysUser entity.SysUser) (sysUserInfoVo *vo.SysUserInfoVo, err error)
 	}
 )

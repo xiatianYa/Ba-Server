@@ -19,4 +19,5 @@ type SysUserVo struct {
 	UpdatePasswordTime *gtime.Time `json:"updatePasswordTime" orm:"update_password_time" ` // 修改密码时间
 	Status             string      `json:"status"             orm:"status"               ` // 是否启用(0:禁用,1:启用)
 	IsDeleted          uint        `json:"isDeleted"          orm:"is_deleted"           ` // 是否删除(0:否,1:是)
+	UserRoles          []string    `json:"userRoles"          orm:"user_roles"           ` // 用户角色标识列表
 }

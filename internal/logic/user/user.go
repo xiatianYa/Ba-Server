@@ -21,8 +21,13 @@ func New() service.IUser {
 	return &sUser{}
 }
 
-func (s sUser) GetSysUserPage(ctx context.Context, req *v1.GetSysUserPageReq) (pages int, total int, records []vo.SysUserVo, err error) {
+func (s sUser) GetSysUserPage(ctx context.Context, req *v1.GetSysUserPageReq) (total int, records []*vo.SysUserVo, err error) {
+	// 创建指针切片
+	var result []*vo.SysUserVo
+
 	userModel := dao.SysUser.Ctx(ctx)
+	userRoleModel := dao.SysUserRole.Ctx(ctx)
+	roleModel := dao.SysRole.Ctx(ctx)
 	pageQuery := userModel.Page(req.Current, req.Size)
 
 	// 处理各个查询条件，只添加非空的条件
@@ -45,20 +50,39 @@ func (s sUser) GetSysUserPage(ctx context.Context, req *v1.GetSysUserPageReq) (p
 		pageQuery = pageQuery.Where("status = ?", req.Status)
 	}
 
-	if err = pageQuery.ScanAndCount(&records, &total, true); err != nil {
-		records = make([]vo.SysUserVo, 0)
-		return
-	}
-
-	// 计算总页数
-	if req.Size > 0 {
-		pages = (total + req.Size - 1) / req.Size
+	err = pageQuery.ScanAndCount(&result, &total, true)
+	if err != nil {
+		return 0, nil, err
 	}
 
 	// 如果列表为空
-	if records == nil {
-		records = make([]vo.SysUserVo, 0)
+	if result == nil {
+		records = []*vo.SysUserVo{}
+		return
 	}
+
+	//获取用户角色标识列表
+	for _, sysUser := range result {
+		// 创建一个新的切片来存储 roleIds
+		var roleIds []int64
+		// 用户拥有的角色列表
+		var sysUserRoles []entity.SysUserRole
+		var sysRoles []entity.SysRole
+		// 创建一个新的切片来存储 roleCode
+		var roleCodes []string
+		_ = userRoleModel.Where("user_id", sysUser.Id).Scan(&sysUserRoles)
+		// 用户拥有的角色标识
+		for _, sysUserRole := range sysUserRoles {
+			roleIds = append(roleIds, sysUserRole.RoleId)
+		}
+		//获取用户角色标识列表
+		_ = roleModel.WhereIn("id", roleIds).Scan(&sysRoles)
+		for _, sysRole := range sysRoles {
+			roleCodes = append(roleCodes, sysRole.RoleCode)
+		}
+		sysUser.UserRoles = roleCodes
+	}
+	records = result
 	return
 }
 

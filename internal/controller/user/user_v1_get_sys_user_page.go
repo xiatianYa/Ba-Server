@@ -8,11 +8,18 @@ import (
 )
 
 func (c *ControllerV1) GetSysUserPage(ctx context.Context, req *v1.GetSysUserPageReq) (res *v1.GetSysUserPageRes, err error) {
-	pages, total, records, err := service.User().GetSysUserPage(ctx, req)
+	total, records, err := service.User().GetSysUserPage(ctx, req)
+
+	//发送错误
+	if err != nil {
+		return nil, err
+	}
+
+	//构建返回对象
 	rPage := &domain.RPage{
 		Current: req.Current,
 		Size:    req.Size,
-		Pages:   pages,
+		Pages:   (total + req.Size - 1) / req.Size,
 		Total:   total,
 		Records: records,
 	}
