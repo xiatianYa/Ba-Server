@@ -1,6 +1,7 @@
 package user
 
 import (
+	v1 "Ba-Server/api/user/v1"
 	"Ba-Server/internal/dao"
 	"Ba-Server/internal/model/entity"
 	"Ba-Server/internal/model/vo"
@@ -18,6 +19,47 @@ func init() {
 
 func New() service.IUser {
 	return &sUser{}
+}
+
+func (s sUser) GetSysUserPage(ctx context.Context, req *v1.GetSysUserPageReq) (pages int, total int, records []vo.SysUserVo, err error) {
+	userModel := dao.SysUser.Ctx(ctx)
+	pageQuery := userModel.Page(req.Current, req.Size)
+
+	// 处理各个查询条件，只添加非空的条件
+	if req.UserName != "" {
+		pageQuery = pageQuery.Where("user_name like ?", "%"+req.UserName+"%")
+	}
+	if req.UserGender != 0 {
+		pageQuery = pageQuery.Where("user_gender = ?", req.UserGender)
+	}
+	if req.NickName != "" {
+		pageQuery = pageQuery.Where("nick_name like ?", "%"+req.NickName+"%")
+	}
+	if req.UserPhone != "" {
+		pageQuery = pageQuery.Where("user_phone like ?", "%"+req.UserPhone+"%")
+	}
+	if req.UserEmail != "" {
+		pageQuery = pageQuery.Where("user_email like ?", "%"+req.UserEmail+"%")
+	}
+	if req.Status != "" {
+		pageQuery = pageQuery.Where("status = ?", req.Status)
+	}
+
+	if err = pageQuery.ScanAndCount(&records, &total, true); err != nil {
+		records = make([]vo.SysUserVo, 0)
+		return
+	}
+
+	// 计算总页数
+	if req.Size > 0 {
+		pages = (total + req.Size - 1) / req.Size
+	}
+
+	// 如果列表为空
+	if records == nil {
+		records = make([]vo.SysUserVo, 0)
+	}
+	return
 }
 
 func (s sUser) GetUserInfoVo(ctx context.Context, sysUser entity.SysUser) (sysUserInfoVo *vo.SysUserInfoVo, err error) {

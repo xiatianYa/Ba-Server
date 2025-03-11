@@ -1,6 +1,7 @@
 package route
 
 import (
+	"Ba-Server/internal/consts"
 	"Ba-Server/internal/dao"
 	"Ba-Server/internal/model/domain"
 	"Ba-Server/internal/model/entity"
@@ -8,6 +9,7 @@ import (
 	"Ba-Server/internal/service"
 	"context"
 	"encoding/json"
+	"github.com/gogf/gf/v2/errors/gerror"
 )
 
 type (
@@ -112,7 +114,12 @@ func (s sRoute) GetConstantRoutes(ctx context.Context) (constantRoutes []map[str
 	return data, nil
 }
 
-func (s sRoute) GetUserRoutes(ctx context.Context) (sysUserInfoVo vo.SysUserRouteVO, err error) {
+func (s sRoute) GetUserRoutes(ctx context.Context) (sysUserInfoVo *vo.SysUserRouteVO, err error) {
+	//获取用户ID
+	userId := ctx.Value(consts.UserId)
+	if userId == nil {
+		return nil, gerror.New("用户ID不存在")
+	}
 	// 返回的路由结构
 	var resultRoute []domain.Route
 	// 用户用户的角色对应列表
@@ -169,7 +176,7 @@ func (s sRoute) GetUserRoutes(ctx context.Context) (sysUserInfoVo vo.SysUserRout
 			resultRoute = append(resultRoute, route)
 		}
 	}
-	return vo.SysUserRouteVO{
+	return &vo.SysUserRouteVO{
 		Home:   "home",
 		Routes: resultRoute,
 	}, nil

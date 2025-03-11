@@ -6,7 +6,7 @@ import (
 )
 
 type GetConstantRoutesReq struct {
-	g.Meta `path:"/getConstantRoutes" tags:"getConstantRoutes" method:"get" summary:"获取用户常量录音"`
+	g.Meta `path:"/getConstantRoutes" tags:"getConstantRoutes" method:"get" summary:"获取用户常量路由"`
 }
 
 type GetConstantRoutesRes []map[string]interface{}
@@ -14,4 +14,4 @@ type GetConstantRoutesRes []map[string]interface{}
 type GetUserRoutesReq struct {
 	g.Meta `path:"/getUserRoutes" tags:"getUserRoutes" method:"get" summary:"获取用户权限路由"`
 }
-type GetUserRoutesRes vo.SysUserRouteVO
+type GetUserRoutesRes *vo.SysUserRouteVO

@@ -6,6 +6,7 @@
 package service
 
 import (
+	v1 "Ba-Server/api/user/v1"
 	"Ba-Server/internal/model/entity"
 	"Ba-Server/internal/model/vo"
 	"context"
@@ -13,6 +14,7 @@ import (
 
 type (
 	IUser interface {
+		GetSysUserPage(ctx context.Context, req *v1.GetSysUserPageReq) (pages int, total int, records []vo.SysUserVo, err error)
 		GetUserInfoVo(ctx context.Context, sysUser entity.SysUser) (sysUserInfoVo *vo.SysUserInfoVo, err error)
 	}
 )

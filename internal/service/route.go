@@ -10,7 +10,7 @@ type (
 		// GetConstantRoutes 获取常量路由
 		GetConstantRoutes(ctx context.Context) (constantRoutes []map[string]interface{}, err error)
 		// GetUserRoutes 获取用户路由
-		GetUserRoutes(ctx context.Context) (userRouteVo vo.SysUserRouteVO, err error)
+		GetUserRoutes(ctx context.Context) (userRouteVo *vo.SysUserRouteVO, err error)
 	}
 )
 
