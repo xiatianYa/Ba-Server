@@ -125,10 +125,10 @@ func authAfterFunc(r *ghttp.Request, respData gtoken.Resp) {
 		return
 	}
 	//todo 根据请求路径校验用户是否有权限操作接口
-	//if containsSubstring(sysUserInfoVo.Buttons, r.URL.Path) {
-	//	response.AuthPermission(r)
-	//	return
-	//}
+	if containsSubstring(sysUserInfoVo.Buttons, r.URL.Path) {
+		response.AuthPermission(r)
+		return
+	}
 	//todo 这里可以写账号前置校验、是否被拉黑、有无权限等逻辑
 	r.SetCtxVar(consts.UserId, sysUserInfoVo.UserID)
 	r.SetCtxVar(consts.UserName, sysUserInfoVo.UserName)
@@ -144,7 +144,7 @@ func authAfterFunc(r *ghttp.Request, respData gtoken.Resp) {
 // 校验切片是否包含某个字符
 func containsSubstring(arr []string, target string) bool {
 	for _, item := range arr {
-		if strings.Contains(item, target) {
+		if strings.HasPrefix(target, item) {
 			return false
 		}
 	}

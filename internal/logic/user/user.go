@@ -174,7 +174,7 @@ func (s sUser) SaveSysUser(ctx context.Context, req *v1.SaveSysUserReq) (res *v1
 	//查询该用户名有没有存在
 	one, _ := userModel.Where("user_name", req.UserName).Exist()
 	if one != false {
-		return nil, gerror.New("用户名已存在,请修改账户名")
+		return nil, gerror.New("用户已存在,请修改用户名")
 	}
 	//配置用户密码
 	inputPassword := req.PassWord + consts.Salt
@@ -233,6 +233,82 @@ func (s sUser) RemoveSysUserByIds(ctx context.Context, req *v1.RemoveSysUserById
 	})
 	if err != nil {
 		return nil, gerror.New("用户删除失败")
+	}
+	return
+}
+func (s sUser) RemoveSysUserById(ctx context.Context, req *v1.RemoveSysUserByIdReq) (res *v1.RemoveSysUserByIdRes, err error) {
+	userModel := dao.SysUser.Ctx(ctx)
+	userRoleModel := dao.SysUserRole.Ctx(ctx)
+	//删除当前用户
+	err = g.DB().Transaction(ctx, func(ctx context.Context, tx gdb.TX) error {
+		_, err = userModel.Where("id", req.Id).Delete()
+		if err != nil {
+			return err
+		}
+		//删除用户下的角色对应列表
+		_, err = userRoleModel.Where("user_id", req.Id).Delete()
+		if err != nil {
+			return err
+		}
+		return nil
+	})
+	if err != nil {
+		return nil, gerror.New("用户删除失败")
+	}
+	return
+}
+
+func (s sUser) UpdateSysUser(ctx context.Context, req *v1.UpdateSysUserReq) (res *v1.UpdateSysUserRes, err error) {
+	// 定义正则表达式常量
+	const regUserNamePattern = "^[\u4E00-\u9FA5a-zA-Z0-9_-]{4,16}$"
+	const regUserNickNamePattern = "^[\u4E00-\u9FA5a-zA-Z0-9_-]{1,16}$"
+	// 编译正则表达式
+	var regUserName = regexp.MustCompile(regUserNamePattern)
+	var regNickUserName = regexp.MustCompile(regUserNickNamePattern)
+	//校验传递过来的参数
+	if !regUserName.MatchString(req.UserName) {
+		return nil, gerror.New("用户名校验失败,请输入4-16位用户名")
+	}
+	if !regNickUserName.MatchString(req.NickName) {
+		return nil, gerror.New("昵称校验失败,请输入1-16位用户名")
+	}
+	//创建用户模型
+	userModel := dao.SysUser.Ctx(ctx)
+	roleModel := dao.SysRole.Ctx(ctx)
+	userRoleModel := dao.SysUserRole.Ctx(ctx)
+	sysUser := do.SysUser{}
+	//配置用户其他数据
+	sysUser.Id = req.Id
+	sysUser.UserName = req.UserName
+	sysUser.NickName = req.NickName
+	sysUser.UserEmail = req.UserEmail
+	sysUser.UserGender = req.UserGender
+	sysUser.UserPhone = req.UserPhone
+	sysUser.Status = req.Status
+	//修改用户信息
+	err = g.DB().Transaction(ctx, func(ctx context.Context, tx gdb.TX) error {
+		_, err = userModel.Data(sysUser).Where("id", sysUser.Id).Update()
+		if err != nil {
+			return err
+		}
+		//给用户分配角色
+		var sysRoles []entity.SysRole
+		_ = roleModel.WhereIn("role_code", req.UserRoles).Scan(&sysRoles)
+		for _, role := range sysRoles {
+			sysRole := entity.SysUserRole{
+				UserId: req.Id,
+				RoleId: role.Id,
+				Status: consts.ONE,
+			}
+			_, err = userRoleModel.Insert(&sysRole)
+			if err != nil {
+				return err
+			}
+		}
+		return nil
+	})
+	if err != nil {
+		return nil, gerror.New("用户信息修改失败")
 	}
 	return
 }

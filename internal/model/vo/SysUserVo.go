@@ -9,7 +9,7 @@ type SysUserVo struct {
 	NickName           string      `json:"nickName"           orm:"nick_name"            ` // 昵称
 	Avatar             string      `json:"avatar"             orm:"avatar"               ` // 头像
 	UserEmail          string      `json:"userEmail"          orm:"user_email"           ` // 邮箱
-	UserGender         int         `json:"userGender"         orm:"user_gender"          ` // 用户性别
+	UserGender         string      `json:"userGender"         orm:"user_gender"          ` // 用户性别
 	UserPhone          string      `json:"userPhone"          orm:"user_phone"           ` // 手机
 	CreateUserId       int64       `json:"createUserId"       orm:"create_user_id"       ` // 创建用户ID
 	CreateTime         *gtime.Time `json:"createTime"         orm:"create_time"          ` // 创建时间

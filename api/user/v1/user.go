@@ -39,3 +39,24 @@ type RemoveSysUserByIdsReq struct {
 }
 
 type RemoveSysUserByIdsRes bool
+
+type RemoveSysUserByIdReq struct {
+	g.Meta `path:"/remove/{id}" tags:"remove" method:"delete" summary:"删除单个用户"`
+	Id     int64 `v:"required" dc:"user id"`
+}
+
+type RemoveSysUserByIdRes bool
+
+type UpdateSysUserReq struct {
+	g.Meta     `path:"/update" tags:"update" method:"put" summary:"修改用户信息"`
+	Id         int64    `v:"required" json:"id"`
+	UserName   string   `v:"required" json:"userName"`
+	NickName   string   `v:"required" json:"nickName"`
+	UserRoles  []string `v:"required" json:"userRoles"`
+	UserGender int      `v:"required" json:"userGender"`
+	Status     string   `v:"required" json:"status"`
+	UserPhone  string   `json:"userPhone"`
+	UserEmail  string   `json:"userEmail"`
+}
+
+type UpdateSysUserRes bool
