@@ -20,6 +20,7 @@ const (
 	//返回结果配置
 	SUCCESS = 200
 	ERROR   = 401
+	BACKER  = 403
 	//系统常量配置
 	ADMIN             = "admin"
 	AMPERSAND         = "&"

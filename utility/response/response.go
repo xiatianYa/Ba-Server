@@ -75,7 +75,7 @@ func Auth(r *ghttp.Request) {
 
 // AuthBlack 认证失败 被冻结拉黑
 func AuthBlack(r *ghttp.Request) {
-	res := dataReturn(r, consts.ERROR, "您的账号被冻结拉黑,请联系管理员")
+	res := dataReturn(r, consts.BACKER, "您的账号被冻结拉黑,请联系管理员")
 	r.Response.WriteJsonExit(res)
 	r.Exit()
 }
