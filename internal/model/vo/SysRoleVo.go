@@ -1,15 +1,9 @@
-// =================================================================================
-// Code generated and maintained by GoFrame CLI tool. DO NOT EDIT.
-// =================================================================================
+package vo
 
-package entity
+import "github.com/gogf/gf/v2/os/gtime"
 
-import (
-	"github.com/gogf/gf/v2/os/gtime"
-)
-
-// SysRole is the golang structure for table sys_role.
-type SysRole struct {
+// SysRoleVo is the golang structure for table sys_role.
+type SysRoleVo struct {
 	Id         int64       `json:"id"           orm:"id"             ` // 主键
 	RoleName   string      `json:"roleName"     orm:"role_name"      ` // 角色名称
 	RoleCode   string      `json:"roleCode"     orm:"role_code"      ` // 角色编码

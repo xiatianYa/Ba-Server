@@ -15,9 +15,7 @@ type SysRolePermission struct {
 	Id           interface{} //
 	RoleId       interface{} // 角色ID
 	PermissionId interface{} // 权限ID
-	CreateUserId interface{} // 创建用户ID
 	CreateTime   *gtime.Time // 创建时间
-	UpdateUserId interface{} // 修改用户ID
 	UpdateTime   *gtime.Time // 修改时间
 	IsDeleted    interface{} // 是否删除(0:否,1:是)
 }
