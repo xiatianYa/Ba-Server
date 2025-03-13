@@ -12,6 +12,7 @@ import (
 	"github.com/gogf/gf/v2/database/gdb"
 	"github.com/gogf/gf/v2/errors/gerror"
 	"github.com/gogf/gf/v2/frame/g"
+	"math/rand/v2"
 )
 
 type (
@@ -220,6 +221,58 @@ func (s sRole) UpdateRoleMenu(ctx context.Context, req *v1.UpdateRoleMenuReq) (r
 		return nil, gerror.New("用户角色菜单权限添加失败")
 	}
 	return
+}
+
+func (s sRole) GetPermissionTree(ctx context.Context, req *v1.GetPermissionTreeReq) (res []vo.SysPermissionTreeVo, err error) {
+	var SysPermissions []entity.SysPermission
+	var PermissionTreeVos []vo.SysPermissionTreeVo
+	rolePermissionModel := dao.SysPermission.Ctx(ctx)
+	_ = rolePermissionModel.Scan(&SysPermissions)
+	PermissionTreeVos = buildTree(SysPermissions)
+	return PermissionTreeVos, nil
+}
+
+// buildTree 构建菜单树
+func buildTree(SysPermissions []entity.SysPermission) []vo.SysPermissionTreeVo {
+	//构建头节点
+	var PermissionTree []vo.SysPermissionTreeVo
+
+	for _, permission := range SysPermissions {
+		//查看有没有Label一样的头节点
+		isTemp := false
+		for _, permissionVo := range PermissionTree {
+			if permissionVo.Label == permission.MenuName {
+				//相同的头节点 返回
+				isTemp = true
+			}
+		}
+		if isTemp {
+			continue
+		}
+		//构建头节点
+		treeVo := vo.SysPermissionTreeVo{
+			Label:    permission.MenuName,
+			Value:    int64(rand.N(1000)),
+			Children: []vo.SysPermissionTreeVo{},
+			Disabled: false,
+		}
+		//构建头节点的子节点
+		for _, permissionChildren := range SysPermissions {
+			//构建头节点的子节点
+			if treeVo.Label == permissionChildren.MenuName {
+				//添加子节点
+				childrenVo := vo.SysPermissionTreeVo{
+					Label:    permissionChildren.Description,
+					Value:    permissionChildren.Id,
+					Children: nil,
+					Disabled: false,
+				}
+				treeVo.Children = append(treeVo.Children, childrenVo)
+			}
+		}
+		PermissionTree = append(PermissionTree, treeVo)
+	}
+	return PermissionTree
 }
 
 // FindMissingIds 找出在 MasterMenuIds 中存在，但在 ServantMenuIds 中不存在的元素

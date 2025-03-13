@@ -65,3 +65,9 @@ type UpdateRoleMenuReq struct {
 }
 
 type UpdateRoleMenuRes bool
+
+type GetPermissionTreeReq struct {
+	g.Meta `path:"/getPermissionTree" tags:"getPermissionTree" method:"get" summary:"获取权限按钮树"`
+}
+
+type GetPermissionTreeRes []vo.SysPermissionTreeVo
