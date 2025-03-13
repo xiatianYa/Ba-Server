@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"Ba-Server/internal/controller/auth"
+	"Ba-Server/internal/controller/menu"
 	"Ba-Server/internal/controller/role"
 	"Ba-Server/internal/controller/route"
 	"Ba-Server/internal/controller/user"
@@ -67,6 +68,17 @@ var (
 				}
 				group.Bind(
 					role.NewV1(),
+				)
+			})
+			s.Group("/sysMenu", func(group *ghttp.RouterGroup) {
+				group.Middleware(ghttp.MiddlewareHandlerResponse, service.Middleware().ResponseHandler)
+				//GToken 鉴权
+				err := gfToken.Middleware(ctx, group)
+				if err != nil {
+					panic(err)
+				}
+				group.Bind(
+					menu.NewV1(),
 				)
 			})
 			s.Run()

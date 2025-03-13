@@ -176,6 +176,10 @@ func (s sRoute) GetUserRoutes(ctx context.Context) (sysUserInfoVo *vo.SysUserRou
 			resultRoute = append(resultRoute, route)
 		}
 	}
+	//权限路由为空
+	if resultRoute == nil {
+		resultRoute = []domain.Route{}
+	}
 	return &vo.SysUserRouteVO{
 		Home:   "home",
 		Routes: resultRoute,

@@ -97,5 +97,9 @@ const (
 	ONE               = "1"
 	TWO               = "2"
 	THREE             = "3"
+	ZERO_NUMBER       = 0
+	ONE_NUMBER        = 1
+	TWO_NUMBER        = 2
+	THREE_NUMBER      = 3
 	Token             = "token"
 )

@@ -57,3 +57,11 @@ type UpdateSysRoleReq struct {
 }
 
 type UpdateSysRoleRes bool
+
+type UpdateRoleMenuReq struct {
+	g.Meta  `path:"/updateRoleMenu" tags:"updateRoleMenu" method:"put" summary:"修改角色菜单权限"`
+	RoleId  int64   `v:"required" json:"roleId"`
+	MenuIds []int64 `json:"menuIds"`
+}
+
+type UpdateRoleMenuRes bool

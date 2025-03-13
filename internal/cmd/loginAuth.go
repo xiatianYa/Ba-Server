@@ -91,11 +91,11 @@ func loginFunc(r *ghttp.Request) (string, interface{}) {
 func loginAfterFunc(r *ghttp.Request, respData gtoken.Resp) {
 	ctx := context.TODO()
 	if !respData.Success() {
-		respData.Code = 0
+		respData.Code = consts.ERROR
 		r.Response.WriteJson(respData)
 		return
 	} else {
-		respData.Code = 1
+		respData.Code = consts.SUCCESS
 		// 获得登录用户id
 		userKey := respData.GetString("userKey")
 		userId := gstr.StrEx(userKey, consts.GTokenPrefix)
