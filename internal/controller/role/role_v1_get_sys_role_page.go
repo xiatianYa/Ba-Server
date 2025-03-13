@@ -1,19 +1,21 @@
-package user
+package role
 
 import (
-	"Ba-Server/api/user/v1"
 	"Ba-Server/internal/model/domain"
 	"Ba-Server/internal/service"
 	"context"
+
 	"github.com/gogf/gf/v2/errors/gerror"
+
+	"Ba-Server/api/role/v1"
 )
 
-func (c *ControllerV1) GetSysUserPage(ctx context.Context, req *v1.GetSysUserPageReq) (res *v1.GetSysUserPageRes, err error) {
-	total, records, err := service.User().GetSysUserPage(ctx, req)
+func (c *ControllerV1) GetSysRolePage(ctx context.Context, req *v1.GetSysRolePageReq) (res *v1.GetSysRolePageRes, err error) {
+	total, records, err := service.Role().GetSysRolePage(ctx, req)
 
 	//发送错误
 	if err != nil {
-		return nil, gerror.New("获取用户分页异常")
+		return nil, gerror.New("获取角色分页异常")
 	}
 
 	//构建返回对象
@@ -24,5 +26,5 @@ func (c *ControllerV1) GetSysUserPage(ctx context.Context, req *v1.GetSysUserPag
 		Total:   total,
 		Records: records,
 	}
-	return (*v1.GetSysUserPageRes)(&rPage), nil
+	return (*v1.GetSysRolePageRes)(&rPage), nil
 }

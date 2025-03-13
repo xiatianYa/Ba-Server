@@ -6,13 +6,19 @@
 package service
 
 import (
+	v1 "Ba-Server/api/role/v1"
 	"Ba-Server/internal/model/vo"
 	"context"
 )
 
 type (
 	IRole interface {
-		GetAllRolesReq(ctx context.Context) (rolesVo []vo.SysRoleVo, err error)
+		GetAllSysRolesReq(ctx context.Context) (rolesVo []vo.SysRoleVo, err error)
+		GetSysRolePage(ctx context.Context, req *v1.GetSysRolePageReq) (total int, records []*vo.SysRoleVo, err error)
+		SaveSysRole(ctx context.Context, req *v1.SaveSysRoleReq) (res *v1.SaveSysRoleRes, err error)
+		RemoveSysRoleByIds(ctx context.Context, req *v1.RemoveSysRoleByIdsReq) (res *v1.RemoveSysRoleByIdsRes, err error)
+		RemoveSysRoleById(ctx context.Context, req *v1.RemoveSysRoleByIdReq) (res *v1.RemoveSysRoleByIdRes, err error)
+		UpdateSysRole(ctx context.Context, req *v1.UpdateSysRoleReq) (res *v1.UpdateSysRoleRes, err error)
 	}
 )
 
