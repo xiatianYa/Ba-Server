@@ -254,7 +254,6 @@ func buildTree(SysPermissions []entity.SysPermission) []vo.SysPermissionTreeVo {
 			Label:    permission.MenuName,
 			Value:    int64(rand.N(1000)),
 			Children: []vo.SysPermissionTreeVo{},
-			Disabled: false,
 		}
 		//构建头节点的子节点
 		for _, permissionChildren := range SysPermissions {
@@ -264,8 +263,7 @@ func buildTree(SysPermissions []entity.SysPermission) []vo.SysPermissionTreeVo {
 				childrenVo := vo.SysPermissionTreeVo{
 					Label:    permissionChildren.Description,
 					Value:    permissionChildren.Id,
-					Children: nil,
-					Disabled: false,
+					Children: []vo.SysPermissionTreeVo{},
 				}
 				treeVo.Children = append(treeVo.Children, childrenVo)
 			}
