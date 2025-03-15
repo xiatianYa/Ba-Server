@@ -71,3 +71,18 @@ type GetPermissionTreeReq struct {
 }
 
 type GetPermissionTreeRes []vo.SysPermissionTreeVo
+
+type GetPermissionIdsByRoleIdReq struct {
+	g.Meta `path:"/getPermissionIdsByRoleId" tags:"getPermissionIdsByRoleId" method:"get" summary:"获取角色按钮权限列表"`
+	RoleId int64 `v:"required" json:"roleId"`
+}
+
+type GetPermissionIdsByRoleIdRes []int64
+
+type UpdatePermissionIdsByRoleIdReq struct {
+	g.Meta        `path:"/updatePermissionIdsByRoleId" tags:"updatePermissionIdsByRoleId" method:"put" summary:"修改角色按钮权限列表"`
+	RoleId        int64   `v:"required" json:"roleId"`
+	PermissionIds []int64 `json:"permissionIds"`
+}
+
+type UpdatePermissionIdsByRoleIdRes bool

@@ -21,6 +21,8 @@ type (
 		UpdateSysRole(ctx context.Context, req *v1.UpdateSysRoleReq) (res *v1.UpdateSysRoleRes, err error)
 		UpdateRoleMenu(ctx context.Context, req *v1.UpdateRoleMenuReq) (res *v1.UpdateRoleMenuRes, err error)
 		GetPermissionTree(ctx context.Context, req *v1.GetPermissionTreeReq) (res []vo.SysPermissionTreeVo, err error)
+		GetPermissionIdsByRoleId(ctx context.Context, req *v1.GetPermissionIdsByRoleIdReq) (res []int64, err error)
+		UpdatePermissionIdsByRoleId(ctx context.Context, req *v1.UpdatePermissionIdsByRoleIdReq) (res *v1.UpdatePermissionIdsByRoleIdRes, err error)
 	}
 )
 

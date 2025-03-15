@@ -181,7 +181,7 @@ func (s sRole) UpdateRoleMenu(ctx context.Context, req *v1.UpdateRoleMenuReq) (r
 	//查询角色拥有的菜单Ids
 	_ = roleMenuModel.Where("role_id", req.RoleId).Scan(&SysRoleMenus)
 	for _, roleMenu := range SysRoleMenus {
-		SysMenuIds = append(SysMenuIds, roleMenu.Id)
+		SysMenuIds = append(SysMenuIds, roleMenu.MenuId)
 	}
 	//查询传递过来的RoleIds,里面不包含的Id(需要删除)
 	DeleteMenuIds = FindMissingIds(SysMenuIds, req.MenuIds)
@@ -189,24 +189,24 @@ func (s sRole) UpdateRoleMenu(ctx context.Context, req *v1.UpdateRoleMenuReq) (r
 	//删除角色菜单 | 添加角色菜单
 	err = g.DB().Transaction(ctx, func(ctx context.Context, tx gdb.TX) error {
 		//删除
-		_, err = roleMenuModel.WhereIn("menu_id", DeleteMenuIds).Delete()
+		_, err = roleMenuModel.Where("role_id", req.RoleId).WhereIn("menu_id", DeleteMenuIds).Delete()
 		if err != nil {
 			return err
 		}
 		for _, menuId := range AddMenuIds {
 			var roleMenu *entity.SysRoleMenu
-			_ = roleMenuModel.Unscoped().Where("menu_id", menuId).Scan(&roleMenu)
+			_ = roleMenuModel.Unscoped().Where("role_id", req.RoleId).Where("menu_id", menuId).Scan(&roleMenu)
 			if roleMenu != nil {
 				//修改当前角色菜单删除状态为0
 				roleMenu.IsDeleted = consts.ZERO_NUMBER
-				_, err2 := roleMenuModel.Unscoped().Data(roleMenu).Where("id", roleMenu.Id).Update()
+				_, err2 := roleMenuModel.Unscoped().Data(roleMenu).Where("id", roleMenu.Id).Where("role_id", req.RoleId).Update()
 				if err2 != nil {
 					return err2
 				}
 			} else {
 				//新增角色菜单
 				roleMenu := &entity.SysRoleMenu{
-					RoleId: roleMenu.Id,
+					RoleId: req.RoleId,
 					MenuId: menuId,
 				}
 				_, err3 := roleMenuModel.Insert(roleMenu)
@@ -230,6 +230,71 @@ func (s sRole) GetPermissionTree(ctx context.Context, req *v1.GetPermissionTreeR
 	_ = rolePermissionModel.Scan(&SysPermissions)
 	PermissionTreeVos = buildTree(SysPermissions)
 	return PermissionTreeVos, nil
+}
+
+func (s sRole) GetPermissionIdsByRoleId(ctx context.Context, req *v1.GetPermissionIdsByRoleIdReq) (res []int64, err error) {
+	var SysRolePermissions []entity.SysRolePermission
+	var permissionIds []int64
+	rolePermissionModel := dao.SysRolePermission.Ctx(ctx)
+	_ = rolePermissionModel.Where("role_id", req.RoleId).Scan(&SysRolePermissions)
+	for _, rolePermission := range SysRolePermissions {
+		permissionIds = append(permissionIds, rolePermission.PermissionId)
+	}
+	return permissionIds, nil
+}
+
+func (s sRole) UpdatePermissionIdsByRoleId(ctx context.Context, req *v1.UpdatePermissionIdsByRoleIdReq) (res *v1.UpdatePermissionIdsByRoleIdRes, err error) {
+	//角色拥有按钮Ids
+	var SysPermissionIds []int64
+	var SysRolePermission []entity.SysRolePermission
+	var DeletePermissionIds []int64
+	var AddPermissionIds []int64
+	rolePermissionModel := dao.SysRolePermission.Ctx(ctx)
+	//查询角色拥有的菜单Ids
+	_ = rolePermissionModel.Where("role_id", req.RoleId).Scan(&SysRolePermission)
+	for _, rolePermission := range SysRolePermission {
+		SysPermissionIds = append(SysPermissionIds, rolePermission.PermissionId)
+	}
+	//查询传递过来的PermissionIds,里面不包含的Id(需要删除)
+	DeletePermissionIds = FindMissingIds(SysPermissionIds, req.PermissionIds)
+	AddPermissionIds = FindMissingIds(req.PermissionIds, SysPermissionIds)
+	//删除角色菜单 | 添加角色菜单
+	err = g.DB().Transaction(ctx, func(ctx context.Context, tx gdb.TX) error {
+		//删除
+		_, err = rolePermissionModel.Where("role_id", req.RoleId).WhereIn("permission_id", DeletePermissionIds).Delete()
+		if err != nil {
+			return err
+		}
+		for _, permissionId := range AddPermissionIds {
+			var rolePermission *entity.SysRolePermission
+			_ = rolePermissionModel.Unscoped().Where("role_id", req.RoleId).Where("permission_id", permissionId).Scan(&rolePermission)
+			if rolePermission != nil {
+				//修改当前角色菜单删除状态为0
+				rolePermission.IsDeleted = consts.ZERO_NUMBER
+				_, err2 := rolePermissionModel.Unscoped().Data(rolePermission).Where("id", rolePermission.Id).Update()
+				if err2 != nil {
+					return err2
+				}
+			} else {
+				//校验当前菜单是否存在
+				count, _ := rolePermissionModel.Where("permission_id", permissionId).Count()
+				if count <= 0 {
+					continue
+				}
+				//新增角色菜单
+				rolePermission := &entity.SysRolePermission{
+					RoleId:       req.RoleId,
+					PermissionId: permissionId,
+				}
+				_, err3 := rolePermissionModel.Insert(rolePermission)
+				if err3 != nil {
+					return err3
+				}
+			}
+		}
+		return nil
+	})
+	return
 }
 
 // buildTree 构建菜单树

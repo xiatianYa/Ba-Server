@@ -47,7 +47,7 @@ func (s sMenu) GetMenuIdsByRoleId(ctx context.Context, req *v1.GetMenuIdsByRoleI
 	roleMenuModel := dao.SysRoleMenu.Ctx(ctx)
 	_ = roleMenuModel.Where("role_id", req.Id).Scan(&SysRoleMenus)
 	for _, roleMenu := range SysRoleMenus {
-		SysMenuIds = append(SysMenuIds, roleMenu.Id)
+		SysMenuIds = append(SysMenuIds, roleMenu.MenuId)
 	}
 	return SysMenuIds, nil
 }
