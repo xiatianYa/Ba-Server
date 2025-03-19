@@ -13,5 +13,7 @@ import (
 type IMenuV1 interface {
 	GetAllSysMenus(ctx context.Context, req *v1.GetAllSysMenusReq) (res *v1.GetAllSysMenusRes, err error)
 	GetSysMenuTree(ctx context.Context, req *v1.GetSysMenuTreeReq) (res *v1.GetSysMenuTreeRes, err error)
-	GetMenuIdsByRoleId(ctx context.Context, req *v1.GetMenuIdsByRoleIdReq) (res *v1.GetMenuIdsByRoleIdRes, err error)
+	GetSysMenuIdsByRoleId(ctx context.Context, req *v1.GetSysMenuIdsByRoleIdReq) (res *v1.GetSysMenuIdsByRoleIdRes, err error)
+	GetSysMenuPage(ctx context.Context, req *v1.GetSysMenuPageReq) (res *v1.GetSysMenuPageRes, err error)
+	SaveSysMenu(ctx context.Context, req *v1.SaveSysMenuReq) (res *v1.SaveSysMenuRes, err error)
 }

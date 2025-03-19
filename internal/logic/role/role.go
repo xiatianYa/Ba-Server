@@ -250,6 +250,7 @@ func (s sRole) UpdatePermissionIdsByRoleId(ctx context.Context, req *v1.UpdatePe
 	var DeletePermissionIds []int64
 	var AddPermissionIds []int64
 	rolePermissionModel := dao.SysRolePermission.Ctx(ctx)
+	permissionModel := dao.SysPermission.Ctx(ctx)
 	//查询角色拥有的菜单Ids
 	_ = rolePermissionModel.Where("role_id", req.RoleId).Scan(&SysRolePermission)
 	for _, rolePermission := range SysRolePermission {
@@ -277,7 +278,7 @@ func (s sRole) UpdatePermissionIdsByRoleId(ctx context.Context, req *v1.UpdatePe
 				}
 			} else {
 				//校验当前菜单是否存在
-				count, _ := rolePermissionModel.Where("permission_id", permissionId).Count()
+				count, _ := permissionModel.Where("id", permissionId).Count()
 				if count <= 0 {
 					continue
 				}
