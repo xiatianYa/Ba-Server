@@ -37,7 +37,7 @@ type GetSysMenuPageRes *domain.RPage
 type SaveSysMenuReq struct {
 	g.Meta `path:"/save" tags:"save" method:"post" summary:"添加菜单"`
 	// 父菜单ID
-	ParentID *int64 `json:"parentId" dc:"父菜单ID"`
+	ParentID int64 `json:"parentId" dc:"父菜单ID"`
 	// 菜单类型 1:目录 2:菜单
 	MenuType string `json:"menuType" dc:"菜单类型 1:目录 2:菜单"`
 	// 菜单名称
@@ -55,19 +55,19 @@ type SaveSysMenuReq struct {
 	// 路由组件
 	Component string `json:"component" dc:"路由组件"`
 	// 缓存页面(Y:是,N:否)
-	KeepAlive *bool `json:"keepAlive" dc:"缓存页面(Y:是,N:否)"`
+	KeepAlive bool `json:"keepAlive" dc:"缓存页面(Y:是,N:否)"`
 	// 是否隐藏(Y:是,N:否)
-	HideInMenu *bool `json:"hideInMenu" dc:"是否隐藏(Y:是,N:否)"`
+	HideInMenu bool `json:"hideInMenu" dc:"是否隐藏(Y:是,N:否)"`
 	// 是否为常量路由(Y:是,N:否)
-	Constant *bool `json:"constant" dc:"是否为常量路由(Y:是,N:否)"`
+	Constant bool `json:"constant" dc:"是否为常量路由(Y:是,N:否)"`
 	// 外部链接
 	Href string `json:"href" dc:"外部链接"`
 	// 排序值
-	Order *int `json:"order" dc:"排序值"`
+	Order int `json:"order" dc:"排序值"`
 	// 支持多标签(Y:是,N:否)
-	MultiTab *bool `json:"multiTab" dc:"支持多标签(Y:是,N:否)"`
+	MultiTab bool `json:"multiTab" dc:"支持多标签(Y:是,N:否)"`
 	// 固定在页签中的序号
-	FixedIndexInTab *int `json:"fixedIndexInTab" dc:"固定在页签中的序号"`
+	FixedIndexInTab int `json:"fixedIndexInTab" dc:"固定在页签中的序号"`
 	// 内链URL
 	IframeUrl string `json:"iframeUrl" dc:"内链URL"`
 	// 是否启用(0:禁用,1:启用)

@@ -9,6 +9,9 @@ import (
 	"Ba-Server/internal/service"
 	"context"
 	"fmt"
+	"github.com/gogf/gf/v2/database/gdb"
+	"github.com/gogf/gf/v2/encoding/gjson"
+	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/util/gconv"
 	"strings"
 )
@@ -76,6 +79,52 @@ func (s sMenu) GetSysMenuPage(ctx context.Context, req *v1.GetSysMenuPageReq) (t
 }
 
 func (s sMenu) SaveSysMenu(ctx context.Context, req *v1.SaveSysMenuReq) (res *v1.SaveSysMenuRes, err error) {
+	query, err := gjson.EncodeString(req.Query)
+	permissionModle := dao.SysPermission.Ctx(ctx)
+	menuModel := dao.SysMenu.Ctx(ctx)
+	err = g.DB().Transaction(ctx, func(ctx context.Context, tx gdb.TX) error {
+		//查询菜单的按钮列表
+		sysMenu := entity.SysMenu{
+			ParentId:        req.ParentID,
+			MenuType:        req.MenuType,
+			MenuName:        req.MenuName,
+			I18NKey:         req.I18nKey,
+			RouteName:       req.RouteName,
+			RoutePath:       req.RoutePath,
+			Icon:            req.Icon,
+			IconType:        req.IconType,
+			Component:       req.Component,
+			KeepAlive:       boolToStrPtrIgnoreCase(req.KeepAlive),
+			HideInMenu:      boolToStrPtrIgnoreCase(req.HideInMenu),
+			Constant:        boolToStrPtrIgnoreCase(req.Constant),
+			Href:            req.Href,
+			Order:           req.Order,
+			MultiTab:        boolToStrPtrIgnoreCase(req.MultiTab),
+			FixedIndexInTab: req.FixedIndexInTab,
+			Query:           query,
+			Status:          req.Status,
+		}
+		//添加菜单
+		menuId, err01 := menuModel.InsertAndGetId(sysMenu)
+		if err01 != nil {
+			return err01
+		}
+		//添加菜单按钮
+		buttons := req.Buttons
+		for _, button := range buttons {
+			sysPermission := entity.SysPermission{
+				MenuId:      menuId,
+				MenuName:    req.MenuName,
+				Code:        button.Code,
+				Description: button.Desc,
+			}
+			_, err02 := permissionModle.Insert(sysPermission)
+			if err02 != nil {
+				return err02
+			}
+		}
+		return nil
+	})
 	return
 }
 
@@ -174,6 +223,14 @@ func buildVoTree(menus []entity.SysMenu, ctx context.Context) []vo.SysMenuVo {
 func strToBoolPtrIgnoreCase(s string) *bool {
 	b := strings.EqualFold(s, "Y") // 忽略大小写比较
 	return &b
+}
+
+// IsYIgnoreCase 判断布尔是否为True 是则返回Y
+func boolToStrPtrIgnoreCase(s bool) string {
+	if s {
+		return "Y"
+	}
+	return "N"
 }
 
 // buildVoChildren 递归构建子菜单
