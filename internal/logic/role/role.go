@@ -177,17 +177,17 @@ func (s sRole) UpdateRoleMenu(ctx context.Context, req *v1.UpdateRoleMenuReq) (r
 	var SysRoleMenus []entity.SysRoleMenu
 	var DeleteMenuIds []int64
 	var AddMenuIds []int64
-	roleMenuModel := dao.SysRoleMenu.Ctx(ctx)
-	//查询角色拥有的菜单Ids
-	_ = roleMenuModel.Where("role_id", req.RoleId).Scan(&SysRoleMenus)
-	for _, roleMenu := range SysRoleMenus {
-		SysMenuIds = append(SysMenuIds, roleMenu.MenuId)
-	}
-	//查询传递过来的RoleIds,里面不包含的Id(需要删除)
-	DeleteMenuIds = FindMissingIds(SysMenuIds, req.MenuIds)
-	AddMenuIds = FindMissingIds(req.MenuIds, SysMenuIds)
 	//删除角色菜单 | 添加角色菜单
 	err = g.DB().Transaction(ctx, func(ctx context.Context, tx gdb.TX) error {
+		roleMenuModel := dao.SysRoleMenu.Ctx(ctx)
+		//查询角色拥有的菜单Ids
+		_ = roleMenuModel.Where("role_id", req.RoleId).Scan(&SysRoleMenus)
+		for _, roleMenu := range SysRoleMenus {
+			SysMenuIds = append(SysMenuIds, roleMenu.MenuId)
+		}
+		//查询传递过来的RoleIds,里面不包含的Id(需要删除)
+		DeleteMenuIds = FindMissingIds(SysMenuIds, req.MenuIds)
+		AddMenuIds = FindMissingIds(req.MenuIds, SysMenuIds)
 		//删除
 		_, err = roleMenuModel.Where("role_id", req.RoleId).WhereIn("menu_id", DeleteMenuIds).Delete()
 		if err != nil {
@@ -249,18 +249,18 @@ func (s sRole) UpdatePermissionIdsByRoleId(ctx context.Context, req *v1.UpdatePe
 	var SysRolePermission []entity.SysRolePermission
 	var DeletePermissionIds []int64
 	var AddPermissionIds []int64
-	rolePermissionModel := dao.SysRolePermission.Ctx(ctx)
-	permissionModel := dao.SysPermission.Ctx(ctx)
-	//查询角色拥有的菜单Ids
-	_ = rolePermissionModel.Where("role_id", req.RoleId).Scan(&SysRolePermission)
-	for _, rolePermission := range SysRolePermission {
-		SysPermissionIds = append(SysPermissionIds, rolePermission.PermissionId)
-	}
-	//查询传递过来的PermissionIds,里面不包含的Id(需要删除)
-	DeletePermissionIds = FindMissingIds(SysPermissionIds, req.PermissionIds)
-	AddPermissionIds = FindMissingIds(req.PermissionIds, SysPermissionIds)
 	//删除角色菜单 | 添加角色菜单
 	err = g.DB().Transaction(ctx, func(ctx context.Context, tx gdb.TX) error {
+		rolePermissionModel := dao.SysRolePermission.Ctx(ctx)
+		permissionModel := dao.SysPermission.Ctx(ctx)
+		//查询角色拥有的菜单Ids
+		_ = rolePermissionModel.Where("role_id", req.RoleId).Scan(&SysRolePermission)
+		for _, rolePermission := range SysRolePermission {
+			SysPermissionIds = append(SysPermissionIds, rolePermission.PermissionId)
+		}
+		//查询传递过来的PermissionIds,里面不包含的Id(需要删除)
+		DeletePermissionIds = FindMissingIds(SysPermissionIds, req.PermissionIds)
+		AddPermissionIds = FindMissingIds(req.PermissionIds, SysPermissionIds)
 		//删除
 		_, err = rolePermissionModel.Where("role_id", req.RoleId).WhereIn("permission_id", DeletePermissionIds).Delete()
 		if err != nil {

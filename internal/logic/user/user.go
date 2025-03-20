@@ -216,10 +216,10 @@ func (s sUser) SaveSysUser(ctx context.Context, req *v1.SaveSysUserReq) (res *v1
 }
 
 func (s sUser) RemoveSysUserByIds(ctx context.Context, req *v1.RemoveSysUserByIdsReq) (res *v1.RemoveSysUserByIdsRes, err error) {
-	userModel := dao.SysUser.Ctx(ctx)
-	userRoleModel := dao.SysUserRole.Ctx(ctx)
 	//删除当前用户
 	err = g.DB().Transaction(ctx, func(ctx context.Context, tx gdb.TX) error {
+		userModel := dao.SysUser.Ctx(ctx)
+		userRoleModel := dao.SysUserRole.Ctx(ctx)
 		_, err = userModel.WhereIn("id", req.Ids).Delete()
 		if err != nil {
 			return err
@@ -237,10 +237,10 @@ func (s sUser) RemoveSysUserByIds(ctx context.Context, req *v1.RemoveSysUserById
 	return
 }
 func (s sUser) RemoveSysUserById(ctx context.Context, req *v1.RemoveSysUserByIdReq) (res *v1.RemoveSysUserByIdRes, err error) {
-	userModel := dao.SysUser.Ctx(ctx)
-	userRoleModel := dao.SysUserRole.Ctx(ctx)
 	//删除当前用户
 	err = g.DB().Transaction(ctx, func(ctx context.Context, tx gdb.TX) error {
+		userModel := dao.SysUser.Ctx(ctx)
+		userRoleModel := dao.SysUserRole.Ctx(ctx)
 		_, err = userModel.Where("id", req.Id).Delete()
 		if err != nil {
 			return err
@@ -272,10 +272,6 @@ func (s sUser) UpdateSysUser(ctx context.Context, req *v1.UpdateSysUserReq) (res
 	if !regNickUserName.MatchString(req.NickName) {
 		return nil, gerror.New("昵称校验失败,请输入1-16位用户名")
 	}
-	//创建用户模型
-	userModel := dao.SysUser.Ctx(ctx)
-	roleModel := dao.SysRole.Ctx(ctx)
-	userRoleModel := dao.SysUserRole.Ctx(ctx)
 	sysUser := do.SysUser{}
 	//配置用户其他数据
 	sysUser.Id = req.Id
@@ -287,6 +283,10 @@ func (s sUser) UpdateSysUser(ctx context.Context, req *v1.UpdateSysUserReq) (res
 	sysUser.Status = req.Status
 	//修改用户信息
 	err = g.DB().Transaction(ctx, func(ctx context.Context, tx gdb.TX) error {
+		//创建用户模型
+		userModel := dao.SysUser.Ctx(ctx)
+		roleModel := dao.SysRole.Ctx(ctx)
+		userRoleModel := dao.SysUserRole.Ctx(ctx)
 		_, err = userModel.Data(sysUser).Where("id", sysUser.Id).Update()
 		if err != nil {
 			return err
