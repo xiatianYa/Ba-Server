@@ -135,6 +135,8 @@ type UpdateSysMenuReq struct {
 	IframeUrl string `json:"iframeUrl" dc:"内链URL"`
 	// 是否启用(0:禁用,1:启用)
 	Status string `json:"status" dc:"是否启用(0:禁用,1:启用)"`
+	// 活动菜单
+	ActiveMenu string `json:"activeMenu" dc:"活动菜单"`
 	// 路由查询参数
 	Query []domain.KVPairs `json:"query" dc:"路由查询参数"`
 	// 按钮查询参数

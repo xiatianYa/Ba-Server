@@ -237,6 +237,7 @@ func (s sMenu) UpdateSysMenu(ctx context.Context, req *v1.UpdateSysMenuReq) (res
 		Order:           req.Order,
 		MultiTab:        boolToStrPtrIgnoreCase(req.MultiTab),
 		FixedIndexInTab: req.FixedIndexInTab,
+		ActiveMenu:      req.ActiveMenu,
 		Query:           query,
 		Status:          req.Status,
 	}
