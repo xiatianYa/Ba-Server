@@ -411,7 +411,7 @@ CREATE TABLE `sys_user`  (
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
-INSERT INTO `sys_user` VALUES (1, 'admin', 'd62ce3e940d15213acf692dc241d0c88bcb531da36dbc8b330b4635ae79d77ed', 'admin', '939648675@qq.com', 1, '18074589556', '2024-09-30 23:08:05', '2025-03-20 06:00:24', '2025-03-20 06:00:24', 'VECaJx', '1', 0);
+INSERT INTO `sys_user` VALUES (1, 'admin', '2d4b97b5f46ac80c82e8f8a5812ad89b082583129fa7b7fd7575b286647c9bb5', 'admin', '939648675@qq.com', 1, '18074589556', '2024-09-30 23:08:05', '2025-03-20 06:00:24', '2025-03-20 06:00:24', 'VECaJx', '1', 0);
 
 -- ----------------------------
 -- Table structure for sys_user_role
@@ -432,7 +432,5 @@ CREATE TABLE `sys_user_role`  (
 -- Records of sys_user_role
 -- ----------------------------
 INSERT INTO `sys_user_role` VALUES (1, 1, 1, '2025-03-12 16:24:27', '2025-03-12 16:24:29', '1', 0);
-INSERT INTO `sys_user_role` VALUES (2, 1, 1, '2025-03-12 08:27:05', '2025-03-12 08:27:05', '1', 0);
-INSERT INTO `sys_user_role` VALUES (3, 1, 1, '2025-03-12 08:27:08', '2025-03-12 08:27:08', '1', 0);
 
 SET FOREIGN_KEY_CHECKS = 1;
