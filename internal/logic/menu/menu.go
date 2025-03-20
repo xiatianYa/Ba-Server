@@ -2,6 +2,7 @@ package menu
 
 import (
 	v1 "Ba-Server/api/menu/v1"
+	"Ba-Server/internal/consts"
 	"Ba-Server/internal/dao"
 	"Ba-Server/internal/model/domain"
 	"Ba-Server/internal/model/entity"
@@ -80,7 +81,7 @@ func (s sMenu) GetSysMenuPage(ctx context.Context, req *v1.GetSysMenuPageReq) (t
 
 func (s sMenu) SaveSysMenu(ctx context.Context, req *v1.SaveSysMenuReq) (res *v1.SaveSysMenuRes, err error) {
 	query, err := gjson.EncodeString(req.Query)
-	permissionModle := dao.SysPermission.Ctx(ctx)
+	permissionModel := dao.SysPermission.Ctx(ctx)
 	menuModel := dao.SysMenu.Ctx(ctx)
 	err = g.DB().Transaction(ctx, func(ctx context.Context, tx gdb.TX) error {
 		//查询菜单的按钮列表
@@ -117,11 +118,214 @@ func (s sMenu) SaveSysMenu(ctx context.Context, req *v1.SaveSysMenuReq) (res *v1
 				MenuName:    req.MenuName,
 				Code:        button.Code,
 				Description: button.Desc,
+				Status:      consts.ONE,
 			}
-			_, err02 := permissionModle.Insert(sysPermission)
+			_, err02 := permissionModel.Insert(sysPermission)
 			if err02 != nil {
 				return err02
 			}
+		}
+		return nil
+	})
+	return
+}
+
+func (s sMenu) RemoveSysMenuByIds(ctx context.Context, req *v1.RemoveSysMenuByIdsReq) (res *v1.RemoveSysMenuByIdsRes, err error) {
+	var Permissions []entity.SysPermission
+	var PermissionIds []int64
+	err = g.DB().Transaction(ctx, func(ctx context.Context, tx gdb.TX) error {
+		menuModel := dao.SysMenu.Ctx(ctx)
+		permissionModel := dao.SysPermission.Ctx(ctx)
+		rolePermissionModel := dao.SysRolePermission.Ctx(ctx)
+		roleMenuModel := dao.SysRoleMenu.Ctx(ctx)
+		err = permissionModel.WhereIn("menu_id", req.Ids).Scan(&Permissions)
+		for _, permission := range Permissions {
+			PermissionIds = append(PermissionIds, permission.Id)
+		}
+		if err != nil {
+			return err
+		}
+		//删除菜单
+		_, err = menuModel.WhereIn("id", req.Ids).Delete()
+		if err != nil {
+			return err
+		}
+		//删除按钮
+		_, err = permissionModel.WhereIn("id", PermissionIds).Delete()
+		if err != nil {
+			return err
+		}
+		//删除角色按钮
+		_, err = rolePermissionModel.WhereIn("permission_id", PermissionIds).Delete()
+		if err != nil {
+			return err
+		}
+		//删除角色菜单
+		_, err = roleMenuModel.WhereIn("menu_id", req.Ids).Delete()
+		if err != nil {
+			return err
+		}
+		return nil
+	})
+	if err != nil {
+		return nil, err
+	}
+	return
+}
+
+func (s sMenu) RemoveSysMenuById(ctx context.Context, req *v1.RemoveSysMenuByIdReq) (res *v1.RemoveSysMenuByIdRes, err error) {
+	var Permissions []entity.SysPermission
+	var PermissionIds []int64
+	err = g.DB().Transaction(ctx, func(ctx context.Context, tx gdb.TX) error {
+		menuModel := dao.SysMenu.Ctx(ctx)
+		permissionModel := dao.SysPermission.Ctx(ctx)
+		rolePermissionModel := dao.SysRolePermission.Ctx(ctx)
+		roleMenuModel := dao.SysRoleMenu.Ctx(ctx)
+		err = permissionModel.Where("menu_id", req.Id).Scan(&Permissions)
+		for _, permission := range Permissions {
+			PermissionIds = append(PermissionIds, permission.Id)
+		}
+		if err != nil {
+			return err
+		}
+		//删除菜单
+		_, err = menuModel.Where("id", req.Id).Delete()
+		if err != nil {
+			return err
+		}
+		//删除按钮
+		_, err = permissionModel.WhereIn("id", PermissionIds).Delete()
+		if err != nil {
+			return err
+		}
+		//删除角色按钮
+		_, err = rolePermissionModel.WhereIn("permission_id", PermissionIds).Delete()
+		if err != nil {
+			return err
+		}
+		//删除角色菜单
+		_, err = roleMenuModel.WhereIn("menu_id", req.Id).Delete()
+		if err != nil {
+			return err
+		}
+		return nil
+	})
+	if err != nil {
+		return nil, err
+	}
+	return
+}
+
+func (s sMenu) UpdateSysMenu(ctx context.Context, req *v1.UpdateSysMenuReq) (res *v1.UpdateSysMenuRes, err error) {
+	query, err := gjson.EncodeString(req.Query)
+	//转换属性
+	menu := entity.SysMenu{
+		Id:              req.Id,
+		ParentId:        req.ParentID,
+		MenuType:        req.MenuType,
+		MenuName:        req.MenuName,
+		I18NKey:         req.I18nKey,
+		RouteName:       req.RouteName,
+		RoutePath:       req.RoutePath,
+		Icon:            req.Icon,
+		IconType:        req.IconType,
+		Component:       req.Component,
+		KeepAlive:       boolToStrPtrIgnoreCase(req.KeepAlive),
+		HideInMenu:      boolToStrPtrIgnoreCase(req.HideInMenu),
+		Constant:        boolToStrPtrIgnoreCase(req.Constant),
+		Href:            req.Href,
+		Order:           req.Order,
+		MultiTab:        boolToStrPtrIgnoreCase(req.MultiTab),
+		FixedIndexInTab: req.FixedIndexInTab,
+		Query:           query,
+		Status:          req.Status,
+	}
+	err = g.DB().Transaction(ctx, func(ctx context.Context, tx gdb.TX) error {
+		//要删除的按钮列表
+		var sysPermissions []entity.SysPermission
+		var deletePermissionIds []int64
+		//新的codes(现有的)
+		var codes []string
+		//菜单按键实体类(现有的)
+		buttons := req.Buttons
+		permissionModel := dao.SysPermission.Ctx(ctx)
+		rolePermissionModel := dao.SysRolePermission.Ctx(ctx)
+		menuModel := dao.SysMenu.Ctx(ctx)
+		for _, button := range buttons {
+			codes = append(codes, button.Code)
+		}
+		//如果按钮列表为 nil
+		if codes == nil {
+			req.Buttons = []domain.BTPairs{}
+			//删除该菜单下所有的按钮
+			err = permissionModel.Where("menu_id", req.Id).Scan(&sysPermissions)
+			if err != nil {
+				return err
+			}
+			for _, permission := range sysPermissions {
+				deletePermissionIds = append(deletePermissionIds, permission.Id)
+			}
+			//删除按钮
+			_, err = permissionModel.WhereIn("id", deletePermissionIds).Delete()
+			if err != nil {
+				return err
+			}
+			//删除按钮关联的数据
+			_, err = rolePermissionModel.WhereIn("permission_id", deletePermissionIds).Delete()
+			if err != nil {
+				return err
+			}
+		} else {
+			//获取需要删除的按钮
+			err = permissionModel.Where("menu_id", req.Id).WhereNotIn("code", codes).Scan(&sysPermissions)
+			if err != nil {
+				return err
+			}
+			for _, permission := range sysPermissions {
+				deletePermissionIds = append(deletePermissionIds, permission.Id)
+			}
+			//删除按钮
+			_, err = permissionModel.WhereIn("id", deletePermissionIds).Delete()
+			if err != nil {
+				return err
+			}
+			//删除按钮关联的数据
+			_, err = rolePermissionModel.WhereIn("permission_id", deletePermissionIds).Delete()
+			if err != nil {
+				return err
+			}
+		}
+		//获取需要新增的按钮
+		for _, button := range buttons {
+			var sysPermission *entity.SysPermission
+			err = permissionModel.Unscoped().Where("menu_id", req.Id).Where("code", button.Code).Scan(&sysPermission)
+			if err != nil {
+				return err
+			}
+			//如果这个按钮为null
+			if sysPermission == nil {
+				//添加按钮
+				sysPermission = &entity.SysPermission{
+					MenuId:      0,
+					MenuName:    req.MenuName,
+					Code:        button.Code,
+					Description: button.Desc,
+				}
+			} else {
+				//按键不为nil 则修改按钮状态
+				if sysPermission.IsDeleted != consts.ZERO_NUMBER {
+					sysPermission.IsDeleted = consts.ZERO_NUMBER
+					sysPermission.Description = button.Desc
+					_, err = permissionModel.Unscoped().Data(sysPermission).Where("id", sysPermission.Id).Update()
+					if err != nil {
+						return err
+					}
+				}
+			}
+		}
+		_, err = menuModel.OmitEmpty().Data(menu).Where("id", req.Id).Update()
+		if err != nil {
+			return err
 		}
 		return nil
 	})

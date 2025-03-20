@@ -82,7 +82,7 @@ func AuthBlack(r *ghttp.Request) {
 
 // AuthPermission 权限认证失败(没有权限)
 func AuthPermission(r *ghttp.Request) {
-	res := dataReturn(r, consts.ERROR, "非法权限,你没有权限操作,请联系管理员")
+	res := dataReturn(r, consts.BACKER, "非法权限,你没有权限操作,请联系管理员")
 	r.Response.WriteJsonExit(res)
 	r.Exit()
 }

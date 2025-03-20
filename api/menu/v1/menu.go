@@ -79,3 +79,66 @@ type SaveSysMenuReq struct {
 }
 
 type SaveSysMenuRes bool
+
+type RemoveSysMenuByIdsReq struct {
+	g.Meta `path:"/removeByIds" tags:"removeByIds" method:"delete" summary:"删除多个菜单"`
+	Ids    []int64 `v:"required" json:"ids"`
+}
+
+type RemoveSysMenuByIdsRes bool
+
+type RemoveSysMenuByIdReq struct {
+	g.Meta `path:"/remove/{id}" tags:"remove" method:"delete" summary:"删除单个菜单"`
+	Id     int64 `v:"required" dc:"menu id"`
+}
+
+type RemoveSysMenuByIdRes bool
+
+// UpdateSysMenuReq 修改菜单
+type UpdateSysMenuReq struct {
+	g.Meta `path:"/update" tags:"update" method:"put" summary:"修改菜单"`
+	// 菜单ID
+	Id int64 `json:"id" dc:"父菜单ID"`
+	// 父菜单ID
+	ParentID int64 `json:"parentId" dc:"父菜单ID"`
+	// 菜单类型 1:目录 2:菜单
+	MenuType string `json:"menuType" dc:"菜单类型 1:目录 2:菜单"`
+	// 菜单名称
+	MenuName string `json:"menuName" dc:"菜单名称"`
+	// 多语言标题
+	I18nKey string `json:"i18nKey" dc:"多语言标题"`
+	// 路由名称
+	RouteName string `json:"routeName" dc:"路由名称"`
+	// 菜单路径
+	RoutePath string `json:"routePath" dc:"菜单路径"`
+	// 菜单图标
+	Icon string `json:"icon" dc:"菜单图标"`
+	// 图标类型 1:iconify icon 2:local icon
+	IconType string `json:"iconType" dc:"图标类型 1:iconify icon 2:local icon"`
+	// 路由组件
+	Component string `json:"component" dc:"路由组件"`
+	// 缓存页面(Y:是,N:否)
+	KeepAlive bool `json:"keepAlive" dc:"缓存页面(Y:是,N:否)"`
+	// 是否隐藏(Y:是,N:否)
+	HideInMenu bool `json:"hideInMenu" dc:"是否隐藏(Y:是,N:否)"`
+	// 是否为常量路由(Y:是,N:否)
+	Constant bool `json:"constant" dc:"是否为常量路由(Y:是,N:否)"`
+	// 外部链接
+	Href string `json:"href" dc:"外部链接"`
+	// 排序值
+	Order int `json:"order" dc:"排序值"`
+	// 支持多标签(Y:是,N:否)
+	MultiTab bool `json:"multiTab" dc:"支持多标签(Y:是,N:否)"`
+	// 固定在页签中的序号
+	FixedIndexInTab int `json:"fixedIndexInTab" dc:"固定在页签中的序号"`
+	// 内链URL
+	IframeUrl string `json:"iframeUrl" dc:"内链URL"`
+	// 是否启用(0:禁用,1:启用)
+	Status string `json:"status" dc:"是否启用(0:禁用,1:启用)"`
+	// 路由查询参数
+	Query []domain.KVPairs `json:"query" dc:"路由查询参数"`
+	// 按钮查询参数
+	Buttons []domain.BTPairs `json:"buttons" dc:"按钮查询参数"`
+}
+
+type UpdateSysMenuRes bool
