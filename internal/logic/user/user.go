@@ -37,27 +37,12 @@ func (s sUser) GetSysUserPage(ctx context.Context, req *v1.GetSysUserPageReq) (t
 	userRoleModel := dao.SysUserRole.Ctx(ctx)
 	roleModel := dao.SysRole.Ctx(ctx)
 	pageQuery := userModel.Page(req.Current, req.Size)
-
-	// 处理各个查询条件，只添加非空的条件
-	if req.UserName != "" {
-		pageQuery = pageQuery.Where("user_name like ?", "%"+req.UserName+"%")
-	}
-	if req.UserGender != 0 {
-		pageQuery = pageQuery.Where("user_gender = ?", req.UserGender)
-	}
-	if req.NickName != "" {
-		pageQuery = pageQuery.Where("nick_name like ?", "%"+req.NickName+"%")
-	}
-	if req.UserPhone != "" {
-		pageQuery = pageQuery.Where("user_phone like ?", "%"+req.UserPhone+"%")
-	}
-	if req.UserEmail != "" {
-		pageQuery = pageQuery.Where("user_email like ?", "%"+req.UserEmail+"%")
-	}
-	if req.Status != "" {
-		pageQuery = pageQuery.Where("status = ?", req.Status)
-	}
-
+	pageQuery = pageQuery.OmitEmpty().WhereLike("user_name", "%"+req.UserName+"%")
+	pageQuery = pageQuery.OmitEmpty().Where("user_gender", req.UserGender)
+	pageQuery = pageQuery.OmitEmpty().WhereLike("nick_name", "%"+req.NickName+"%")
+	pageQuery = pageQuery.OmitEmpty().WhereLike("user_phone", "%"+req.UserPhone+"%")
+	pageQuery = pageQuery.OmitEmpty().WhereLike("user_email", "%"+req.UserEmail+"%")
+	pageQuery = pageQuery.OmitEmpty().Where("status", req.Status)
 	err = pageQuery.ScanAndCount(&result, &total, true)
 	if err != nil {
 		return 0, nil, err

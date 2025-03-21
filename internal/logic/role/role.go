@@ -41,15 +41,9 @@ func (s sRole) GetSysRolePage(ctx context.Context, req *v1.GetSysRolePageReq) (t
 	roleModel := dao.SysRole.Ctx(ctx)
 	pageQuery := roleModel.Page(req.Current, req.Size)
 	// 处理各个查询条件，只添加非空的条件
-	if req.RoleName != "" {
-		pageQuery = pageQuery.Where("role_name like ?", "%"+req.RoleName+"%")
-	}
-	if req.RoleCode != "" {
-		pageQuery = pageQuery.Where("role_code like ?", "%"+req.RoleCode+"%")
-	}
-	if req.Status != "" {
-		pageQuery = pageQuery.Where("status = ?", req.Status)
-	}
+	pageQuery = pageQuery.OmitEmpty().WhereLike("role_name", "%"+req.RoleName+"%")
+	pageQuery = pageQuery.OmitEmpty().WhereLike("role_code", "%"+req.RoleCode+"%")
+	pageQuery = pageQuery.OmitEmpty().Where("status", req.Status)
 
 	err = pageQuery.ScanAndCount(&result, &total, true)
 
