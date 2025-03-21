@@ -14,7 +14,6 @@ import (
 	"github.com/gogf/gf/v2/database/gdb"
 	"github.com/gogf/gf/v2/errors/gerror"
 	"github.com/gogf/gf/v2/frame/g"
-	"regexp"
 )
 
 type (
@@ -136,24 +135,6 @@ func (s sUser) GetUserInfoVo(ctx context.Context, sysUser entity.SysUser) (sysUs
 }
 
 func (s sUser) SaveSysUser(ctx context.Context, req *v1.SaveSysUserReq) (res *v1.SaveSysUserRes, err error) {
-	// 定义正则表达式常量
-	const regUserNamePattern = "^[\u4E00-\u9FA5a-zA-Z0-9_-]{4,16}$"
-	const regUserNickNamePattern = "^[\u4E00-\u9FA5a-zA-Z0-9_-]{1,16}$"
-	const regPwdPattern = "^\\w{6,18}$"
-	// 编译正则表达式
-	var regUserName = regexp.MustCompile(regUserNamePattern)
-	var regNickUserName = regexp.MustCompile(regUserNickNamePattern)
-	var regPwd = regexp.MustCompile(regPwdPattern)
-	//校验传递过来的参数
-	if !regUserName.MatchString(req.UserName) {
-		return nil, gerror.New("用户名校验失败,请输入4-16位用户名")
-	}
-	if !regNickUserName.MatchString(req.NickName) {
-		return nil, gerror.New("昵称校验失败,请输入1-16位用户名")
-	}
-	if !regPwd.MatchString(req.PassWord) {
-		return nil, gerror.New("密码校验失败,请输入6-16密码")
-	}
 	//创建用户模型
 	userModel := dao.SysUser.Ctx(ctx)
 	//查询该用户名有没有存在
@@ -244,19 +225,6 @@ func (s sUser) RemoveSysUserById(ctx context.Context, req *v1.RemoveSysUserByIdR
 }
 
 func (s sUser) UpdateSysUser(ctx context.Context, req *v1.UpdateSysUserReq) (res *v1.UpdateSysUserRes, err error) {
-	// 定义正则表达式常量
-	const regUserNamePattern = "^[\u4E00-\u9FA5a-zA-Z0-9_-]{4,16}$"
-	const regUserNickNamePattern = "^[\u4E00-\u9FA5a-zA-Z0-9_-]{1,16}$"
-	// 编译正则表达式
-	var regUserName = regexp.MustCompile(regUserNamePattern)
-	var regNickUserName = regexp.MustCompile(regUserNickNamePattern)
-	//校验传递过来的参数
-	if !regUserName.MatchString(req.UserName) {
-		return nil, gerror.New("用户名校验失败,请输入4-16位用户名")
-	}
-	if !regNickUserName.MatchString(req.NickName) {
-		return nil, gerror.New("昵称校验失败,请输入1-16位用户名")
-	}
 	sysUser := do.SysUser{}
 	//配置用户其他数据
 	sysUser.Id = req.Id

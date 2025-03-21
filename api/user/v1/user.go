@@ -21,12 +21,12 @@ type GetSysUserPageRes *domain.RPage
 
 type SaveSysUserReq struct {
 	g.Meta     `path:"/save" tags:"page" method:"post" summary:"新增用户"`
-	UserName   string   `v:"required" json:"userName"`
-	PassWord   string   `v:"required" json:"passWord"`
-	UserGender int      `v:"required" json:"userGender"`
-	NickName   string   `v:"required" json:"nickName"`
-	UserPhone  string   `json:"userPhone"`
-	UserEmail  string   `json:"userEmail"`
+	UserName   string   `v:"regex:^[\u4E00-\u9FA5a-zA-Z0-9_-]{4,16}$#用户名校验失败,请输入4-16位用户名"`
+	NickName   string   `v:"regex:^[\u4E00-\u9FA5a-zA-Z0-9_-]{1,16}$#昵称校验失败,请输入1-16位昵称"`
+	PassWord   string   `v:"regex:^\\w{6,18}$#密码校验失败,请输入6-18位密码"`
+	UserGender int      `v:"required|in:1,2,3#用户性别为必填项,请输入有效的性别值（1 或 2 或 3）" json:"userGender"`
+	UserPhone  string   `v:"regex:^1[3-9]\\d{9}$#手机号格式错误,请输入11位手机号" json:"userPhone"`
+	UserEmail  string   `v:"email#请输入有效的邮箱地址" json:"userEmail"`
 	Status     string   `v:"required" json:"status"`
 	UserRoles  []string `v:"required" json:"userRoles"`
 }
@@ -50,13 +50,13 @@ type RemoveSysUserByIdRes bool
 type UpdateSysUserReq struct {
 	g.Meta     `path:"/update" tags:"update" method:"put" summary:"修改用户信息"`
 	Id         int64    `v:"required" json:"id"`
-	UserName   string   `v:"required" json:"userName"`
-	NickName   string   `v:"required" json:"nickName"`
+	UserName   string   `v:"regex:^[\u4E00-\u9FA5a-zA-Z0-9_-]{4,16}$#用户名校验失败,请输入4-16位用户名"`
+	NickName   string   `v:"regex:^[\u4E00-\u9FA5a-zA-Z0-9_-]{1,16}$#昵称校验失败,请输入1-16位昵称"`
 	UserRoles  []string `v:"required" json:"userRoles"`
-	UserGender int      `v:"required" json:"userGender"`
+	UserGender int      `v:"required|in:1,2,3#用户性别为必填项,请输入有效的性别值（1 或 2 或 3）" json:"userGender"`
 	Status     string   `v:"required" json:"status"`
-	UserPhone  string   `json:"userPhone"`
-	UserEmail  string   `json:"userEmail"`
+	UserPhone  string   `v:"regex:^1[3-9]\\d{9}$#手机号格式错误,请输入11位手机号" json:"userPhone"`
+	UserEmail  string   `v:"email#请输入有效的邮箱地址" json:"userEmail"`
 }
 
 type UpdateSysUserRes bool
