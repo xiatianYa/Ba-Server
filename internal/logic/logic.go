@@ -6,6 +6,7 @@ package logic
 
 import (
 	_ "Ba-Server/internal/logic/auth"
+	_ "Ba-Server/internal/logic/dict"
 	_ "Ba-Server/internal/logic/menu"
 	_ "Ba-Server/internal/logic/middleware"
 	_ "Ba-Server/internal/logic/role"

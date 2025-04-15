@@ -9,13 +9,6 @@ logger:
   level : "all"
   stdout: true
 
-gfcli:
-  gen:
-    dao:
-      - link:     "mysql:root:123456@tcp(127.0.0.1:3306)/ba_boot"
-        tables:   "sys_user"
-        jsonCase: "CamelLower"
-
 # https://goframe.org/docs/core/gdb-config-file
 database:
   default:

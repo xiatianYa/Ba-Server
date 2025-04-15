@@ -28,9 +28,9 @@ func New() service.IUser {
 	return &sUser{}
 }
 
-func (s sUser) GetSysUserPage(ctx context.Context, req *v1.GetSysUserPageReq) (total int, records []*vo.SysUserVo, err error) {
+func (s sUser) GetSysUserPage(ctx context.Context, req *v1.GetSysUserPageReq) (total int, records []vo.SysUserVo, err error) {
 	// 创建指针切片
-	var result []*vo.SysUserVo
+	var result []vo.SysUserVo
 
 	userModel := dao.SysUser.Ctx(ctx)
 	userRoleModel := dao.SysUserRole.Ctx(ctx)
@@ -49,7 +49,7 @@ func (s sUser) GetSysUserPage(ctx context.Context, req *v1.GetSysUserPageReq) (t
 
 	// 如果列表为空
 	if result == nil {
-		records = []*vo.SysUserVo{}
+		records = []vo.SysUserVo{}
 		return
 	}
 

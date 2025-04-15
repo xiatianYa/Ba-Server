@@ -27,7 +27,7 @@ type Meta struct {
 	// 支持多标签
 	MultiTab bool `json:"multiTab" yaml:"multiTab" description:"支持多标签"`
 	// 固定在页签中的序号
-	FixedIndexInTab int `json:"fixedIndexInTab" yaml:"fixedIndexInTab" description:"固定在页签中的序号"`
+	FixedIndexInTab *int `json:"fixedIndexInTab" yaml:"fixedIndexInTab" description:"固定在页签中的序号"`
 	// 路由查询参数
 	Query []KVPairs `json:"query" yaml:"query" description:"路由查询参数"`
 	// 路由权限按钮

@@ -8,12 +8,17 @@ import (
 	"github.com/gogf/gf/v2/os/gtime"
 )
 
-// SysRole is the golang structure for table sys_role.
-type SysRole struct {
+// SysDictItem is the golang structure for table sys_dict_item.
+type SysDictItem struct {
 	Id           int64       `json:"id"           orm:"id"             ` // 主键
-	RoleName     string      `json:"roleName"     orm:"role_name"      ` // 角色名称
-	RoleCode     string      `json:"roleCode"     orm:"role_code"      ` // 角色编码
-	RoleDesc     string      `json:"roleDesc"     orm:"role_desc"      ` // 描述
+	DictId       int64       `json:"dictId"       orm:"dict_id"        ` // 父字典ID
+	DictCode     string      `json:"dictCode"     orm:"dict_code"      ` // 父字典编码
+	Value        string      `json:"value"        orm:"value"          ` // 数据值
+	ZhCn         string      `json:"zhCn"         orm:"zh_cn"          ` // 中文名称
+	EnUs         string      `json:"enUs"         orm:"en_us"          ` // 英文名称
+	Type         string      `json:"type"         orm:"type"           ` // 类型(前端渲染类型)
+	Sort         int         `json:"sort"         orm:"sort"           ` // 排序值
+	Description  string      `json:"description"  orm:"description"    ` // 字典描述
 	CreateUserId int64       `json:"createUserId" orm:"create_user_id" ` // 创建用户ID
 	CreateTime   *gtime.Time `json:"createTime"   orm:"create_time"    ` // 创建时间
 	UpdateUserId int64       `json:"updateUserId" orm:"update_user_id" ` // 修改用户ID

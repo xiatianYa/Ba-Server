@@ -6,9 +6,9 @@ toolchain go1.23.7
 
 require (
 	github.com/goflyfox/gtoken v1.5.10
-	github.com/gogf/gf/contrib/drivers/mysql/v2 v2.8.3
-	github.com/gogf/gf/v2 v2.8.3
-	github.com/golang-jwt/jwt/v5 v5.2.1
+	github.com/gogf/gf/contrib/drivers/mysql/v2 v2.9.0
+	github.com/gogf/gf/v2 v2.9.0
+	github.com/golang-jwt/jwt/v5 v5.2.2
 )
 
 require (

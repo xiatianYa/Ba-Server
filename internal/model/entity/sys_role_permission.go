@@ -13,7 +13,9 @@ type SysRolePermission struct {
 	Id           int64       `json:"id"           orm:"id"             ` //
 	RoleId       int64       `json:"roleId"       orm:"role_id"        ` // 角色ID
 	PermissionId int64       `json:"permissionId" orm:"permission_id"  ` // 权限ID
+	CreateUserId int64       `json:"createUserId" orm:"create_user_id" ` // 创建用户ID
 	CreateTime   *gtime.Time `json:"createTime"   orm:"create_time"    ` // 创建时间
+	UpdateUserId int64       `json:"updateUserId" orm:"update_user_id" ` // 修改用户ID
 	UpdateTime   *gtime.Time `json:"updateTime"   orm:"update_time"    ` // 修改时间
 	IsDeleted    uint        `json:"isDeleted"    orm:"is_deleted"     ` // 是否删除(0:否,1:是)
 }

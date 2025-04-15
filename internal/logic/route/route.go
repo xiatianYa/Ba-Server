@@ -206,7 +206,7 @@ func buildTree(menus []entity.SysMenu, rootID int64) []domain.Route {
 				I18nKey:         menu.I18NKey,
 				Order:           menu.Order,
 				Href:            menu.Href,
-				FixedIndexInTab: menu.FixedIndexInTab,
+				FixedIndexInTab: getFixedIndexInTab(menu.FixedIndexInTab),
 				Query:           query,
 				ActiveMenu:      menu.ActiveMenu,
 				KeepAlive:       menu.KeepAlive == "Y",
@@ -255,7 +255,7 @@ func SysUserRouteVOBuilder(sysMenu *entity.SysMenu, sysMenus []entity.SysMenu) d
 			I18nKey:         sysMenu.I18NKey,
 			Order:           sysMenu.Order,
 			Href:            sysMenu.Href,
-			FixedIndexInTab: sysMenu.FixedIndexInTab,
+			FixedIndexInTab: getFixedIndexInTab(sysMenu.FixedIndexInTab),
 			Query:           query,
 			ActiveMenu:      sysMenu.ActiveMenu,
 			KeepAlive:       sysMenu.KeepAlive == "Y",
@@ -277,7 +277,15 @@ func getIcon(iconType, icon string) string {
 	return ""
 }
 
-// getLocalIcon 获取本地图标
+// getIcon 获取固定在页签中的序号
+func getFixedIndexInTab(fixedIndexInTab int) *int {
+	if fixedIndexInTab == 1 {
+		return &fixedIndexInTab
+	}
+	return nil
+}
+
+// FixedIndexInTab 获取本地图标
 func getLocalIcon(iconType, icon string) string {
 	if iconType == "2" {
 		return icon

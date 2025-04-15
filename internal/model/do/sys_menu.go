@@ -31,7 +31,9 @@ type SysMenu struct {
 	FixedIndexInTab interface{} // 固定在页签中的序号
 	ActiveMenu      interface{} // 内链URL
 	Query           interface{} // 路由查询参数
+	CreateUserId    interface{} // 创建用户ID
 	CreateTime      *gtime.Time // 创建时间
+	UpdateUserId    interface{} // 修改用户ID
 	UpdateTime      *gtime.Time // 修改时间
 	Status          interface{} // 是否启用(0:禁用,1:启用)
 	IsDeleted       interface{} // 是否删除(0:否,1:是)

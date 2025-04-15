@@ -5,7 +5,7 @@ gfcli:
   gen:
     dao:
       - link: "mysql:root:123456@tcp(127.0.0.1:3306)/jinlink_boot"
-        tables: "sys_user,sys_role,sys_menu,sys_permission,sys_user_role,sys_role_menu,sys_role_permission"
+        tables: "sys_user,sys_role,sys_menu,sys_permission,sys_user_role,sys_role_menu,sys_role_permission,sys_dict,sys_dict_item"
         jsonCase: "CamelLower"
 
   docker:

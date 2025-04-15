@@ -307,10 +307,15 @@ func (s sMenu) UpdateSysMenu(ctx context.Context, req *v1.UpdateSysMenuReq) (res
 			if sysPermission == nil {
 				//添加按钮
 				sysPermission = &entity.SysPermission{
-					MenuId:      0,
+					MenuId:      req.Id,
 					MenuName:    req.MenuName,
 					Code:        button.Code,
 					Description: button.Desc,
+					Status:      consts.ONE,
+				}
+				_, err = permissionModel.Insert(sysPermission)
+				if err != nil {
+					return err
 				}
 			} else {
 				//按键不为nil 则修改按钮状态

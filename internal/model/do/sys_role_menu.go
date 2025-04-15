@@ -11,11 +11,13 @@ import (
 
 // SysRoleMenu is the golang structure of table sys_role_menu for DAO operations like Where/Data.
 type SysRoleMenu struct {
-	g.Meta     `orm:"table:sys_role_menu, do:true"`
-	Id         interface{} //
-	RoleId     interface{} // 角色ID
-	MenuId     interface{} // 菜单ID
-	CreateTime *gtime.Time // 创建时间
-	UpdateTime *gtime.Time // 修改时间
-	IsDeleted  interface{} // 是否删除(0:否,1:是)
+	g.Meta       `orm:"table:sys_role_menu, do:true"`
+	Id           interface{} //
+	RoleId       interface{} // 角色ID
+	MenuId       interface{} // 菜单ID
+	CreateUserId interface{} // 创建用户ID
+	CreateTime   *gtime.Time // 创建时间
+	UpdateUserId interface{} // 修改用户ID
+	UpdateTime   *gtime.Time // 修改时间
+	IsDeleted    interface{} // 是否删除(0:否,1:是)
 }
