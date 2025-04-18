@@ -3,6 +3,8 @@ server:
   address:     ":8080"
   openapiPath: "/api.json"
   swaggerPath: "/swagger"
+  maxHeaderBytes: "20KB" # 请求头大小限制
+  clientMaxBodySize: "200MB" # 文件上传大小限制
 
 # https://goframe.org/docs/core/glog-config
 logger:
