@@ -451,7 +451,7 @@ CREATE TABLE `sys_user`  (
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
-INSERT INTO `sys_user` VALUES (1, 'admin', '2d4b97b5f46ac80c82e8f8a5812ad89b082583129fa7b7fd7575b286647c9bb5', 'admin', '939648675@qq.com', 1, '18074589556', '2024-09-30 23:08:05', '2025-04-15 07:19:22', '2025-04-15 07:19:22', 'VECaJx', '1', 0);
+INSERT INTO `sys_user` VALUES (1, 'admin', '2d4b97b5f46ac80c82e8f8a5812ad89b082583129fa7b7fd7575b286647c9bb5', 'admin', '', 1, '', '2024-09-30 23:08:05', '2025-04-15 07:19:22', '2025-04-15 07:19:22', 'VECaJx', '1', 0);
 
 -- ----------------------------
 -- Table structure for sys_user_role
