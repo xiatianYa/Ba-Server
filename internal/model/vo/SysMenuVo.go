@@ -2,7 +2,7 @@ package vo
 
 import "Ba-Server/internal/model/domain"
 
-// SysMenuVo 定义菜单结构体
+// SysMenuVo is the golang structure for table sys_menu.
 type SysMenuVo struct {
 	// 主键
 	Id int64 `json:"id"`

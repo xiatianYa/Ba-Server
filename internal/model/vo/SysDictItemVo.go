@@ -2,7 +2,7 @@ package vo
 
 import "github.com/gogf/gf/v2/os/gtime"
 
-// SysDictItemVo 定义子字典结构体
+// SysDictItemVo is the golang structure for table sys_dict_item.
 type SysDictItemVo struct {
 	// 主键
 	Id int64 `json:"id"`
