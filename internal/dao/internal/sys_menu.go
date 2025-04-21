@@ -39,9 +39,7 @@ type SysMenuColumns struct {
 	FixedIndexInTab string // 固定在页签中的序号
 	ActiveMenu      string // 内链URL
 	Query           string // 路由查询参数
-	CreateUserId    string // 创建用户ID
 	CreateTime      string // 创建时间
-	UpdateUserId    string // 修改用户ID
 	UpdateTime      string // 修改时间
 	Status          string // 是否启用(0:禁用,1:启用)
 	IsDeleted       string // 是否删除(0:否,1:是)
@@ -68,9 +66,7 @@ var sysMenuColumns = SysMenuColumns{
 	FixedIndexInTab: "fixed_index_in_tab",
 	ActiveMenu:      "active_menu",
 	Query:           "query",
-	CreateUserId:    "create_user_id",
 	CreateTime:      "create_time",
-	UpdateUserId:    "update_user_id",
 	UpdateTime:      "update_time",
 	Status:          "status",
 	IsDeleted:       "is_deleted",

@@ -20,34 +20,30 @@ type SysDictDao struct {
 
 // SysDictColumns defines and stores column names for the table sys_dict.
 type SysDictColumns struct {
-	Id           string // 主键
-	Name         string // 字典名称
-	Code         string // 字典编码
-	Type         string // 字典类型(1:系统字典,2:业务字典)
-	Sort         string // 排序值
-	Description  string // 字典描述
-	CreateUserId string // 创建用户ID
-	CreateTime   string // 创建时间
-	UpdateUserId string // 修改用户ID
-	UpdateTime   string // 修改时间
-	Status       string // 是否启用(0:禁用,1:启用)
-	IsDeleted    string // 是否删除(0:否,1:是)
+	Id          string // 主键
+	Name        string // 字典名称
+	Code        string // 字典编码
+	Type        string // 字典类型(1:系统字典,2:业务字典)
+	Sort        string // 排序值
+	Description string // 字典描述
+	CreateTime  string // 创建时间
+	UpdateTime  string // 修改时间
+	Status      string // 是否启用(0:禁用,1:启用)
+	IsDeleted   string // 是否删除(0:否,1:是)
 }
 
 // sysDictColumns holds the columns for the table sys_dict.
 var sysDictColumns = SysDictColumns{
-	Id:           "id",
-	Name:         "name",
-	Code:         "code",
-	Type:         "type",
-	Sort:         "sort",
-	Description:  "description",
-	CreateUserId: "create_user_id",
-	CreateTime:   "create_time",
-	UpdateUserId: "update_user_id",
-	UpdateTime:   "update_time",
-	Status:       "status",
-	IsDeleted:    "is_deleted",
+	Id:          "id",
+	Name:        "name",
+	Code:        "code",
+	Type:        "type",
+	Sort:        "sort",
+	Description: "description",
+	CreateTime:  "create_time",
+	UpdateTime:  "update_time",
+	Status:      "status",
+	IsDeleted:   "is_deleted",
 }
 
 // NewSysDictDao creates and returns a new DAO object for table data access.

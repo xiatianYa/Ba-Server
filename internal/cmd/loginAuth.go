@@ -132,7 +132,6 @@ func authAfterFunc(r *ghttp.Request, respData gtoken.Resp) {
 	//todo 这里可以写账号前置校验、是否被拉黑、有无权限等逻辑
 	r.SetCtxVar(consts.UserId, sysUserInfoVo.UserID)
 	r.SetCtxVar(consts.UserName, sysUserInfoVo.UserName)
-	r.SetCtxVar(consts.UserAvatar, sysUserInfoVo.Avatar)
 	r.SetCtxVar(consts.UserEmail, sysUserInfoVo.UserEmail)
 	r.SetCtxVar(consts.UserGender, sysUserInfoVo.UserGender)
 	r.SetCtxVar(consts.UserPhone, sysUserInfoVo.UserPhone)

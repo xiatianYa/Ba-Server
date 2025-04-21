@@ -6,8 +6,6 @@ type SysUserInfoVo struct {
 	UserID int64 `json:"userId"`
 	// 用户名称
 	UserName string `json:"userName"`
-	// 用户头像
-	Avatar string `json:"avatar"`
 	// 用户手机号
 	UserPhone string `json:"userPhone"`
 	// 用户邮箱

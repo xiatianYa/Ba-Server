@@ -12,7 +12,7 @@ import (
 
 type (
 	IFile interface {
-		UploadFile(ctx context.Context, req *v1.FileUploadReq) (res string, err error)
+		UploadFile(ctx context.Context, req *v1.FileUploadReq) (fileId *int64, fileUrl *string, err error)
 	}
 )
 

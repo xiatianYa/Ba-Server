@@ -1,6 +1,7 @@
 package file
 
 import (
+	"Ba-Server/internal/model/vo"
 	"Ba-Server/internal/service"
 	"context"
 
@@ -11,11 +12,16 @@ import (
 
 func (c *ControllerV1) FileUpload(ctx context.Context, req *v1.FileUploadReq) (res *v1.FileUploadRes, err error) {
 	if req.File == nil {
-		return nil, gerror.New("请选择需要上传的文件!")
+		return nil, gerror.New("上传文件不存在!")
 	}
-	filePath, err := service.File().UploadFile(ctx, req)
+	fileId, fileUrl, err := service.File().UploadFile(ctx, req)
 	if err != nil {
 		return nil, err
 	}
-	return (*v1.FileUploadRes)(&filePath), nil
+	fileVo := vo.MonLogsFileVo{
+		Id:       fileId,
+		FileName: req.File.Filename,
+		FileUrl:  fileUrl,
+	}
+	return (*v1.FileUploadRes)(&fileVo), nil
 }

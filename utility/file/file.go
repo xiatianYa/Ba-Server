@@ -1,6 +1,7 @@
 package file
 
 import (
+	"Ba-Server/internal/consts"
 	"fmt"
 	"github.com/gogf/gf/v2/errors/gerror"
 	"github.com/gogf/gf/v2/net/ghttp"
@@ -71,8 +72,26 @@ func ValidateFileSize(fileSize int64) error {
 	return nil
 }
 
+// GetFileType 获取文件类型，返回对应的数字标识
+func GetFileType(filename string) int {
+	// 先尝试通过扩展名判断
+	ext := filepath.Ext(filename)
+	if ext != "" {
+		ext = strings.ToLower(strings.TrimPrefix(ext, "."))
+		switch ext {
+		case "jpg", "jpeg", "png", "gif", "bmp":
+			return consts.FILE_IMG
+		case "mp4", "avi", "mov", "mkv":
+			return consts.FILE_VIDEO
+		case "zip", "rar", "7z":
+			return consts.FILE_COMPRESS
+		}
+	}
+	return 0
+}
+
 // UploadFile 上传文件
-func UploadFile(file *ghttp.UploadFile) (string, error) {
+func UploadFile(file *ghttp.UploadFile) (*string, *string, error) {
 	// 获取当前日期
 	now := time.Now()
 	year := now.Year()
@@ -84,7 +103,7 @@ func UploadFile(file *ghttp.UploadFile) (string, error) {
 
 	// 创建目标目录
 	if err := os.MkdirAll(targetDir, 0755); err != nil {
-		return "", fmt.Errorf("failed to create target directory: %w", err)
+		return nil, nil, fmt.Errorf("failed to create target directory: %w", err)
 	}
 
 	// 构建完整的文件路径
@@ -93,8 +112,11 @@ func UploadFile(file *ghttp.UploadFile) (string, error) {
 	// 保存文件
 	filename, err := file.Save(targetPath)
 	if err != nil {
-		return "", fmt.Errorf("failed to save file: %w", err)
+		return nil, nil, fmt.Errorf("failed to save file: %w", err)
 	}
 
-	return basePath + targetDir + filename, nil
+	targetUrl := basePath + targetDir + filename
+	targetPath = filepath.Join(targetPath, filename)
+
+	return &targetUrl, &targetPath, nil
 }

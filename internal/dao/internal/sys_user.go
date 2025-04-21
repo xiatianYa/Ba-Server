@@ -20,48 +20,36 @@ type SysUserDao struct {
 
 // SysUserColumns defines and stores column names for the table sys_user.
 type SysUserColumns struct {
-	Id                 string // 主键ID
-	UserName           string // 用户名称
-	QqOpenId           string // QQ第三方标识
-	Password           string // 密码
-	NickName           string // 昵称
-	Avatar             string // 头像
-	UserEmail          string // 邮箱
-	UserGender         string // 用户性别
-	UserPhone          string // 手机
-	CreateUserId       string // 创建用户ID
-	CreateTime         string // 创建时间
-	UpdateUserId       string // 修改用户ID
-	UpdateTime         string // 修改时间
-	LastLoginTime      string // 最后登录时间
-	UpdatePasswordTime string // 修改密码时间
-	Salt               string // MD5的盐值
-	Status             string // 是否启用(0:禁用,1:启用)
-	IsReset            string // 是否重置
-	IsDeleted          string // 是否删除(0:否,1:是)
+	Id            string // 主键ID
+	UserName      string // 用户名称
+	Password      string // 密码
+	NickName      string // 昵称
+	UserEmail     string // 邮箱
+	UserGender    string // 用户性别
+	UserPhone     string // 手机
+	CreateTime    string // 创建时间
+	UpdateTime    string // 修改时间
+	LastLoginTime string // 最后登录时间
+	Salt          string // MD5的盐值
+	Status        string // 是否启用(0:禁用,1:启用)
+	IsDeleted     string // 是否删除(0:否,1:是)
 }
 
 // sysUserColumns holds the columns for the table sys_user.
 var sysUserColumns = SysUserColumns{
-	Id:                 "id",
-	UserName:           "user_name",
-	QqOpenId:           "qq_open_id",
-	Password:           "password",
-	NickName:           "nick_name",
-	Avatar:             "avatar",
-	UserEmail:          "user_email",
-	UserGender:         "user_gender",
-	UserPhone:          "user_phone",
-	CreateUserId:       "create_user_id",
-	CreateTime:         "create_time",
-	UpdateUserId:       "update_user_id",
-	UpdateTime:         "update_time",
-	LastLoginTime:      "last_login_time",
-	UpdatePasswordTime: "update_password_time",
-	Salt:               "salt",
-	Status:             "status",
-	IsReset:            "is_reset",
-	IsDeleted:          "is_deleted",
+	Id:            "id",
+	UserName:      "user_name",
+	Password:      "password",
+	NickName:      "nick_name",
+	UserEmail:     "user_email",
+	UserGender:    "user_gender",
+	UserPhone:     "user_phone",
+	CreateTime:    "create_time",
+	UpdateTime:    "update_time",
+	LastLoginTime: "last_login_time",
+	Salt:          "salt",
+	Status:        "status",
+	IsDeleted:     "is_deleted",
 }
 
 // NewSysUserDao creates and returns a new DAO object for table data access.

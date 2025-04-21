@@ -20,40 +20,36 @@ type SysDictItemDao struct {
 
 // SysDictItemColumns defines and stores column names for the table sys_dict_item.
 type SysDictItemColumns struct {
-	Id           string // 主键
-	DictId       string // 父字典ID
-	DictCode     string // 父字典编码
-	Value        string // 数据值
-	ZhCn         string // 中文名称
-	EnUs         string // 英文名称
-	Type         string // 类型(前端渲染类型)
-	Sort         string // 排序值
-	Description  string // 字典描述
-	CreateUserId string // 创建用户ID
-	CreateTime   string // 创建时间
-	UpdateUserId string // 修改用户ID
-	UpdateTime   string // 修改时间
-	Status       string // 是否启用(0:禁用,1:启用)
-	IsDeleted    string // 是否删除(0:否,1:是)
+	Id          string // 主键
+	DictId      string // 父字典ID
+	DictCode    string // 父字典编码
+	Value       string // 数据值
+	ZhCn        string // 中文名称
+	EnUs        string // 英文名称
+	Type        string // 类型(前端渲染类型)
+	Sort        string // 排序值
+	Description string // 字典描述
+	CreateTime  string // 创建时间
+	UpdateTime  string // 修改时间
+	Status      string // 是否启用(0:禁用,1:启用)
+	IsDeleted   string // 是否删除(0:否,1:是)
 }
 
 // sysDictItemColumns holds the columns for the table sys_dict_item.
 var sysDictItemColumns = SysDictItemColumns{
-	Id:           "id",
-	DictId:       "dict_id",
-	DictCode:     "dict_code",
-	Value:        "value",
-	ZhCn:         "zh_cn",
-	EnUs:         "en_us",
-	Type:         "type",
-	Sort:         "sort",
-	Description:  "description",
-	CreateUserId: "create_user_id",
-	CreateTime:   "create_time",
-	UpdateUserId: "update_user_id",
-	UpdateTime:   "update_time",
-	Status:       "status",
-	IsDeleted:    "is_deleted",
+	Id:          "id",
+	DictId:      "dict_id",
+	DictCode:    "dict_code",
+	Value:       "value",
+	ZhCn:        "zh_cn",
+	EnUs:        "en_us",
+	Type:        "type",
+	Sort:        "sort",
+	Description: "description",
+	CreateTime:  "create_time",
+	UpdateTime:  "update_time",
+	Status:      "status",
+	IsDeleted:   "is_deleted",
 }
 
 // NewSysDictItemDao creates and returns a new DAO object for table data access.

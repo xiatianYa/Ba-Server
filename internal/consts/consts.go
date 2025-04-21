@@ -21,6 +21,11 @@ const (
 	SUCCESS = 200
 	ERROR   = 401
 	BACKER  = 403
+	//文件类型
+	FILE_IMG      = 1
+	FILE_VIDEO    = 2
+	FILE_COMPRESS = 3
+	FILE_AUDIO    = 4
 	//系统常量配置
 	ADMIN             = "admin"
 	AMPERSAND         = "&"

@@ -125,7 +125,6 @@ func (s sUser) GetUserInfoVo(ctx context.Context, sysUser entity.SysUser) (sysUs
 	return &vo.SysUserInfoVo{
 		UserID:     sysUser.Id,
 		UserName:   sysUser.UserName,
-		Avatar:     sysUser.Avatar,
 		UserPhone:  sysUser.UserPhone,
 		UserEmail:  sysUser.UserEmail,
 		UserGender: sysUser.UserGender,

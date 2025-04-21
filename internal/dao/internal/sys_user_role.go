@@ -20,28 +20,24 @@ type SysUserRoleDao struct {
 
 // SysUserRoleColumns defines and stores column names for the table sys_user_role.
 type SysUserRoleColumns struct {
-	Id           string //
-	UserId       string // 用户ID
-	RoleId       string // 角色ID
-	CreateUserId string // 创建用户ID
-	CreateTime   string // 创建时间
-	UpdateUserId string // 修改用户ID
-	UpdateTime   string // 修改时间
-	Status       string // 是否启用(0:禁用,1:启用)
-	IsDeleted    string // 是否删除(0:否,1:是)
+	Id         string //
+	UserId     string // 用户ID
+	RoleId     string // 角色ID
+	CreateTime string // 创建时间
+	UpdateTime string // 修改时间
+	Status     string // 是否启用(0:禁用,1:启用)
+	IsDeleted  string // 是否删除(0:否,1:是)
 }
 
 // sysUserRoleColumns holds the columns for the table sys_user_role.
 var sysUserRoleColumns = SysUserRoleColumns{
-	Id:           "id",
-	UserId:       "user_id",
-	RoleId:       "role_id",
-	CreateUserId: "create_user_id",
-	CreateTime:   "create_time",
-	UpdateUserId: "update_user_id",
-	UpdateTime:   "update_time",
-	Status:       "status",
-	IsDeleted:    "is_deleted",
+	Id:         "id",
+	UserId:     "user_id",
+	RoleId:     "role_id",
+	CreateTime: "create_time",
+	UpdateTime: "update_time",
+	Status:     "status",
+	IsDeleted:  "is_deleted",
 }
 
 // NewSysUserRoleDao creates and returns a new DAO object for table data access.

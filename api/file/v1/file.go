@@ -1,6 +1,7 @@
 package v1
 
 import (
+	"Ba-Server/internal/model/vo"
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/net/ghttp"
 )
@@ -10,4 +11,4 @@ type FileUploadReq struct {
 	File   *ghttp.UploadFile `json:"file" type:"file" dc:"上传的文件"`
 }
 
-type FileUploadRes string
+type FileUploadRes vo.MonLogsFileVo
