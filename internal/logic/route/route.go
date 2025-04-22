@@ -9,6 +9,7 @@ import (
 	"Ba-Server/internal/service"
 	"context"
 	"encoding/json"
+	"github.com/gogf/gf/v2/database/gdb"
 	"github.com/gogf/gf/v2/errors/gerror"
 )
 
@@ -128,14 +129,12 @@ func (s sRoute) GetUserRoutes(ctx context.Context) (sysUserInfoVo *vo.SysUserRou
 	var sysRoles []entity.SysRole
 	// 用户用户菜单列表
 	var sysRoleMenus []entity.SysRoleMenu
-	// parentMenus 父菜单
-	var parentMenus []entity.SysMenu
-	//子菜单
-	var childrenMenus []entity.SysMenu
 	// 创建一个新的切片来存储 roleIds
 	var roleIds []int64
 	// 创建一个新的切片来存储 menuIds
 	var menuIds []int64
+	// parentMenus 父菜单
+	var parentMenus []entity.SysMenu
 	//创建用户权限模型
 	roleModel := dao.SysRole.Ctx(ctx)
 	userRoleModel := dao.SysUserRole.Ctx(ctx)
@@ -155,35 +154,31 @@ func (s sRoute) GetUserRoutes(ctx context.Context) (sysUserInfoVo *vo.SysUserRou
 		menuIds = append(menuIds, roleMenu.MenuId)
 	}
 	//查询所有符合条件的父菜单
-	_ = menuModel.Where("status=?", 1).Where("menu_type=?", 1).WhereIn("id", menuIds).Scan(&parentMenus)
-	//查询所有符合条件的子菜单
-	_ = menuModel.Where("status=?", 1).Where("menu_type=?", 2).WhereIn("id", menuIds).Scan(&childrenMenus)
-	//遍历 sysRoleMenu 切片，将每个 Menu 结构体的 menuId 字段添加到 menuIds 切片中
-	for _, roleMenu := range sysRoleMenus {
-		//查找匹配的 SysMenu
-		var sysMenu *entity.SysMenu
-		//父路由
-		for _, parentMenu := range parentMenus {
-			if parentMenu.Id == roleMenu.MenuId {
-				sysMenu = &parentMenu
-				break
-			}
-		}
-		//找到了路由数据
-		if sysMenu != nil {
-			//构建路由数据
-			route := SysUserRouteVOBuilder(sysMenu, childrenMenus)
-			resultRoute = append(resultRoute, route)
-		}
-	}
-	//权限路由为空
-	if resultRoute == nil {
-		resultRoute = []domain.Route{}
+	_ = menuModel.Where("status=?", consts.ONE_NUMBER).Where("parent_id=?", consts.ZERO_NUMBER).WhereIn("id", menuIds).Scan(&parentMenus)
+	//遍历有权限的父菜单 递归构建菜单树
+	for _, parentMenu := range parentMenus {
+		route := buildMenuTree(menuModel, parentMenu, menuIds)
+		resultRoute = append(resultRoute, route)
 	}
 	return &vo.SysUserRouteVO{
 		Home:   "home",
 		Routes: resultRoute,
 	}, nil
+}
+
+// buildMenuTree 递归构建菜单
+func buildMenuTree(menuModel *gdb.Model, sysMenu entity.SysMenu, menuIds []int64) domain.Route {
+	// children 子菜单
+	var childrenMenu []entity.SysMenu
+	route := SysUserRouteVOBuilder(sysMenu, childrenMenu)
+	//查询该菜单下的子菜单
+	_ = menuModel.Where("status=?", consts.ONE_NUMBER).Where("parent_id=?", sysMenu.Id).WhereIn("id", menuIds).Scan(&childrenMenu)
+	//构建子菜单到父菜单里
+	for _, menu := range childrenMenu {
+		children := buildMenuTree(menuModel, menu, menuIds)
+		route.Children = append(route.Children, children)
+	}
+	return route
 }
 
 // buildTree 构建树结构
@@ -236,8 +231,8 @@ func buildTree(menus []entity.SysMenu, rootID int64) []domain.Route {
 	return tree
 }
 
-func SysUserRouteVOBuilder(sysMenu *entity.SysMenu, sysMenus []entity.SysMenu) domain.Route {
-	sysMenus = append(sysMenus, *sysMenu)
+func SysUserRouteVOBuilder(sysMenu entity.SysMenu, sysMenus []entity.SysMenu) domain.Route {
+	sysMenus = append(sysMenus, sysMenu)
 
 	// 构建树结构
 	tree := buildTree(sysMenus, sysMenu.Id)
