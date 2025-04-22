@@ -11,7 +11,7 @@
  Target Server Version : 80012 (8.0.12)
  File Encoding         : 65001
 
- Date: 18/04/2025 09:15:32
+ Date: 22/04/2025 17:35:30
 */
 
 SET NAMES utf8mb4;
@@ -40,7 +40,7 @@ CREATE TABLE `mon_logs_error`  (
   `stack_trace` longtext CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '堆栈信息',
   `create_time` datetime NOT NULL COMMENT '创建时间',
   `update_time` datetime NULL DEFAULT NULL COMMENT '修改时间',
-  `is_deleted` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '是否删除(0:否,1:是)',
+  `is_deleted` int(1) UNSIGNED NOT NULL DEFAULT 0 COMMENT '是否删除(0:否,1:是)',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '错误异常日志' ROW_FORMAT = DYNAMIC;
 
@@ -54,20 +54,31 @@ CREATE TABLE `mon_logs_error`  (
 DROP TABLE IF EXISTS `mon_logs_file`;
 CREATE TABLE `mon_logs_file`  (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键ID',
-  `user_id` bigint(20) NULL DEFAULT NULL COMMENT '用户ID',
-  `user_name` varchar(40) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '用户名称',
-  `file_url` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '文件路径',
-  `file_size` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '文件大小',
-  `status` varchar(2) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '1' COMMENT '上传状态(0:失败 1:成功)',
+  `user_id` bigint(20) NOT NULL COMMENT '用户ID',
+  `user_name` varchar(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '用户名称',
+  `file_path` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '文件物理路径',
+  `file_url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '文件网络路径',
+  `file_type` tinyint(1) NOT NULL COMMENT '文件类型',
+  `file_size` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '文件大小',
+  `error_msg` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL COMMENT '异常日志',
+  `status` varchar(2) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '1' COMMENT '上传状态(0:失败 1:成功)',
+  `create_user_id` bigint(20) NOT NULL COMMENT '创建用户ID',
   `create_time` datetime NOT NULL COMMENT '创建时间',
+  `update_user_id` bigint(20) NULL DEFAULT NULL COMMENT '修改用户ID',
   `update_time` datetime NULL DEFAULT NULL COMMENT '修改时间',
-  `is_deleted` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '是否删除(0:否,1:是)',
+  `is_deleted` tinyint(1) UNSIGNED NULL DEFAULT 0 COMMENT '是否删除(0:否,1:是)',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '文件上传日志' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '文件上传日志' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of mon_logs_file
 -- ----------------------------
+INSERT INTO `mon_logs_file` VALUES (1, 1, 'admin', 'D:\\jinLink\\uploadPath\\2025\\04\\21', 'https://www.bluearchive.top/statics/2025/04/21/logo.png', 1, '30687', '', '1', 0, '2025-04-21 08:52:36', 0, '2025-04-21 08:52:36', 0);
+INSERT INTO `mon_logs_file` VALUES (2, 1, 'admin', 'D:\\jinLink\\uploadPath\\2025\\04\\21\\logo.png', 'https://www.bluearchive.top/statics/2025/04/21/logo.png', 1, '30687', '', '1', 0, '2025-04-21 08:54:50', 0, '2025-04-21 08:54:50', 0);
+INSERT INTO `mon_logs_file` VALUES (3, 1, 'admin', 'D:\\jinLink\\uploadPath\\2025\\04\\21\\logo.png', 'https://www.bluearchive.top/statics/2025/04/21/logo.png', 1, '30687', '', '1', 0, '2025-04-21 08:59:02', 0, '2025-04-21 08:59:02', 0);
+INSERT INTO `mon_logs_file` VALUES (4, 1, 'admin', 'D:\\jinLink\\uploadPath\\2025\\04\\21\\logo.png', 'https://www.bluearchive.top/statics/2025/04/21/logo.png', 1, '30687', '', '1', 0, '2025-04-21 09:00:58', 0, '2025-04-21 09:00:58', 0);
+INSERT INTO `mon_logs_file` VALUES (5, 1, 'admin', 'D:\\jinLink\\uploadPath\\2025\\04\\21\\logo.png', 'https://www.bluearchive.top/statics/2025/04/21/logo.png', 1, '30687', '', '1', 0, '2025-04-21 09:02:16', 0, '2025-04-21 09:02:16', 0);
+INSERT INTO `mon_logs_file` VALUES (6, 1, 'admin', 'D:\\jinLink\\uploadPath\\2025\\04\\21\\logo.png', 'https://www.bluearchive.top/statics/2025/04/21/logo.png', 1, '30687', '', '1', 0, '2025-04-21 09:05:42', 0, '2025-04-21 09:05:42', 0);
 
 -- ----------------------------
 -- Table structure for mon_logs_login
@@ -84,7 +95,7 @@ CREATE TABLE `mon_logs_login`  (
   `message` varchar(512) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '登录错误日志',
   `create_time` datetime NOT NULL COMMENT '创建时间',
   `update_time` datetime NULL DEFAULT NULL COMMENT '修改时间',
-  `is_deleted` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '是否删除(0:否,1:是)',
+  `is_deleted` int(1) UNSIGNED NOT NULL DEFAULT 0 COMMENT '是否删除(0:否,1:是)',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '登录日志' ROW_FORMAT = DYNAMIC;
 
@@ -111,7 +122,7 @@ CREATE TABLE `mon_logs_operation`  (
   `use_time` bigint(20) NULL DEFAULT NULL COMMENT '请求耗时',
   `create_time` datetime NOT NULL COMMENT '创建时间',
   `update_time` datetime NULL DEFAULT NULL COMMENT '修改时间',
-  `is_deleted` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '是否删除(0:否,1:是)',
+  `is_deleted` int(1) UNSIGNED NOT NULL DEFAULT 0 COMMENT '是否删除(0:否,1:是)',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '操作日志' ROW_FORMAT = DYNAMIC;
 
@@ -137,7 +148,7 @@ CREATE TABLE `mon_logs_scheduler`  (
   `stack_trace` longtext CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '堆栈信息',
   `create_time` datetime NOT NULL COMMENT '创建时间',
   `update_time` datetime NULL DEFAULT NULL COMMENT '修改时间',
-  `is_deleted` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '是否删除(0:否,1:是)',
+  `is_deleted` int(1) UNSIGNED NOT NULL DEFAULT 0 COMMENT '是否删除(0:否,1:是)',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '调度日志' ROW_FORMAT = DYNAMIC;
 
@@ -161,7 +172,7 @@ CREATE TABLE `sys_dict`  (
   `status` varchar(2) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '1' COMMENT '是否启用(0:禁用,1:启用)',
   `is_deleted` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '是否删除(0:否,1:是)',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '数据字典管理' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '数据字典管理' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_dict
@@ -171,6 +182,7 @@ INSERT INTO `sys_dict` VALUES (2, '用户性别', 'gender', '1', 2, '用户性�
 INSERT INTO `sys_dict` VALUES (3, '启用状态', 'status', '1', 3, '系统通用的启用状态', '2025-04-15 12:55:02', '2025-04-15 12:55:04', '1', 0);
 INSERT INTO `sys_dict` VALUES (4, '字典类型', 'dict_type', '1', 4, '字典类型', '2025-04-15 05:40:27', '2025-04-15 05:40:27', '1', 0);
 INSERT INTO `sys_dict` VALUES (5, '菜单图标', 'menu_icon_type', '1', 4, '菜单图标', '2025-04-15 06:29:58', '2025-04-15 07:12:23', '1', 0);
+INSERT INTO `sys_dict` VALUES (6, '系统状态', 'sys_status', '1', 5, '系统状态', '2025-04-22 08:06:04', '2025-04-22 08:06:04', '1', 0);
 
 -- ----------------------------
 -- Table structure for sys_dict_item
@@ -191,7 +203,7 @@ CREATE TABLE `sys_dict_item`  (
   `status` varchar(2) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '1' COMMENT '是否启用(0:禁用,1:启用)',
   `is_deleted` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '是否删除(0:否,1:是)',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 12 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '数据字典子项管理' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 14 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '数据字典子项管理' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_dict_item
@@ -207,6 +219,8 @@ INSERT INTO `sys_dict_item` VALUES (8, 4, 'dict_type', '1', '系统字典', 'Sys
 INSERT INTO `sys_dict_item` VALUES (9, 4, 'dict_type', '2', '业务字典', 'Business', 'default', 2, '业务字典', '2025-04-15 06:12:15', '2025-04-15 06:12:15', '1', 0);
 INSERT INTO `sys_dict_item` VALUES (10, 5, 'menu_icon_type', '1', 'iconify图标', 'Iconify Icon', 'default', 1, 'iconify图标', '2025-04-15 06:31:09', '2025-04-15 06:31:09', '1', 0);
 INSERT INTO `sys_dict_item` VALUES (11, 5, 'menu_icon_type', '2', '本地图标', 'Local Icon', 'default', 1, '本地图标', '2025-04-15 06:32:16', '2025-04-15 06:32:16', '1', 0);
+INSERT INTO `sys_dict_item` VALUES (12, 6, 'sys_status', '0', '失败', 'fail', 'error', 1, '', '2025-04-22 08:06:29', '2025-04-22 08:06:29', '1', 0);
+INSERT INTO `sys_dict_item` VALUES (13, 6, 'sys_status', '1', '成功', 'success', 'success', 1, '', '2025-04-22 08:06:42', '2025-04-22 08:06:42', '1', 0);
 
 -- ----------------------------
 -- Table structure for sys_menu
@@ -237,17 +251,20 @@ CREATE TABLE `sys_menu`  (
   `status` varchar(2) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '1' COMMENT '是否启用(0:禁用,1:启用)',
   `is_deleted` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '是否删除(0:否,1:是)',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '菜单管理' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '菜单管理' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_menu
 -- ----------------------------
-INSERT INTO `sys_menu` VALUES (1, 0, '1', '系统管理', 'route.manage', 'manage', '/manage', 'solar:settings-linear', '1', 'layout.base', 'N', 'N', 'N', '', 1, 'N', NULL, NULL, '[]', '2023-12-28 22:22:50', '2025-01-02 11:44:20', '1', 0);
-INSERT INTO `sys_menu` VALUES (2, 1, '2', '用户管理', 'route.manage_user', 'manage_user', '/manage/user', 'ic:round-manage-accounts', '1', 'view.manage_user', 'N', 'N', 'N', '', 1, 'N', NULL, NULL, '[]', '2023-12-28 22:22:50', '2024-11-04 12:00:13', '1', 0);
+INSERT INTO `sys_menu` VALUES (1, 0, '1', '系统管理', 'route.manage', 'manage', '/manage', 'solar:settings-linear', '1', 'layout.base', 'N', 'N', 'N', '', 2, 'N', NULL, NULL, '[]', '2023-12-28 22:22:50', '2025-04-22 07:49:15', '1', 0);
+INSERT INTO `sys_menu` VALUES (2, 1, '2', '用户管理', 'route.manage_user', 'manage_user', '/manage/user', 'ic:round-manage-accounts', '1', 'view.manage_user', 'N', 'N', 'N', '', 1, 'N', NULL, NULL, '[]', '2023-12-28 22:22:50', '2025-04-22 07:49:35', '1', 0);
 INSERT INTO `sys_menu` VALUES (3, 1, '2', '角色管理', 'route.manage_role', 'manage_role', '/manage/role', 'ic:round-people', '1', 'view.manage_role', 'N', 'N', 'N', '', 2, 'N', NULL, NULL, '[]', '2023-12-28 22:22:50', '2024-11-04 14:27:36', '1', 0);
 INSERT INTO `sys_menu` VALUES (4, 1, '2', '菜单管理', 'route.manage_menu', 'manage_menu', '/manage/menu', 'ic:round-menu', '1', 'view.manage_menu', 'N', 'N', 'N', '', 3, 'N', NULL, NULL, '[]', '2023-12-28 22:22:50', '2024-11-04 14:30:22', '1', 0);
-INSERT INTO `sys_menu` VALUES (5, 0, '1', '首页', 'route.home', 'home', '/home', 'icon-park-outline:data-sheet', '1', 'layout.base$view.home', 'N', 'N', 'N', '', 0, 'N', NULL, NULL, '[]', '2024-02-05 22:30:15', '2024-12-18 16:54:00', '1', 0);
-INSERT INTO `sys_menu` VALUES (6, 1, '2', '字典管理', 'route.manage_dict', 'manage_dict', '/manage/dict', 'ic:round-menu-book', '1', 'view.manage_dict', 'N', 'N', 'N', '', 4, 'N', NULL, NULL, '[]', '2025-04-15 01:51:05', '2025-04-15 06:22:58', '1', 0);
+INSERT INTO `sys_menu` VALUES (5, 0, '1', '首页', 'route.home', 'home', '/home', 'icon-park-outline:data-sheet', '1', 'layout.base$view.home', 'N', 'N', 'N', '', 1, 'N', NULL, NULL, '[]', '2024-02-05 22:30:15', '2025-04-22 07:49:10', '1', 0);
+INSERT INTO `sys_menu` VALUES (6, 1, '2', '字典管理', 'route.manage_dict', 'manage_dict', '/manage/dict', 'ic:round-menu-book', '1', 'view.manage_dict', 'N', 'N', 'N', '', 4, 'N', NULL, NULL, '[]', '2025-04-15 01:51:05', '2025-04-22 08:25:07', '1', 0);
+INSERT INTO `sys_menu` VALUES (7, 0, '1', '监控管理', 'route.monitor', 'monitor', '/monitor', 'icon-park-solid:monitor-one', '1', 'layout.base', 'N', 'N', 'N', NULL, 3, 'N', NULL, NULL, '[]', '2025-04-21 17:20:50', '2025-04-21 20:23:16', '1', 0);
+INSERT INTO `sys_menu` VALUES (8, 7, '1', '日志管理', 'route.monitor_logs', 'monitor_logs', '/monitor/logs', 'mdi:math-log', '1', 'layout.base', 'N', 'N', 'N', NULL, 3, 'N', NULL, NULL, '[]', '2025-04-21 17:22:08', '2025-04-21 19:11:55', '1', 0);
+INSERT INTO `sys_menu` VALUES (9, 8, '2', '文件日志', 'route.monitor_logs_file', 'monitor_logs_file', '/monitor/logs/file', 'basil:document-outline', '1', 'view.monitor_logs_file', 'N', 'N', 'N', NULL, 4, 'N', NULL, NULL, '[]', '2025-04-21 17:23:41', '2025-04-22 09:15:21', '1', 0);
 
 -- ----------------------------
 -- Table structure for sys_permission
@@ -264,7 +281,7 @@ CREATE TABLE `sys_permission`  (
   `status` varchar(2) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '1' COMMENT '是否启用(0:禁用,1:启用)',
   `is_deleted` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '是否删除(0:否,1:是)',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 37 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '权限(按钮)管理' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 42 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '权限(按钮)管理' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_permission
@@ -305,6 +322,11 @@ INSERT INTO `sys_permission` VALUES (33, 6, '字典管理', '/sysDict/removeItem
 INSERT INTO `sys_permission` VALUES (34, 6, '字典管理', '/sysDict/removeItemById', '删除单个子字典', '2025-04-15 06:21:46', '2025-04-15 06:21:46', '1', 0);
 INSERT INTO `sys_permission` VALUES (35, 6, '字典管理', '/sysDict/removeById', '删除单个字典', '2025-04-15 06:21:46', '2025-04-15 06:21:46', '1', 0);
 INSERT INTO `sys_permission` VALUES (36, 6, '字典管理', '/sysDict/updateItem', '修改子字典', '2025-04-15 06:22:58', '2025-04-15 06:22:58', '1', 0);
+INSERT INTO `sys_permission` VALUES (37, 7, '文件管理', '/sysFile/upload', '上传文件', '2025-04-18 07:39:21', '2025-04-18 07:39:21', '1', 0);
+INSERT INTO `sys_permission` VALUES (38, 9, '文件日志', '/monitor/logsFile/page', '分页获取文件日志', '2025-04-22 07:26:40', '2025-04-22 07:26:40', '1', 0);
+INSERT INTO `sys_permission` VALUES (39, 2, '用户管理', '/sysUser/allUserName', '获取所有用户枚举', '2025-04-22 07:49:35', '2025-04-22 07:49:35', '1', 0);
+INSERT INTO `sys_permission` VALUES (40, 6, '字典管理', '/sysDict/getItemInfo', '获取子字典详细', '2025-04-22 08:25:07', '2025-04-22 08:25:07', '1', 0);
+INSERT INTO `sys_permission` VALUES (41, 9, '文件日志', '/monitor/logsFile/remove', '删除日志并删除文件', '2025-04-22 09:15:21', '2025-04-22 09:15:21', '1', 0);
 
 -- ----------------------------
 -- Table structure for sys_role
@@ -340,7 +362,7 @@ CREATE TABLE `sys_role_menu`  (
   `update_time` datetime NULL DEFAULT NULL COMMENT '修改时间',
   `is_deleted` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '是否删除(0:否,1:是)',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 12 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '角色菜单管理' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 15 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '角色菜单管理' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_role_menu
@@ -356,6 +378,9 @@ INSERT INTO `sys_role_menu` VALUES (8, 2, 3, '2025-03-15 05:48:10', '2025-03-15 
 INSERT INTO `sys_role_menu` VALUES (9, 2, 4, '2025-03-15 05:48:10', '2025-03-15 05:48:10', 0);
 INSERT INTO `sys_role_menu` VALUES (10, 2, 5, '2025-03-14 14:29:09', '2025-03-14 14:29:09', 0);
 INSERT INTO `sys_role_menu` VALUES (11, 1, 6, '2025-04-15 01:51:21', '2025-04-15 01:51:21', 0);
+INSERT INTO `sys_role_menu` VALUES (12, 1, 7, '2025-04-18 07:41:43', '2025-04-18 07:41:43', 0);
+INSERT INTO `sys_role_menu` VALUES (13, 1, 8, '2025-04-21 09:14:42', '2025-04-21 09:14:42', 0);
+INSERT INTO `sys_role_menu` VALUES (14, 1, 9, '2025-04-21 09:24:16', '2025-04-21 09:24:16', 0);
 
 -- ----------------------------
 -- Table structure for sys_role_permission
@@ -369,7 +394,7 @@ CREATE TABLE `sys_role_permission`  (
   `update_time` datetime NULL DEFAULT NULL COMMENT '修改时间',
   `is_deleted` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '是否删除(0:否,1:是)',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 53 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '角色权限管理' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 58 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '角色权限管理' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_role_permission
@@ -426,6 +451,11 @@ INSERT INTO `sys_role_permission` VALUES (49, 1, 33, '2025-04-15 06:21:54', '202
 INSERT INTO `sys_role_permission` VALUES (50, 1, 34, '2025-04-15 06:21:54', '2025-04-15 06:21:54', 0);
 INSERT INTO `sys_role_permission` VALUES (51, 1, 35, '2025-04-15 06:21:54', '2025-04-15 06:21:54', 0);
 INSERT INTO `sys_role_permission` VALUES (52, 1, 36, '2025-04-15 06:23:08', '2025-04-15 06:23:08', 0);
+INSERT INTO `sys_role_permission` VALUES (53, 1, 37, '2025-04-18 07:41:52', '2025-04-18 07:41:52', 0);
+INSERT INTO `sys_role_permission` VALUES (54, 1, 38, '2025-04-22 07:26:57', '2025-04-22 07:26:57', 0);
+INSERT INTO `sys_role_permission` VALUES (55, 1, 39, '2025-04-22 07:49:47', '2025-04-22 07:49:47', 0);
+INSERT INTO `sys_role_permission` VALUES (56, 1, 40, '2025-04-22 08:25:18', '2025-04-22 08:25:18', 0);
+INSERT INTO `sys_role_permission` VALUES (57, 1, 41, '2025-04-22 09:15:29', '2025-04-22 09:15:29', 0);
 
 -- ----------------------------
 -- Table structure for sys_user
@@ -451,7 +481,7 @@ CREATE TABLE `sys_user`  (
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
-INSERT INTO `sys_user` VALUES (1, 'admin', '2d4b97b5f46ac80c82e8f8a5812ad89b082583129fa7b7fd7575b286647c9bb5', 'admin', '', 1, '', '2024-09-30 23:08:05', '2025-04-15 07:19:22', '2025-04-15 07:19:22', 'VECaJx', '1', 0);
+INSERT INTO `sys_user` VALUES (1, 'admin', '2d4b97b5f46ac80c82e8f8a5812ad89b082583129fa7b7fd7575b286647c9bb5', 'admin', '939648675@qq.com', 1, '18074589556', '2024-09-30 23:08:05', '2025-04-22 09:15:45', '2025-04-22 09:15:45', 'VECaJx', '1', 0);
 
 -- ----------------------------
 -- Table structure for sys_user_role
