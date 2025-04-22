@@ -14,6 +14,8 @@ import (
 type (
 	ILogsFile interface {
 		GetMonFileLogsPage(ctx context.Context, req *v1.GetMonFileLogsPageReq) (total int, records []vo.MonLogsFileVo, err error)
+		// RemoveLogsFile 删除单个文件日志
+		RemoveLogsFile(ctx context.Context, req *v1.RemoveLogsFileReq) (bool, error)
 	}
 )
 

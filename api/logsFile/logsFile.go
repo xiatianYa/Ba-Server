@@ -12,4 +12,5 @@ import (
 
 type ILogsFileV1 interface {
 	GetMonFileLogsPage(ctx context.Context, req *v1.GetMonFileLogsPageReq) (res *v1.GetMonFileLogsPageRes, err error)
+	RemoveLogsFile(ctx context.Context, req *v1.RemoveLogsFileReq) (res *v1.RemoveLogsFileRes, err error)
 }

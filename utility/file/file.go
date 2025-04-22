@@ -120,3 +120,12 @@ func UploadFile(file *ghttp.UploadFile) (*string, *string, error) {
 
 	return &targetUrl, &targetPath, nil
 }
+
+// RemoveFile 删除文件
+func RemoveFile(filePath string) bool {
+	err := os.Remove(filePath)
+	if err != nil {
+		return false
+	}
+	return true
+}

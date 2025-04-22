@@ -15,3 +15,10 @@ type GetMonFileLogsPageReq struct {
 }
 
 type GetMonFileLogsPageRes domain.RPage
+
+type RemoveLogsFileReq struct {
+	g.Meta `path:"/logsFile/remove/{id}" tags:"remove" method:"delete" summary:"删除单个文件日志"`
+	Id     int64 `v:"required" dc:"logs file id"`
+}
+
+type RemoveLogsFileRes bool
