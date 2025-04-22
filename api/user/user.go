@@ -16,4 +16,5 @@ type IUserV1 interface {
 	RemoveSysUserByIds(ctx context.Context, req *v1.RemoveSysUserByIdsReq) (res *v1.RemoveSysUserByIdsRes, err error)
 	RemoveSysUserById(ctx context.Context, req *v1.RemoveSysUserByIdReq) (res *v1.RemoveSysUserByIdRes, err error)
 	UpdateSysUser(ctx context.Context, req *v1.UpdateSysUserReq) (res *v1.UpdateSysUserRes, err error)
+	GetAllUserName(ctx context.Context, req *v1.GetAllUserNameReq) (res *v1.GetAllUserNameRes, err error)
 }

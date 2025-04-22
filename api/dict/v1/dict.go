@@ -70,6 +70,13 @@ type GetDictInfoByIdReq struct {
 
 type GetDictInfoByIdRes vo.SysDictVo
 
+type GetDictItemInfoByIdReq struct {
+	g.Meta `path:"/getItemInfo/{id}" tags:"getItemInfo" method:"get" summary:"根据字典Id获取子字典详细"`
+	Id     int64 `v:"required" dc:"dict id"`
+}
+
+type GetDictItemInfoByIdRes vo.SysDictItemVo
+
 type SaveDictItemReq struct {
 	g.Meta      `path:"/saveItem" method:"post" summary:"新增子字典"`
 	DictId      int64  `v:"required" json:"dictId"`

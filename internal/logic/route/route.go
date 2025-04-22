@@ -154,7 +154,7 @@ func (s sRoute) GetUserRoutes(ctx context.Context) (sysUserInfoVo *vo.SysUserRou
 		menuIds = append(menuIds, roleMenu.MenuId)
 	}
 	//查询所有符合条件的父菜单
-	_ = menuModel.Where("status=?", consts.ONE_NUMBER).Where("parent_id=?", consts.ZERO_NUMBER).WhereIn("id", menuIds).Scan(&parentMenus)
+	_ = menuModel.Where("status=?", consts.ONE_NUMBER).Where("parent_id=?", consts.ZERO_NUMBER).WhereIn("id", menuIds).Order("order").Scan(&parentMenus)
 	//遍历有权限的父菜单 递归构建菜单树
 	for _, parentMenu := range parentMenus {
 		route := buildMenuTree(menuModel, parentMenu, menuIds)
@@ -172,7 +172,7 @@ func buildMenuTree(menuModel *gdb.Model, sysMenu entity.SysMenu, menuIds []int64
 	var childrenMenu []entity.SysMenu
 	route := SysUserRouteVOBuilder(sysMenu, childrenMenu)
 	//查询该菜单下的子菜单
-	_ = menuModel.Where("status=?", consts.ONE_NUMBER).Where("parent_id=?", sysMenu.Id).WhereIn("id", menuIds).Scan(&childrenMenu)
+	_ = menuModel.Where("status=?", consts.ONE_NUMBER).Where("parent_id=?", sysMenu.Id).WhereIn("id", menuIds).Order("order").Scan(&childrenMenu)
 	//构建子菜单到父菜单里
 	for _, menu := range childrenMenu {
 		children := buildMenuTree(menuModel, menu, menuIds)

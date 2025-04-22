@@ -11,4 +11,4 @@ type FileUploadReq struct {
 	File   *ghttp.UploadFile `json:"file" type:"file" dc:"上传的文件"`
 }
 
-type FileUploadRes vo.MonLogsFileVo
+type FileUploadRes vo.FileVo

@@ -18,7 +18,7 @@ func (c *ControllerV1) FileUpload(ctx context.Context, req *v1.FileUploadReq) (r
 	if err != nil {
 		return nil, err
 	}
-	fileVo := vo.MonLogsFileVo{
+	fileVo := vo.FileVo{
 		Id:       fileId,
 		FileName: req.File.Filename,
 		FileUrl:  fileUrl,

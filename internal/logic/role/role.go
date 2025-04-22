@@ -34,9 +34,9 @@ func (s sRole) GetAllSysRolesReq(ctx context.Context) (rolesVo []vo.SysRoleVo, e
 	return sysRoleVos, nil
 }
 
-func (s sRole) GetSysRolePage(ctx context.Context, req *v1.GetSysRolePageReq) (total int, records []*vo.SysRoleVo, err error) {
+func (s sRole) GetSysRolePage(ctx context.Context, req *v1.GetSysRolePageReq) (total int, records []vo.SysRoleVo, err error) {
 	// 创建指针切片
-	var result []*vo.SysRoleVo
+	var result []vo.SysRoleVo
 
 	roleModel := dao.SysRole.Ctx(ctx)
 	pageQuery := roleModel.Page(req.Current, req.Size)
@@ -53,7 +53,7 @@ func (s sRole) GetSysRolePage(ctx context.Context, req *v1.GetSysRolePageReq) (t
 
 	// 如果列表为空
 	if result == nil {
-		records = []*vo.SysRoleVo{}
+		records = []vo.SysRoleVo{}
 		return
 	}
 	records = result

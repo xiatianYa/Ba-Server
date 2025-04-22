@@ -203,3 +203,14 @@ func getDictItemOptions(sysDicts []entity.SysDict, sysDictItems []entity.SysDict
 	}
 	return result
 }
+
+// GetDictItemInfoById 获取子字典详细
+func (s sDict) GetDictItemInfoById(ctx context.Context, req *v1.GetDictItemInfoByIdReq) (res *vo.SysDictItemVo, err error) {
+	var dictItemVo *vo.SysDictItemVo
+	dictItemModel := dao.SysDictItem.Ctx(ctx)
+	err = dictItemModel.Where("id", req.Id).Scan(&dictItemVo)
+	if err != nil {
+		return nil, err
+	}
+	return dictItemVo, nil
+}

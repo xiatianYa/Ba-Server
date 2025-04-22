@@ -5,6 +5,7 @@ import (
 	"Ba-Server/internal/consts"
 	"Ba-Server/internal/dao"
 	"Ba-Server/internal/model/do"
+	"Ba-Server/internal/model/domain"
 	"Ba-Server/internal/model/entity"
 	"Ba-Server/internal/model/vo"
 	"Ba-Server/internal/service"
@@ -14,6 +15,7 @@ import (
 	"github.com/gogf/gf/v2/database/gdb"
 	"github.com/gogf/gf/v2/errors/gerror"
 	"github.com/gogf/gf/v2/frame/g"
+	"strconv"
 )
 
 type (
@@ -263,4 +265,23 @@ func (s sUser) UpdateSysUser(ctx context.Context, req *v1.UpdateSysUserReq) (res
 		return nil, gerror.New("用户信息修改失败")
 	}
 	return
+}
+
+func (s sUser) GetAllUserName(ctx context.Context) (options []domain.Options, err error) {
+	var result []domain.Options
+	var sysUsers []entity.SysUser
+	//创建用户模型
+	userModel := dao.SysUser.Ctx(ctx)
+	err = userModel.Scan(&sysUsers)
+	if err != nil {
+		return nil, err
+	}
+	for _, sysUser := range sysUsers {
+		option := domain.Options{
+			Label: sysUser.NickName,
+			Value: strconv.FormatInt(sysUser.Id, 10),
+		}
+		result = append(result, option)
+	}
+	return result, nil
 }

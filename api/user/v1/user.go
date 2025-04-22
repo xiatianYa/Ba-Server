@@ -60,3 +60,9 @@ type UpdateSysUserReq struct {
 }
 
 type UpdateSysUserRes bool
+
+type GetAllUserNameReq struct {
+	g.Meta `path:"/allUserName" method:"get" summary:"获取所有用户枚举"`
+}
+
+type GetAllUserNameRes []domain.Options

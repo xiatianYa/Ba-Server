@@ -64,7 +64,7 @@ func (s sMenu) GetSysMenuPage(ctx context.Context, req *v1.GetSysMenuPageReq) (t
 	var SysMenus []entity.SysMenu
 
 	menuModel := dao.SysMenu.Ctx(ctx)
-	pageQuery := menuModel.Page(req.Current, req.Size)
+	pageQuery := menuModel.Order("order").Page(req.Current, req.Size)
 
 	err = pageQuery.ScanAndCount(&SysMenus, &total, true)
 

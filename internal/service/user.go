@@ -7,6 +7,7 @@ package service
 
 import (
 	v1 "Ba-Server/api/user/v1"
+	"Ba-Server/internal/model/domain"
 	"Ba-Server/internal/model/entity"
 	"Ba-Server/internal/model/vo"
 	"context"
@@ -20,6 +21,7 @@ type (
 		RemoveSysUserByIds(ctx context.Context, req *v1.RemoveSysUserByIdsReq) (res *v1.RemoveSysUserByIdsRes, err error)
 		RemoveSysUserById(ctx context.Context, req *v1.RemoveSysUserByIdReq) (res *v1.RemoveSysUserByIdRes, err error)
 		UpdateSysUser(ctx context.Context, req *v1.UpdateSysUserReq) (res *v1.UpdateSysUserRes, err error)
+		GetAllUserName(ctx context.Context) (options []domain.Options, err error)
 	}
 )
 

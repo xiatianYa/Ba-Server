@@ -18,6 +18,7 @@ type IDictV1 interface {
 	UpdateDict(ctx context.Context, req *v1.UpdateDictReq) (res *v1.UpdateDictRes, err error)
 	RemoveDictByIds(ctx context.Context, req *v1.RemoveDictByIdsReq) (res *v1.RemoveDictByIdsRes, err error)
 	GetDictInfoById(ctx context.Context, req *v1.GetDictInfoByIdReq) (res *v1.GetDictInfoByIdRes, err error)
+	GetDictItemInfoById(ctx context.Context, req *v1.GetDictItemInfoByIdReq) (res *v1.GetDictItemInfoByIdRes, err error)
 	SaveDictItem(ctx context.Context, req *v1.SaveDictItemReq) (res *v1.SaveDictItemRes, err error)
 	RemoveDictItemByIds(ctx context.Context, req *v1.RemoveDictItemByIdsReq) (res *v1.RemoveDictItemByIdsRes, err error)
 }

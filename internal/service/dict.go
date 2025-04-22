@@ -23,14 +23,16 @@ type (
 		SaveDict(ctx context.Context, req *v1.SaveDictReq) (res *v1.SaveDictRes, err error)
 		// UpdateDict 修改字典
 		UpdateDict(ctx context.Context, req *v1.UpdateDictReq) (res *v1.UpdateDictRes, err error)
-		// RemoveDictByIds 删除多个字段
+		// RemoveDictByIds 删除多个字典
 		RemoveDictByIds(ctx context.Context, req *v1.RemoveDictByIdsReq) (res *v1.RemoveDictByIdsRes, err error)
 		// GetDictInfoById 获取字典详细
 		GetDictInfoById(ctx context.Context, req *v1.GetDictInfoByIdReq) (res *vo.SysDictVo, err error)
 		// SaveDictItem 添加子字典
 		SaveDictItem(ctx context.Context, req *v1.SaveDictItemReq) (res *v1.SaveDictItemRes, err error)
-		// RemoveDictItemByIds 删除多个子菜单
+		// RemoveDictItemByIds 删除多个子字段
 		RemoveDictItemByIds(ctx context.Context, req *v1.RemoveDictItemByIdsReq) (res *v1.RemoveDictItemByIdsRes, err error)
+		// GetDictInfoById 获取子字典详细
+		GetDictItemInfoById(ctx context.Context, req *v1.GetDictItemInfoByIdReq) (res *vo.SysDictItemVo, err error)
 	}
 )
 
