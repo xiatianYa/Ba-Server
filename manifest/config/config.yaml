@@ -14,7 +14,7 @@ logger:
 # https://goframe.org/docs/core/gdb-config-file
 database:
   default:
-    link: "mysql:root:123456@tcp(127.0.0.1:3306)/ba_boot"
+    link: "mysql:root:123456@tcp(127.0.0.1:3306)/ba_boot?loc=Local&parseTime=true"
     createdAt: "create_time"     # (可选)自动创建时间字段名称
     updatedAt: "update_time"   # (可选)自动更新时间字段名称
     deletedAt: "is_deleted"     # (可选)软删除时间字段名称
