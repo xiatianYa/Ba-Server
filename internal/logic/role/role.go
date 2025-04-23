@@ -43,7 +43,6 @@ func (s sRole) GetSysRolePage(ctx context.Context, req *v1.GetSysRolePageReq) (t
 	// 处理各个查询条件，只添加非空的条件
 	pageQuery = pageQuery.OmitEmpty().WhereLike("role_name", "%"+req.RoleName+"%")
 	pageQuery = pageQuery.OmitEmpty().WhereLike("role_code", "%"+req.RoleCode+"%")
-	pageQuery = pageQuery.OmitEmpty().Where("status", req.Status)
 
 	err = pageQuery.ScanAndCount(&result, &total, true)
 

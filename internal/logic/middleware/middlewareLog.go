@@ -5,7 +5,6 @@ import (
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/net/ghttp"
 	"github.com/ip2location/ip2location-go"
-	"log"
 	"time"
 )
 
@@ -57,10 +56,6 @@ func OptionsLogMiddleWare(r *ghttp.Request) {
 		}
 
 		_, _ = monLogsOperationModel.Insert(monLogsOperation)
-
-		// 记录日志
-		log.Printf("操作时间: %s, 操作 IP: %s, User-Agent: %s, 请求 URI: %s, 请求方式: %s, 操作方法: %s, 请求参数: %v, 耗时: %s",
-			startTime.Format(time.RFC3339), clientIP, userAgent, requestURI, requestMethod, operationMethod, requestParams, elapsedTime)
 	}
 
 	// 执行后续的处理逻辑

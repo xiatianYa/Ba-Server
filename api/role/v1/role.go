@@ -18,7 +18,6 @@ type GetSysRolePageReq struct {
 	Size     int    `v:"required" json:"size"`
 	RoleName string `json:"roleName"`
 	RoleCode string `json:"roleCode"`
-	Status   string `json:"status"`
 }
 
 type GetSysRolePageRes *domain.RPage
