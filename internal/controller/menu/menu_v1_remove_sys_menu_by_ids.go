@@ -12,7 +12,7 @@ import (
 func (c *ControllerV1) RemoveSysMenuByIds(ctx context.Context, req *v1.RemoveSysMenuByIdsReq) (res *v1.RemoveSysMenuByIdsRes, err error) {
 	out, err := service.Menu().RemoveSysMenuByIds(ctx, req)
 	if err != nil {
-		return nil, gerror.New("删除菜单失败")
+		return nil, gerror.New("删除多个菜单失败" + err.Error())
 	}
 	return out, err
 }

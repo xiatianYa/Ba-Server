@@ -11,7 +11,7 @@ import (
 func (c *ControllerV1) GetSysMenuIdsByRoleId(ctx context.Context, req *v1.GetSysMenuIdsByRoleIdReq) (res *v1.GetSysMenuIdsByRoleIdRes, err error) {
 	out, err := service.Menu().GetSysMenuIdsByRoleId(ctx, req)
 	if err != nil {
-		return nil, gerror.New("获取角色菜单列表失败")
+		return nil, gerror.New("获取角色菜单列表失败" + err.Error())
 	}
 	return (*v1.GetSysMenuIdsByRoleIdRes)(&out), nil
 }

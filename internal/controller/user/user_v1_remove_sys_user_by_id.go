@@ -12,7 +12,7 @@ func (c *ControllerV1) RemoveSysUserById(ctx context.Context, req *v1.RemoveSysU
 	out, err := service.User().RemoveSysUserById(ctx, req)
 	//发送错误
 	if err != nil {
-		return nil, gerror.New("删除用户失败")
+		return nil, gerror.New("删除用户失败" + err.Error())
 	}
 	return out, err
 }

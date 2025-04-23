@@ -11,7 +11,7 @@ import (
 func (c *ControllerV1) UpdateSysUser(ctx context.Context, req *v1.UpdateSysUserReq) (res *v1.UpdateSysUserRes, err error) {
 	out, err := service.User().UpdateSysUser(ctx, req)
 	if err != nil {
-		return nil, gerror.New("修改用户失败")
+		return nil, gerror.New("修改用户失败" + err.Error())
 	}
 	return out, err
 }

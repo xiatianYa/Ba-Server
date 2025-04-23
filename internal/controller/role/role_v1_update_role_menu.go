@@ -12,7 +12,7 @@ import (
 func (c *ControllerV1) UpdateRoleMenu(ctx context.Context, req *v1.UpdateRoleMenuReq) (res *v1.UpdateRoleMenuRes, err error) {
 	out, err := service.Role().UpdateRoleMenu(ctx, req)
 	if err != nil {
-		return nil, gerror.New("修改角色菜单失败")
+		return nil, gerror.New("修改角色菜单失败" + err.Error())
 	}
 	return out, err
 }

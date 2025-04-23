@@ -12,7 +12,7 @@ import (
 func (c *ControllerV1) RemoveDictByIds(ctx context.Context, req *v1.RemoveDictByIdsReq) (res *v1.RemoveDictByIdsRes, err error) {
 	out, err := service.Dict().RemoveDictByIds(ctx, req)
 	if err != nil {
-		return nil, gerror.New("删除字典失败")
+		return nil, gerror.New("删除字典失败" + err.Error())
 	}
 	return out, err
 }

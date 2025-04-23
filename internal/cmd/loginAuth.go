@@ -27,10 +27,10 @@ func StartBackendGToken() (gfAdminToken *gtoken.GfToken, err error) {
 	gfToken := &gtoken.GfToken{
 		ServerName:       "Ba-Server",
 		CacheMode:        consts.GTokenRedisCache,
-		LoginPath:        "/login",
+		LoginPath:        "/auth/login",
+		LogoutPath:       "/auth/logout",
 		LoginBeforeFunc:  loginFunc,
 		LoginAfterFunc:   loginAfterFunc,
-		LogoutPath:       "/user/logout",
 		AuthExcludePaths: g.SliceStr{"/route/getConstantRoutes"},
 		MultiLogin:       consts.GTokenNoMultiLogin,
 		AuthAfterFunc:    authAfterFunc,

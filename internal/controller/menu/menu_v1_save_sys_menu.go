@@ -12,7 +12,7 @@ import (
 func (c *ControllerV1) SaveSysMenu(ctx context.Context, req *v1.SaveSysMenuReq) (res *v1.SaveSysMenuRes, err error) {
 	out, err := service.Menu().SaveSysMenu(ctx, req)
 	if err != nil {
-		return nil, gerror.New("新增菜单失败")
+		return nil, gerror.New("新增菜单失败" + err.Error())
 	}
 	return out, err
 }

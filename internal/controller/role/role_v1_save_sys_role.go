@@ -11,7 +11,7 @@ import (
 func (c *ControllerV1) SaveSysRole(ctx context.Context, req *v1.SaveSysRoleReq) (res *v1.SaveSysRoleRes, err error) {
 	out, err := service.Role().SaveSysRole(ctx, req)
 	if err != nil {
-		return nil, gerror.New("新增角色失败")
+		return nil, gerror.New("新增角色失败" + err.Error())
 	}
 	return out, err
 }

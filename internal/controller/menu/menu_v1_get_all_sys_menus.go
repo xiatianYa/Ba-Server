@@ -11,7 +11,7 @@ import (
 func (c *ControllerV1) GetAllSysMenus(ctx context.Context, req *v1.GetAllSysMenusReq) (res *v1.GetAllSysMenusRes, err error) {
 	out, err := service.Menu().GetAllSysMenus(ctx, req)
 	if err != nil {
-		return nil, gerror.New("获取菜单列表失败")
+		return nil, gerror.New("获取全部菜单列表失败" + err.Error())
 	}
 	return (*v1.GetAllSysMenusRes)(&out), nil
 }

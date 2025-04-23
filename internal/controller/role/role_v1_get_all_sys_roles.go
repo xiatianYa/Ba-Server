@@ -11,7 +11,7 @@ import (
 func (c *ControllerV1) GetAllSysRoles(ctx context.Context, req *v1.GetAllSysRolesReq) (res *v1.GetAllSysRolesRes, err error) {
 	out, err := service.Role().GetAllSysRolesReq(ctx)
 	if err != nil {
-		return nil, gerror.New("获取全部角色失败")
+		return nil, gerror.New("获取全部角色失败" + err.Error())
 	}
 	return (*v1.GetAllSysRolesRes)(&out), err
 }

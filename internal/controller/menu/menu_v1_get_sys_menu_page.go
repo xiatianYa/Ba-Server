@@ -15,7 +15,7 @@ func (c *ControllerV1) GetSysMenuPage(ctx context.Context, req *v1.GetSysMenuPag
 
 	//发送错误
 	if err != nil {
-		return nil, gerror.New("获取菜单分页异常")
+		return nil, gerror.New("获取菜单分页异常" + err.Error())
 	}
 
 	//构建返回对象

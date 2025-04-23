@@ -4,7 +4,6 @@ import (
 	v1 "Ba-Server/api/user/v1"
 	"Ba-Server/internal/consts"
 	"Ba-Server/internal/dao"
-	"Ba-Server/internal/model/do"
 	"Ba-Server/internal/model/domain"
 	"Ba-Server/internal/model/entity"
 	"Ba-Server/internal/model/vo"
@@ -56,7 +55,7 @@ func (s sUser) GetSysUserPage(ctx context.Context, req *v1.GetSysUserPageReq) (t
 	}
 
 	//获取用户角色标识列表
-	for _, sysUser := range result {
+	for i, sysUser := range result {
 		// 创建一个新的切片来存储 roleIds
 		var roleIds []int64
 		// 用户拥有的角色列表
@@ -74,7 +73,7 @@ func (s sUser) GetSysUserPage(ctx context.Context, req *v1.GetSysUserPageReq) (t
 		for _, sysRole := range sysRoles {
 			roleCodes = append(roleCodes, sysRole.RoleCode)
 		}
-		sysUser.UserRoles = roleCodes
+		result[i].UserRoles = roleCodes
 	}
 	records = result
 	return
@@ -147,17 +146,17 @@ func (s sUser) SaveSysUser(ctx context.Context, req *v1.SaveSysUserReq) (res *v1
 	inputPassword := req.PassWord + consts.Salt
 	hash := sha256.Sum256([]byte(inputPassword))
 	calculatedHash := hex.EncodeToString(hash[:])
-	sysUser := do.SysUser{}
-	sysUser.Password = calculatedHash
-	//配置用户密码盐
-	sysUser.Salt = consts.Salt
-	//配置用户其他数据
-	sysUser.UserName = req.UserName
-	sysUser.NickName = req.NickName
-	sysUser.UserEmail = req.UserEmail
-	sysUser.UserGender = req.UserGender
-	sysUser.UserPhone = req.UserPhone
-	sysUser.Status = req.Status
+	sysUser := entity.SysUser{
+		UserName:   req.UserName,
+		Password:   calculatedHash,
+		NickName:   req.NickName,
+		UserEmail:  req.UserEmail,
+		UserGender: req.UserGender,
+		UserPhone:  req.UserPhone,
+		Salt:       consts.Salt,
+		Status:     req.Status,
+		IsDeleted:  consts.ZERO_NUMBER,
+	}
 	var userId int64
 	userId, err = userModel.InsertAndGetId(sysUser)
 	//给用户分配角色
@@ -169,15 +168,14 @@ func (s sUser) SaveSysUser(ctx context.Context, req *v1.SaveSysUserReq) (res *v1
 		sysRole := entity.SysUserRole{
 			UserId: userId,
 			RoleId: role.Id,
-			Status: consts.ONE,
 		}
 		_, err = userRoleModel.Insert(&sysRole)
 		if err != nil {
-			return nil, gerror.New("用户权限添加失败")
+			return nil, err
 		}
 	}
 	if err != nil {
-		return nil, gerror.New("用户添加失败")
+		return nil, err
 	}
 	return
 }
@@ -199,7 +197,7 @@ func (s sUser) RemoveSysUserByIds(ctx context.Context, req *v1.RemoveSysUserById
 		return nil
 	})
 	if err != nil {
-		return nil, gerror.New("用户删除失败")
+		return nil, err
 	}
 	return
 }
@@ -220,49 +218,76 @@ func (s sUser) RemoveSysUserById(ctx context.Context, req *v1.RemoveSysUserByIdR
 		return nil
 	})
 	if err != nil {
-		return nil, gerror.New("用户删除失败")
+		return nil, err
 	}
 	return
 }
 
 func (s sUser) UpdateSysUser(ctx context.Context, req *v1.UpdateSysUserReq) (res *v1.UpdateSysUserRes, err error) {
-	sysUser := do.SysUser{}
-	//配置用户其他数据
-	sysUser.Id = req.Id
-	sysUser.UserName = req.UserName
-	sysUser.NickName = req.NickName
-	sysUser.UserEmail = req.UserEmail
-	sysUser.UserGender = req.UserGender
-	sysUser.UserPhone = req.UserPhone
-	sysUser.Status = req.Status
+	sysUser := entity.SysUser{
+		Id:         req.Id,
+		UserName:   req.UserName,
+		NickName:   req.NickName,
+		UserEmail:  req.UserEmail,
+		UserGender: req.UserGender,
+		UserPhone:  req.UserPhone,
+		Status:     req.Status,
+	}
 	//修改用户信息
 	err = g.DB().Transaction(ctx, func(ctx context.Context, tx gdb.TX) error {
 		//创建用户模型
 		userModel := dao.SysUser.Ctx(ctx)
 		roleModel := dao.SysRole.Ctx(ctx)
 		userRoleModel := dao.SysUserRole.Ctx(ctx)
-		_, err = userModel.Data(sysUser).Where("id", sysUser.Id).Update()
+		_, err = userModel.OmitEmpty().Data(&sysUser).Where("id", sysUser.Id).Update()
 		if err != nil {
 			return err
 		}
 		//给用户分配角色
 		var sysRoles []entity.SysRole
+		var sysUserRoleIds []int64
 		_ = roleModel.WhereIn("role_code", req.UserRoles).Scan(&sysRoles)
 		for _, role := range sysRoles {
-			sysRole := entity.SysUserRole{
-				UserId: req.Id,
-				RoleId: role.Id,
-				Status: consts.ONE,
-			}
-			_, err = userRoleModel.Insert(&sysRole)
+			var sysUserRole *entity.SysUserRole
+			//查看当前用户角色是否存在
+			err = userRoleModel.Unscoped().WhereIn("role_id", role.Id).Where("user_id", req.Id).Scan(&sysUserRole)
 			if err != nil {
 				return err
 			}
+			//如果存在 且被删除
+			if sysUserRole != nil && sysUserRole.IsDeleted != consts.ZERO_NUMBER {
+				sysUserRole.IsDeleted = consts.ZERO_NUMBER
+				_, err = userRoleModel.Unscoped().Data(&sysUserRole).Where("id", sysUserRole.Id).Update(&sysUserRole)
+				if err != nil {
+					return err
+				}
+				sysUserRoleIds = append(sysUserRoleIds, sysUserRole.Id)
+				continue
+			}
+			//如果存在 且未被删除
+			if sysUserRole != nil && sysUserRole.IsDeleted == consts.ZERO_NUMBER {
+				sysUserRoleIds = append(sysUserRoleIds, sysUserRole.Id)
+				continue
+			}
+			sysUserRole = &entity.SysUserRole{
+				UserId: req.Id,
+				RoleId: role.Id,
+			}
+			sysUserRoleId, err2 := userRoleModel.InsertAndGetId(&sysUserRole)
+			sysUserRoleIds = append(sysUserRoleIds, sysUserRoleId)
+			if err2 != nil {
+				return err2
+			}
+		}
+		//删除不存在于sysUserRoleIds的角色权限
+		_, err = userRoleModel.WhereNotIn("id", sysUserRoleIds).Where("user_id", req.Id).Delete()
+		if err != nil {
+			return err
 		}
 		return nil
 	})
 	if err != nil {
-		return nil, gerror.New("用户信息修改失败")
+		return nil, err
 	}
 	return
 }

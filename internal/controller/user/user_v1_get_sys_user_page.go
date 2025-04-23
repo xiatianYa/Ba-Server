@@ -13,7 +13,7 @@ func (c *ControllerV1) GetSysUserPage(ctx context.Context, req *v1.GetSysUserPag
 
 	//发送错误
 	if err != nil {
-		return nil, gerror.New("获取用户分页异常")
+		return nil, gerror.New("获取用户分页异常" + err.Error())
 	}
 
 	//构建返回对象

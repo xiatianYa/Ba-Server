@@ -10,7 +10,7 @@ import (
 func (c *ControllerV1) RemoveSysUserByIds(ctx context.Context, req *v1.RemoveSysUserByIdsReq) (res *v1.RemoveSysUserByIdsRes, err error) {
 	out, err := service.User().RemoveSysUserByIds(ctx, req)
 	if err != nil {
-		return nil, gerror.New("删除用户失败")
+		return nil, gerror.New("删除用户失败" + err.Error())
 	}
 	return out, err
 }

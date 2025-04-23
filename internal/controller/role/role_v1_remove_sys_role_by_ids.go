@@ -11,7 +11,7 @@ import (
 func (c *ControllerV1) RemoveSysRoleByIds(ctx context.Context, req *v1.RemoveSysRoleByIdsReq) (res *v1.RemoveSysRoleByIdsRes, err error) {
 	out, err := service.Role().RemoveSysRoleByIds(ctx, req)
 	if err != nil {
-		return nil, gerror.New("删除角色失败")
+		return nil, gerror.New("删除角色失败" + err.Error())
 	}
 	return out, err
 }

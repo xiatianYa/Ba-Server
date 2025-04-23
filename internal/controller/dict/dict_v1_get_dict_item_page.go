@@ -15,7 +15,7 @@ func (c *ControllerV1) GetDictItemPage(ctx context.Context, req *v1.GetDictItemP
 
 	//发送错误
 	if err != nil {
-		return nil, gerror.New("获取子字典分页异常")
+		return nil, gerror.New("获取子字典分页异常" + err.Error())
 	}
 
 	//构建返回对象

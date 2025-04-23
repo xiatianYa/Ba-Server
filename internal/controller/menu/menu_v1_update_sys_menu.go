@@ -12,7 +12,7 @@ import (
 func (c *ControllerV1) UpdateSysMenu(ctx context.Context, req *v1.UpdateSysMenuReq) (res *v1.UpdateSysMenuRes, err error) {
 	out, err := service.Menu().UpdateSysMenu(ctx, req)
 	if err != nil {
-		return nil, gerror.New("修改菜单失败")
+		return nil, gerror.New("修改菜单失败" + err.Error())
 	}
 	return out, err
 }

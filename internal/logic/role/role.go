@@ -107,7 +107,7 @@ func (s sRole) RemoveSysRoleByIds(ctx context.Context, req *v1.RemoveSysRoleById
 		return nil
 	})
 	if err != nil {
-		return nil, gerror.New("角色删除失败")
+		return nil, err
 	}
 	return
 }
@@ -144,7 +144,7 @@ func (s sRole) RemoveSysRoleById(ctx context.Context, req *v1.RemoveSysRoleByIdR
 		return nil
 	})
 	if err != nil {
-		return nil, gerror.New("角色删除失败")
+		return nil, err
 	}
 	return
 }
@@ -160,7 +160,7 @@ func (s sRole) UpdateSysRole(ctx context.Context, req *v1.UpdateSysRoleReq) (res
 	}
 	_, err = roleModel.Data(sysRole).Where("id", sysRole.Id).Update()
 	if err != nil {
-		return nil, gerror.New("修改角色信息失败")
+		return nil, err
 	}
 	return
 }
@@ -199,7 +199,7 @@ func (s sRole) UpdateRoleMenu(ctx context.Context, req *v1.UpdateRoleMenuReq) (r
 				}
 			} else {
 				//新增角色菜单
-				roleMenu := &entity.SysRoleMenu{
+				roleMenu = &entity.SysRoleMenu{
 					RoleId: req.RoleId,
 					MenuId: menuId,
 				}
@@ -212,7 +212,7 @@ func (s sRole) UpdateRoleMenu(ctx context.Context, req *v1.UpdateRoleMenuReq) (r
 		return nil
 	})
 	if err != nil {
-		return nil, gerror.New("用户角色菜单权限添加失败")
+		return nil, err
 	}
 	return
 }
@@ -277,7 +277,7 @@ func (s sRole) UpdatePermissionIdsByRoleId(ctx context.Context, req *v1.UpdatePe
 					continue
 				}
 				//新增角色菜单
-				rolePermission := &entity.SysRolePermission{
+				rolePermission = &entity.SysRolePermission{
 					RoleId:       req.RoleId,
 					PermissionId: permissionId,
 				}

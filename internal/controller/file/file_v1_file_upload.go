@@ -16,7 +16,7 @@ func (c *ControllerV1) FileUpload(ctx context.Context, req *v1.FileUploadReq) (r
 	}
 	fileId, fileUrl, err := service.File().UploadFile(ctx, req)
 	if err != nil {
-		return nil, err
+		return nil, gerror.New("文件上传失败" + err.Error())
 	}
 	fileVo := vo.FileVo{
 		Id:       fileId,
