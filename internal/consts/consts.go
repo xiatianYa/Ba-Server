@@ -26,6 +26,7 @@ const (
 	FILE_VIDEO    = 2
 	FILE_COMPRESS = 3
 	FILE_AUDIO    = 4
+	FILE_FILE     = 5
 	//系统常量配置
 	ADMIN             = "admin"
 	AMPERSAND         = "&"

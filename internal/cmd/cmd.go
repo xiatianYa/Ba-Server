@@ -11,6 +11,7 @@ import (
 	"Ba-Server/internal/controller/user"
 	"Ba-Server/internal/logic/middleware"
 	"Ba-Server/internal/service"
+	fileUtil "Ba-Server/utility/file"
 	"context"
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/net/ghttp"
@@ -24,6 +25,9 @@ var (
 		Brief: "start http server",
 		Func: func(ctx context.Context, parser *gcmd.Parser) (err error) {
 			s := g.Server()
+			// 设置静态文件目录
+			s.SetServerRoot(fileUtil.FilePath)
+			s.AddStaticPath("/statics", fileUtil.FilePath)
 			// 启动GToken
 			gfToken, _ := StartBackendGToken()
 			// 全局日志拦截

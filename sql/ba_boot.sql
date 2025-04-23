@@ -1,5 +1,5 @@
 /*
- Navicat Premium Data Transfer
+ Navicat Premium Dump SQL
 
  Source Server         : 本地Mysql
  Source Server Type    : MySQL
@@ -11,7 +11,7 @@
  Target Server Version : 80012 (8.0.12)
  File Encoding         : 65001
 
- Date: 22/04/2025 17:35:30
+ Date: 23/04/2025 23:08:43
 */
 
 SET NAMES utf8mb4;
@@ -40,7 +40,7 @@ CREATE TABLE `mon_logs_error`  (
   `stack_trace` longtext CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '堆栈信息',
   `create_time` datetime NOT NULL COMMENT '创建时间',
   `update_time` datetime NULL DEFAULT NULL COMMENT '修改时间',
-  `is_deleted` int(1) UNSIGNED NOT NULL DEFAULT 0 COMMENT '是否删除(0:否,1:是)',
+  `is_deleted` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '是否删除(0:否,1:是)',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '错误异常日志' ROW_FORMAT = DYNAMIC;
 
@@ -66,19 +66,10 @@ CREATE TABLE `mon_logs_file`  (
   `create_time` datetime NOT NULL COMMENT '创建时间',
   `update_user_id` bigint(20) NULL DEFAULT NULL COMMENT '修改用户ID',
   `update_time` datetime NULL DEFAULT NULL COMMENT '修改时间',
-  `is_deleted` tinyint(1) UNSIGNED NULL DEFAULT 0 COMMENT '是否删除(0:否,1:是)',
+  `is_deleted` int(10) UNSIGNED NULL DEFAULT 0 COMMENT '是否删除(0:否,1:是)',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '文件上传日志' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '文件上传日志' ROW_FORMAT = DYNAMIC;
 
--- ----------------------------
--- Records of mon_logs_file
--- ----------------------------
-INSERT INTO `mon_logs_file` VALUES (1, 1, 'admin', 'D:\\jinLink\\uploadPath\\2025\\04\\21', 'https://www.bluearchive.top/statics/2025/04/21/logo.png', 1, '30687', '', '1', 0, '2025-04-21 08:52:36', 0, '2025-04-21 08:52:36', 0);
-INSERT INTO `mon_logs_file` VALUES (2, 1, 'admin', 'D:\\jinLink\\uploadPath\\2025\\04\\21\\logo.png', 'https://www.bluearchive.top/statics/2025/04/21/logo.png', 1, '30687', '', '1', 0, '2025-04-21 08:54:50', 0, '2025-04-21 08:54:50', 0);
-INSERT INTO `mon_logs_file` VALUES (3, 1, 'admin', 'D:\\jinLink\\uploadPath\\2025\\04\\21\\logo.png', 'https://www.bluearchive.top/statics/2025/04/21/logo.png', 1, '30687', '', '1', 0, '2025-04-21 08:59:02', 0, '2025-04-21 08:59:02', 0);
-INSERT INTO `mon_logs_file` VALUES (4, 1, 'admin', 'D:\\jinLink\\uploadPath\\2025\\04\\21\\logo.png', 'https://www.bluearchive.top/statics/2025/04/21/logo.png', 1, '30687', '', '1', 0, '2025-04-21 09:00:58', 0, '2025-04-21 09:00:58', 0);
-INSERT INTO `mon_logs_file` VALUES (5, 1, 'admin', 'D:\\jinLink\\uploadPath\\2025\\04\\21\\logo.png', 'https://www.bluearchive.top/statics/2025/04/21/logo.png', 1, '30687', '', '1', 0, '2025-04-21 09:02:16', 0, '2025-04-21 09:02:16', 0);
-INSERT INTO `mon_logs_file` VALUES (6, 1, 'admin', 'D:\\jinLink\\uploadPath\\2025\\04\\21\\logo.png', 'https://www.bluearchive.top/statics/2025/04/21/logo.png', 1, '30687', '', '1', 0, '2025-04-21 09:05:42', 0, '2025-04-21 09:05:42', 0);
 
 -- ----------------------------
 -- Table structure for mon_logs_login
@@ -109,26 +100,20 @@ CREATE TABLE `mon_logs_login`  (
 DROP TABLE IF EXISTS `mon_logs_operation`;
 CREATE TABLE `mon_logs_operation`  (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键ID',
-  `request_id` varchar(40) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '请求ID',
   `ip` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'IP',
   `ip_addr` varchar(45) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'IP所属地',
-  `user_agent` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '登录代理',
-  `request_uri` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '请求URI',
-  `request_method` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '请求方式',
-  `content_type` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '请求内容类型',
-  `operation` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '接口说明',
-  `method_name` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '方法名称',
-  `method_params` longtext CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '请求参数',
-  `use_time` bigint(20) NULL DEFAULT NULL COMMENT '请求耗时',
+  `user_agent` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '登录代理',
+  `request_uri` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '请求URI',
+  `request_path` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '请求PATH',
+  `request_method` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '请求方式',
+  `method_params` longtext CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '请求参数',
+  `use_time` bigint(20) NOT NULL COMMENT '请求耗时',
   `create_time` datetime NOT NULL COMMENT '创建时间',
   `update_time` datetime NULL DEFAULT NULL COMMENT '修改时间',
-  `is_deleted` int(1) UNSIGNED NOT NULL DEFAULT 0 COMMENT '是否删除(0:否,1:是)',
+  `is_deleted` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '是否删除(0:否,1:是)',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '操作日志' ROW_FORMAT = DYNAMIC;
 
--- ----------------------------
--- Records of mon_logs_operation
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for mon_logs_scheduler
@@ -148,7 +133,7 @@ CREATE TABLE `mon_logs_scheduler`  (
   `stack_trace` longtext CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '堆栈信息',
   `create_time` datetime NOT NULL COMMENT '创建时间',
   `update_time` datetime NULL DEFAULT NULL COMMENT '修改时间',
-  `is_deleted` int(1) UNSIGNED NOT NULL DEFAULT 0 COMMENT '是否删除(0:否,1:是)',
+  `is_deleted` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '是否删除(0:否,1:是)',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '调度日志' ROW_FORMAT = DYNAMIC;
 
@@ -260,7 +245,7 @@ INSERT INTO `sys_menu` VALUES (1, 0, '1', '系统管理', 'route.manage', 'manag
 INSERT INTO `sys_menu` VALUES (2, 1, '2', '用户管理', 'route.manage_user', 'manage_user', '/manage/user', 'ic:round-manage-accounts', '1', 'view.manage_user', 'N', 'N', 'N', '', 1, 'N', NULL, NULL, '[]', '2023-12-28 22:22:50', '2025-04-22 07:49:35', '1', 0);
 INSERT INTO `sys_menu` VALUES (3, 1, '2', '角色管理', 'route.manage_role', 'manage_role', '/manage/role', 'ic:round-people', '1', 'view.manage_role', 'N', 'N', 'N', '', 2, 'N', NULL, NULL, '[]', '2023-12-28 22:22:50', '2024-11-04 14:27:36', '1', 0);
 INSERT INTO `sys_menu` VALUES (4, 1, '2', '菜单管理', 'route.manage_menu', 'manage_menu', '/manage/menu', 'ic:round-menu', '1', 'view.manage_menu', 'N', 'N', 'N', '', 3, 'N', NULL, NULL, '[]', '2023-12-28 22:22:50', '2024-11-04 14:30:22', '1', 0);
-INSERT INTO `sys_menu` VALUES (5, 0, '1', '首页', 'route.home', 'home', '/home', 'icon-park-outline:data-sheet', '1', 'layout.base$view.home', 'N', 'N', 'N', '', 1, 'N', NULL, NULL, '[]', '2024-02-05 22:30:15', '2025-04-22 07:49:10', '1', 0);
+INSERT INTO `sys_menu` VALUES (5, 0, '1', '首页', 'route.home', 'home', '/home', 'icon-park-outline:data-sheet', '1', 'layout.base$view.home', 'N', 'N', 'N', '', 1, 'N', NULL, NULL, '[]', '2024-02-05 22:30:15', '2025-04-23 22:27:12', '1', 0);
 INSERT INTO `sys_menu` VALUES (6, 1, '2', '字典管理', 'route.manage_dict', 'manage_dict', '/manage/dict', 'ic:round-menu-book', '1', 'view.manage_dict', 'N', 'N', 'N', '', 4, 'N', NULL, NULL, '[]', '2025-04-15 01:51:05', '2025-04-22 08:25:07', '1', 0);
 INSERT INTO `sys_menu` VALUES (7, 0, '1', '监控管理', 'route.monitor', 'monitor', '/monitor', 'icon-park-solid:monitor-one', '1', 'layout.base', 'N', 'N', 'N', NULL, 3, 'N', NULL, NULL, '[]', '2025-04-21 17:20:50', '2025-04-21 20:23:16', '1', 0);
 INSERT INTO `sys_menu` VALUES (8, 7, '1', '日志管理', 'route.monitor_logs', 'monitor_logs', '/monitor/logs', 'mdi:math-log', '1', 'layout.base', 'N', 'N', 'N', NULL, 3, 'N', NULL, NULL, '[]', '2025-04-21 17:22:08', '2025-04-21 19:11:55', '1', 0);
@@ -392,7 +377,7 @@ CREATE TABLE `sys_role_permission`  (
   `permission_id` bigint(20) NOT NULL COMMENT '权限ID',
   `create_time` datetime NOT NULL COMMENT '创建时间',
   `update_time` datetime NULL DEFAULT NULL COMMENT '修改时间',
-  `is_deleted` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '是否删除(0:否,1:是)',
+  `is_deleted` int(10) UNSIGNED NULL DEFAULT 0 COMMENT '是否删除(0:否,1:是)',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 58 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '角色权限管理' ROW_FORMAT = DYNAMIC;
 
@@ -481,7 +466,7 @@ CREATE TABLE `sys_user`  (
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
-INSERT INTO `sys_user` VALUES (1, 'admin', '2d4b97b5f46ac80c82e8f8a5812ad89b082583129fa7b7fd7575b286647c9bb5', 'admin', '939648675@qq.com', 1, '18074589556', '2024-09-30 23:08:05', '2025-04-22 09:15:45', '2025-04-22 09:15:45', 'VECaJx', '1', 0);
+INSERT INTO `sys_user` VALUES (1, 'admin', '2d4b97b5f46ac80c82e8f8a5812ad89b082583129fa7b7fd7575b286647c9bb5', 'admin', '', 1, '', '2024-09-30 23:08:05', '2025-04-23 23:06:28', '2025-04-23 22:18:10', 'VECaJx', '1', 0);
 
 -- ----------------------------
 -- Table structure for sys_user_role
@@ -496,16 +481,11 @@ CREATE TABLE `sys_user_role`  (
   `status` varchar(2) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '1' COMMENT '是否启用(0:禁用,1:启用)',
   `is_deleted` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '是否删除(0:否,1:是)',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户角色管理' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB  CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户角色管理' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_user_role
 -- ----------------------------
 INSERT INTO `sys_user_role` VALUES (1, 1, 1, '2025-03-12 16:24:27', '2025-03-12 16:24:29', '1', 0);
-INSERT INTO `sys_user_role` VALUES (2, 1, 1, '2025-03-12 08:27:05', '2025-03-12 08:27:05', '1', 0);
-INSERT INTO `sys_user_role` VALUES (3, 1, 1, '2025-03-12 08:27:08', '2025-03-12 08:27:08', '1', 0);
-INSERT INTO `sys_user_role` VALUES (4, 1, 1, '2025-03-21 02:47:03', '2025-03-21 02:47:03', '1', 0);
-INSERT INTO `sys_user_role` VALUES (5, 1, 1, '2025-03-21 02:52:34', '2025-03-21 02:52:34', '1', 0);
-INSERT INTO `sys_user_role` VALUES (6, 1, 1, '2025-04-15 06:57:37', '2025-04-15 06:57:37', '1', 0);
 
 SET FOREIGN_KEY_CHECKS = 1;

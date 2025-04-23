@@ -25,6 +25,7 @@ type SysUserRoleColumns struct {
 	RoleId     string // 角色ID
 	CreateTime string // 创建时间
 	UpdateTime string // 修改时间
+	Status     string // 是否启用(0:禁用,1:启用)
 	IsDeleted  string // 是否删除(0:否,1:是)
 }
 
@@ -35,6 +36,7 @@ var sysUserRoleColumns = SysUserRoleColumns{
 	RoleId:     "role_id",
 	CreateTime: "create_time",
 	UpdateTime: "update_time",
+	Status:     "status",
 	IsDeleted:  "is_deleted",
 }
 

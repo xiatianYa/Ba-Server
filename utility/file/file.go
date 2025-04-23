@@ -11,11 +11,11 @@ import (
 	"time"
 )
 
-// 基础上传路径
-var filePath = "D:/jinLink/uploadPath"
+// FilePath 基础上传路径
+var FilePath = "C:/jinLink/uploadPath"
 
-// 文件保存路径
-var basePath = "https://www.bluearchive.top/statics/"
+// BasePath 文件保存路径
+var BasePath = "http://127.0.0.1:8080/statics/"
 
 // 允许的文件格式
 var allowedExtensions = []string{
@@ -85,9 +85,11 @@ func GetFileType(filename string) int {
 			return consts.FILE_VIDEO
 		case "zip", "rar", "7z":
 			return consts.FILE_COMPRESS
+		case "mp3":
+			return consts.FILE_AUDIO
 		}
 	}
-	return 0
+	return consts.FILE_FILE
 }
 
 // UploadFile 上传文件
@@ -107,7 +109,7 @@ func UploadFile(file *ghttp.UploadFile) (*string, *string, error) {
 	}
 
 	// 构建完整的文件路径
-	targetPath := filepath.Join(filePath, targetDir)
+	targetPath := filepath.Join(FilePath, targetDir)
 
 	// 保存文件
 	filename, err := file.Save(targetPath)
@@ -115,7 +117,7 @@ func UploadFile(file *ghttp.UploadFile) (*string, *string, error) {
 		return nil, nil, fmt.Errorf("failed to save file: %w", err)
 	}
 
-	targetUrl := basePath + targetDir + filename
+	targetUrl := BasePath + targetDir + filename
 	targetPath = filepath.Join(targetPath, filename)
 
 	return &targetUrl, &targetPath, nil
