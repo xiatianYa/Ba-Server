@@ -15,6 +15,7 @@ type MonLogsOperation struct {
 	Id            interface{} // 主键ID
 	Ip            interface{} // IP
 	IpAddr        interface{} // IP所属地
+	UserId        interface{} // 此操作用户ID
 	UserAgent     interface{} // 登录代理
 	RequestUri    interface{} // 请求URI
 	RequestPath   interface{} // 请求PATH

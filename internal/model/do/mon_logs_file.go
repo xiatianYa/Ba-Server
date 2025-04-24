@@ -14,7 +14,6 @@ type MonLogsFile struct {
 	g.Meta       `orm:"table:mon_logs_file, do:true"`
 	Id           interface{} // 主键ID
 	UserId       interface{} // 用户ID
-	UserName     interface{} // 用户名称
 	FilePath     interface{} // 文件物理路径
 	FileUrl      interface{} // 文件网络路径
 	FileType     interface{} // 文件类型

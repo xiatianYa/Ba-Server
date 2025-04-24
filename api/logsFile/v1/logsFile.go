@@ -6,7 +6,7 @@ import (
 )
 
 type GetMonFileLogsPageReq struct {
-	g.Meta    `path:"/logsFile/page" tags:"page" method:"get" summary:"获取文件日志分页"`
+	g.Meta    `path:"/monLogsFile/page" tags:"page" method:"get" summary:"获取文件日志分页"`
 	Current   int    `v:"required" json:"current"`
 	Size      int    `v:"required" json:"size"`
 	UserId    int64  `json:"userName"`
@@ -17,7 +17,7 @@ type GetMonFileLogsPageReq struct {
 type GetMonFileLogsPageRes domain.RPage
 
 type RemoveLogsFileReq struct {
-	g.Meta `path:"/logsFile/remove/{id}" tags:"remove" method:"delete" summary:"删除单个文件日志"`
+	g.Meta `path:"/monLogsFile/remove/{id}" tags:"remove" method:"delete" summary:"删除单个文件日志"`
 	Id     int64 `v:"required" dc:"logs file id"`
 }
 

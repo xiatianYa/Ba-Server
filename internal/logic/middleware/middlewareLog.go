@@ -1,9 +1,12 @@
 package middleware
 
 import (
+	"Ba-Server/internal/consts"
 	"Ba-Server/internal/model/entity"
+	"fmt"
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/net/ghttp"
+	"github.com/gogf/gf/v2/util/gconv"
 	"github.com/ip2location/ip2location-go"
 	"time"
 )
@@ -24,7 +27,10 @@ func OptionsLogMiddleWare(r *ghttp.Request) {
 		clientIP := r.GetClientIp()
 
 		//获取IP所属地
-		ipAddr := getIpAddr(clientIP)
+		ipAddr, err := getIpAddr(clientIP)
+		if err != nil {
+			ipAddr = "未知地址|IP异常"
+		}
 
 		// 记录 User-Agent
 		userAgent := r.Header.Get("User-Agent")
@@ -41,30 +47,45 @@ func OptionsLogMiddleWare(r *ghttp.Request) {
 		// 执行后续的处理逻辑
 		r.Middleware.Next()
 
+		//操作用户Id
+		userId := r.GetCtx().Value(consts.UserId)
+		var parseUserId int64
+		_ = gconv.Scan(userId, &parseUserId)
+
 		// 计算操作时间
 		elapsedTime := time.Since(startTime)
 
 		monLogsOperation := entity.MonLogsOperation{
 			Ip:            clientIP,
 			IpAddr:        ipAddr,
+			UserId:        parseUserId,
 			UserAgent:     userAgent,
 			RequestUri:    requestURI,
 			RequestPath:   operationMethod,
 			RequestMethod: requestMethod,
 			MethodParams:  requestParams,
-			UseTime:       int64(elapsedTime),
+			UseTime:       elapsedTime.String(),
 		}
 
-		_, _ = monLogsOperationModel.Insert(monLogsOperation)
+		_, err = monLogsOperationModel.Insert(monLogsOperation)
+		if err != nil {
+			fmt.Print(err.Error())
+		}
 	}
 
 	// 执行后续的处理逻辑
 	r.Middleware.Next()
 }
 
-func getIpAddr(ip string) string {
-	db, _ := ip2location.OpenDB("resource/ip2location/IP2LOCATION-LITE-DB3.BIN")
+func getIpAddr(ip string) (string, error) {
+	db, err := ip2location.OpenDB("resource/ip2location/IP2LOCATION-LITE-DB3.BIN")
+	if err != nil {
+		return "", err
+	}
 	defer db.Close()
-	results, _ := db.Get_all(ip)
-	return results.Country_long + "|" + results.Region + "|" + results.City
+	results, err := db.Get_all(ip)
+	if err != nil {
+		return "", err
+	}
+	return results.Country_long + "|" + results.Region + "|" + results.City, nil
 }

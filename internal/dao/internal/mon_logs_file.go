@@ -22,7 +22,6 @@ type MonLogsFileDao struct {
 type MonLogsFileColumns struct {
 	Id           string // 主键ID
 	UserId       string // 用户ID
-	UserName     string // 用户名称
 	FilePath     string // 文件物理路径
 	FileUrl      string // 文件网络路径
 	FileType     string // 文件类型
@@ -40,7 +39,6 @@ type MonLogsFileColumns struct {
 var monLogsFileColumns = MonLogsFileColumns{
 	Id:           "id",
 	UserId:       "user_id",
-	UserName:     "user_name",
 	FilePath:     "file_path",
 	FileUrl:      "file_url",
 	FileType:     "file_type",

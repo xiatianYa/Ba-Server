@@ -5,6 +5,7 @@ import (
 	"Ba-Server/internal/controller/dict"
 	"Ba-Server/internal/controller/file"
 	"Ba-Server/internal/controller/logsFile"
+	"Ba-Server/internal/controller/logsOption"
 	"Ba-Server/internal/controller/menu"
 	"Ba-Server/internal/controller/role"
 	"Ba-Server/internal/controller/route"
@@ -25,7 +26,8 @@ var (
 		Brief: "start http server",
 		Func: func(ctx context.Context, parser *gcmd.Parser) (err error) {
 			s := g.Server()
-			// 设置静态文件目录
+			// createDirIfNotExists
+			_ = fileUtil.CreateDirIfNotExists(fileUtil.FilePath)
 			s.SetServerRoot(fileUtil.FilePath)
 			s.AddStaticPath("/statics", fileUtil.FilePath)
 			// 启动GToken
@@ -76,6 +78,7 @@ var (
 					group.Group("/", func(group *ghttp.RouterGroup) {
 						group.Bind(
 							logsFile.NewV1(),
+							logsOption.NewV1(),
 						)
 					})
 				})

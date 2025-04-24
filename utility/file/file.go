@@ -131,3 +131,29 @@ func RemoveFile(filePath string) bool {
 	}
 	return true
 }
+
+// CreateDirIfNotExists 创建目录
+func CreateDirIfNotExists(dir string) error {
+	// 获取目录的绝对路径
+	absDir, err := filepath.Abs(dir)
+	if err != nil {
+		return err
+	}
+	// 检查目录是否存在
+	fileInfo, err := os.Stat(absDir)
+	if os.IsNotExist(err) {
+		// 若不存在则创建目录，权限设置为 0755
+		err = os.MkdirAll(absDir, 0755)
+		if err != nil {
+			return fmt.Errorf("创建目录 %s 失败: %w", absDir, err)
+		}
+		fmt.Printf("目录 %s 创建成功\n", absDir)
+	} else if err != nil {
+		return fmt.Errorf("检查目录 %s 时出错: %w", absDir, err)
+	} else if !fileInfo.IsDir() {
+		return fmt.Errorf("%s 不是一个目录", absDir)
+	} else {
+		fmt.Printf("目录 %s 已存在\n", absDir)
+	}
+	return nil
+}

@@ -28,9 +28,7 @@ func New() service.IFile {
 func (s sFile) UploadFile(ctx context.Context, req *v1.FileUploadReq) (fileId *int64, fileUrl *string, err error) {
 	//上传用户ID
 	userId := ctx.Value(consts.UserId)
-	//上传用户名称
-	userName := ctx.Value(consts.UserName)
-	if userId == nil || userName == nil {
+	if userId == nil {
 		return nil, nil, gerror.New("用户信息获取失败,请重新登陆!")
 	}
 	var parseUserId int64
@@ -51,7 +49,6 @@ func (s sFile) UploadFile(ctx context.Context, req *v1.FileUploadReq) (fileId *i
 	//如果文件上传保存 则记录日志 成功也纪录
 	MonLogFile := entity.MonLogsFile{
 		UserId:   parseUserId,
-		UserName: userName.(string),
 		FilePath: *filePath,
 		FileUrl:  *fileUrl,
 		FileType: fileType,

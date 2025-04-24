@@ -72,11 +72,11 @@ func (s sDict) GetDictItemPage(ctx context.Context, req *v1.GetDictItemPageReq) 
 
 	DictItemModel := dao.SysDictItem.Ctx(ctx)
 	pageQuery := DictItemModel.Page(req.Current, req.Size)
-	pageQuery = pageQuery.OmitEmpty().Where("dict_id", req.DictId)
-	pageQuery = pageQuery.OmitEmpty().Where("value", req.Value)
-	pageQuery = pageQuery.OmitEmpty().WhereLike("description", "%"+req.Description+"%")
-	pageQuery = pageQuery.OmitEmpty().WhereLike("zh_cn", "%"+req.ZhCn+"%")
-	pageQuery = pageQuery.OmitEmpty().WhereLike("en_us", "%"+req.EnUs+"%")
+	pageQuery.Where("dict_id", req.DictId)
+	pageQuery.Where("value", req.Value)
+	pageQuery.WhereLike("description", "%"+req.Description+"%")
+	pageQuery.WhereLike("zh_cn", "%"+req.ZhCn+"%")
+	pageQuery.WhereLike("en_us", "%"+req.EnUs+"%")
 
 	err = pageQuery.ScanAndCount(&result, &total, true)
 

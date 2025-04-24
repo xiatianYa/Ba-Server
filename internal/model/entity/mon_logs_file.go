@@ -12,7 +12,6 @@ import (
 type MonLogsFile struct {
 	Id           int64       `json:"id"           orm:"id"             ` // 主键ID
 	UserId       int64       `json:"userId"       orm:"user_id"        ` // 用户ID
-	UserName     string      `json:"userName"     orm:"user_name"      ` // 用户名称
 	FilePath     string      `json:"filePath"     orm:"file_path"      ` // 文件物理路径
 	FileUrl      string      `json:"fileUrl"      orm:"file_url"       ` // 文件网络路径
 	FileType     int         `json:"fileType"     orm:"file_type"      ` // 文件类型

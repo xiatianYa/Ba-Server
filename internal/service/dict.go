@@ -31,7 +31,7 @@ type (
 		SaveDictItem(ctx context.Context, req *v1.SaveDictItemReq) (res *v1.SaveDictItemRes, err error)
 		// RemoveDictItemByIds 删除多个子字段
 		RemoveDictItemByIds(ctx context.Context, req *v1.RemoveDictItemByIdsReq) (res *v1.RemoveDictItemByIdsRes, err error)
-		// GetDictInfoById 获取子字典详细
+		// GetDictItemInfoById 获取子字典详细
 		GetDictItemInfoById(ctx context.Context, req *v1.GetDictItemInfoByIdReq) (res *vo.SysDictItemVo, err error)
 	}
 )

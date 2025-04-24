@@ -23,6 +23,7 @@ type MonLogsOperationColumns struct {
 	Id            string // 主键ID
 	Ip            string // IP
 	IpAddr        string // IP所属地
+	UserId        string // 此操作用户ID
 	UserAgent     string // 登录代理
 	RequestUri    string // 请求URI
 	RequestPath   string // 请求PATH
@@ -39,6 +40,7 @@ var monLogsOperationColumns = MonLogsOperationColumns{
 	Id:            "id",
 	Ip:            "ip",
 	IpAddr:        "ip_addr",
+	UserId:        "user_id",
 	UserAgent:     "user_agent",
 	RequestUri:    "request_uri",
 	RequestPath:   "request_path",
