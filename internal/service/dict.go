@@ -33,6 +33,8 @@ type (
 		RemoveDictItemByIds(ctx context.Context, req *v1.RemoveDictItemByIdsReq) (res *v1.RemoveDictItemByIdsRes, err error)
 		// GetDictItemInfoById 获取子字典详细
 		GetDictItemInfoById(ctx context.Context, req *v1.GetDictItemInfoByIdReq) (res *vo.SysDictItemVo, err error)
+		// UpdateDictItem 修改子字典
+		UpdateDictItem(ctx context.Context, req *v1.UpdateDictItemReq) (res *v1.UpdateDictItemRes, err error)
 	}
 )
 

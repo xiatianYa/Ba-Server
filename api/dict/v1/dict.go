@@ -56,6 +56,20 @@ type UpdateDictReq struct {
 
 type UpdateDictRes bool
 
+type UpdateDictItemReq struct {
+	g.Meta      `path:"/updateItem" method:"put" summary:"修改字典"`
+	Id          int64  `v:"required" json:"id"`
+	Value       string `json:"value"`
+	Description string `json:"description"`
+	ZhCn        string `json:"zhCn"`
+	EnUs        string `json:"enUs"`
+	Status      string `json:"status"`
+	Sort        int    `json:"sort"`
+	Type        string `json:"type"`
+}
+
+type UpdateDictItemRes bool
+
 type RemoveDictByIdsReq struct {
 	g.Meta `path:"/removeByIds" tags:"removeByIds" method:"delete" summary:"删除多个字典"`
 	Ids    []int64 `v:"required" json:"ids"`

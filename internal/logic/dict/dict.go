@@ -71,12 +71,12 @@ func (s sDict) GetDictItemPage(ctx context.Context, req *v1.GetDictItemPageReq) 
 	var result []vo.SysDictItemVo
 
 	DictItemModel := dao.SysDictItem.Ctx(ctx)
-	pageQuery := DictItemModel.Page(req.Current, req.Size)
-	pageQuery.Where("dict_id", req.DictId)
-	pageQuery.Where("value", req.Value)
-	pageQuery.WhereLike("description", "%"+req.Description+"%")
-	pageQuery.WhereLike("zh_cn", "%"+req.ZhCn+"%")
-	pageQuery.WhereLike("en_us", "%"+req.EnUs+"%")
+	pageQuery := DictItemModel.OmitEmpty().Page(req.Current, req.Size)
+	pageQuery = pageQuery.Where("dict_id", req.DictId)
+	pageQuery = pageQuery.Where("value", req.Value)
+	pageQuery = pageQuery.WhereLike("description", "%"+req.Description+"%")
+	pageQuery = pageQuery.WhereLike("zh_cn", "%"+req.ZhCn+"%")
+	pageQuery = pageQuery.WhereLike("en_us", "%"+req.EnUs+"%")
 
 	err = pageQuery.ScanAndCount(&result, &total, true)
 
@@ -213,4 +213,24 @@ func (s sDict) GetDictItemInfoById(ctx context.Context, req *v1.GetDictItemInfoB
 		return nil, err
 	}
 	return dictItemVo, nil
+}
+
+// UpdateDictItem 修改子字典
+func (s sDict) UpdateDictItem(ctx context.Context, req *v1.UpdateDictItemReq) (res *v1.UpdateDictItemRes, err error) {
+	dictItemModel := dao.SysDictItem.Ctx(ctx)
+	dict := entity.SysDictItem{
+		Id:          req.Id,
+		Value:       req.Value,
+		ZhCn:        req.ZhCn,
+		EnUs:        req.EnUs,
+		Status:      req.Status,
+		Sort:        req.Sort,
+		Type:        req.Type,
+		Description: req.Description,
+	}
+	_, err = dictItemModel.OmitEmpty().Data(dict).Where("id", req.Id).Update()
+	if err != nil {
+		return nil, err
+	}
+	return nil, nil
 }

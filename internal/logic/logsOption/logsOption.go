@@ -47,11 +47,7 @@ func (s sLogsOption) GetMonLogsOptionPage(ctx context.Context, req *v1.GetMonOpt
 	sysUserModel := dao.SysUser.Ctx(ctx)
 	for i, monLogsOption := range result {
 		var sysUser entity.SysUser
-		err = sysUserModel.Unscoped().Where("id", monLogsOption.UserId).Fields("nick_name").Scan(&sysUser)
-		if err != nil {
-			result[i].UserName = "未知用户"
-			continue
-		}
+		_ = sysUserModel.Unscoped().Where("id", monLogsOption.UserId).Fields("nick_name").Scan(&sysUser)
 		result[i].UserName = sysUser.NickName
 	}
 

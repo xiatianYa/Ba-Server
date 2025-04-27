@@ -28,7 +28,7 @@ func (s sLogsFile) GetMonFileLogsPage(ctx context.Context, req *v1.GetMonFileLog
 	var result []vo.MonLogsFileVo
 
 	monLogsFileModel := dao.MonLogsFile.Ctx(ctx)
-	pageQuery := monLogsFileModel.Page(req.Current, req.Size).OmitEmpty().Where("user_id", req.UserId)
+	pageQuery := monLogsFileModel.OmitEmpty().Where("user_id", req.UserId).Page(req.Current, req.Size)
 	if req.StartTime != "" || req.EndTime != "" {
 		pageQuery.WhereBetween("create_time", req.StartTime, req.EndTime)
 	}
@@ -48,11 +48,7 @@ func (s sLogsFile) GetMonFileLogsPage(ctx context.Context, req *v1.GetMonFileLog
 	sysUserModel := dao.SysUser.Ctx(ctx)
 	for i, monLogsFile := range result {
 		var sysUser entity.SysUser
-		err = sysUserModel.Unscoped().Where("id", monLogsFile.UserId).Fields("nick_name").Scan(&sysUser)
-		if err != nil {
-			result[i].UserName = "未知用户"
-			continue
-		}
+		_ = sysUserModel.Unscoped().Where("id", monLogsFile.UserId).Fields("nick_name").Scan(&sysUser)
 		result[i].UserName = sysUser.NickName
 	}
 
