@@ -11,7 +11,7 @@
  Target Server Version : 80012 (8.0.12)
  File Encoding         : 65001
 
- Date: 25/04/2025 10:15:56
+ Date: 28/04/2025 11:30:57
 */
 
 SET NAMES utf8mb4;
@@ -61,7 +61,7 @@ CREATE TABLE `mon_logs_operation`  (
   `update_time` datetime NULL DEFAULT NULL COMMENT '修改时间',
   `is_deleted` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '是否删除(0:否,1:是)',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 25 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '操作日志' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 33 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '操作日志' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of mon_logs_operation
@@ -90,6 +90,14 @@ INSERT INTO `mon_logs_operation` VALUES (21, '::1', '未知地址|IP异常', 0, 
 INSERT INTO `mon_logs_operation` VALUES (22, '::1', '未知地址|IP异常', 1, 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36', '/sysMenu/update', '/sysMenu/update', 'PUT', '{\"menuType\":\"1\",\"menuName\":\"首页\",\"routeName\":\"home\",\"routePath\":\"/home\",\"component\":\"layout.blank$view.home\",\"i18nKey\":\"route.home\",\"icon\":\"icon-park-outline:data-sheet\",\"iconType\":\"1\",\"parentId\":0,\"status\":\"1\",\"keepAlive\":false,\"constant\":true,\"order\":1,\"href\":\"\",\"hideInMenu\":false,\"activeMenu\":\"\",\"multiTab\":false,\"fixedIndexInTab\":0,\"query\":[],\"buttons\":[],\"id\":5,\"children\":null,\"index\":1}', '91.6824ms', '2025-04-24 15:19:21', '2025-04-24 15:19:21', 0);
 INSERT INTO `mon_logs_operation` VALUES (23, '::1', '未知地址|IP异常', 0, 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36', '/auth/login', '/auth/login', 'POST', '{\"userName\":\"admin\",\"password\":\"123456\"}', '76.1743ms', '2025-04-24 15:23:28', '2025-04-24 15:23:28', 0);
 INSERT INTO `mon_logs_operation` VALUES (24, '::1', '未知地址|IP异常', 0, 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36', '/auth/login', '/auth/login', 'POST', '{\"userName\":\"admin\",\"password\":\"123456\"}', '129.4819ms', '2025-04-24 17:52:21', '2025-04-24 17:52:21', 0);
+INSERT INTO `mon_logs_operation` VALUES (25, '::1', '未知地址|IP异常', 0, 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36', '/auth/login', '/auth/login', 'POST', '{\"userName\":\"admin\",\"password\":\"123456\"}', '146.0855ms', '2025-04-25 10:18:35', '2025-04-25 10:18:35', 0);
+INSERT INTO `mon_logs_operation` VALUES (26, '::1', '未知地址|IP异常', 1, 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36', '/sysMenu/save', '/sysMenu/save', 'POST', '{\"menuType\":\"1\",\"menuName\":\"论坛\",\"routeName\":\"bbs\",\"routePath\":\"/bbs\",\"component\":\"layout.base\",\"i18nKey\":\"route.bbs\",\"icon\":\"tabler:message-2-star\",\"iconType\":\"1\",\"parentId\":0,\"status\":\"1\",\"keepAlive\":false,\"constant\":false,\"order\":0,\"href\":null,\"hideInMenu\":false,\"activeMenu\":null,\"multiTab\":false,\"fixedIndexInTab\":null,\"query\":[],\"buttons\":[]}', '58.7605ms', '2025-04-25 10:25:46', '2025-04-25 10:25:46', 0);
+INSERT INTO `mon_logs_operation` VALUES (27, '::1', '未知地址|IP异常', 1, 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36', '/sysRole/updateRoleMenu', '/sysRole/updateRoleMenu', 'PUT', '{\"menuIds\":[1,2,3,4,5,6,7,8,9,10,11],\"roleId\":1}', '47.8852ms', '2025-04-25 10:26:04', '2025-04-25 10:26:04', 0);
+INSERT INTO `mon_logs_operation` VALUES (28, '::1', '未知地址|IP异常', 0, 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36', '/auth/login', '/auth/login', 'POST', '{\"userName\":\"admin\",\"password\":\"123456\"}', '97.2432ms', '2025-04-27 14:07:38', '2025-04-27 14:07:38', 0);
+INSERT INTO `mon_logs_operation` VALUES (29, '::1', '未知地址|IP异常', 1, 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36', '/sysUser/update', '/sysUser/update', 'PUT', '{\"userName\":\"admin\",\"password\":\"\",\"userGender\":\"1\",\"nickName\":\"admin\",\"userPhone\":\"\",\"userEmail\":\"\",\"userRoles\":[\"R_SUPER\"],\"status\":\"2\",\"id\":1,\"avatar\":\"\",\"index\":1}', '39.8179ms', '2025-04-27 14:07:59', '2025-04-27 14:07:59', 0);
+INSERT INTO `mon_logs_operation` VALUES (30, '::1', '未知地址|IP异常', 1, 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36', '/sysUser/update', '/sysUser/update', 'PUT', '{\"userName\":\"admin\",\"password\":\"\",\"userGender\":\"1\",\"nickName\":\"admin\",\"userPhone\":\"\",\"userEmail\":\"\",\"userRoles\":[\"R_SUPER\"],\"status\":\"1\",\"id\":1,\"avatar\":\"\",\"index\":1}', '23.5034ms', '2025-04-27 14:08:02', '2025-04-27 14:08:02', 0);
+INSERT INTO `mon_logs_operation` VALUES (31, '::1', '未知地址|IP异常', 0, 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36', '/auth/login', '/auth/login', 'POST', '{\"userName\":\"admin\",\"password\":\"123456\"}', '155.1414ms', '2025-04-28 10:58:33', '2025-04-28 10:58:33', 0);
+INSERT INTO `mon_logs_operation` VALUES (32, '::1', '未知地址|IP异常', 0, 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36', '/auth/login', '/auth/login', 'POST', '{\"userName\":\"admin\",\"password\":\"123456\"}', '123.2122ms', '2025-04-28 11:01:07', '2025-04-28 11:01:07', 0);
 
 -- ----------------------------
 -- Table structure for sys_dict
@@ -186,7 +194,7 @@ CREATE TABLE `sys_menu`  (
   `status` varchar(2) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '1' COMMENT '是否启用(0:禁用,1:启用)',
   `is_deleted` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '是否删除(0:否,1:是)',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '菜单管理' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 12 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '菜单管理' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_menu
@@ -195,12 +203,12 @@ INSERT INTO `sys_menu` VALUES (1, 0, '1', '系统管理', 'route.manage', 'manag
 INSERT INTO `sys_menu` VALUES (2, 1, '2', '用户管理', 'route.manage_user', 'manage_user', '/manage/user', 'ic:round-manage-accounts', '1', 'view.manage_user', 'N', 'N', 'N', '', 1, 'N', NULL, NULL, '[]', '2023-12-28 22:22:50', '2025-04-22 07:49:35', '1', 0);
 INSERT INTO `sys_menu` VALUES (3, 1, '2', '角色管理', 'route.manage_role', 'manage_role', '/manage/role', 'ic:round-people', '1', 'view.manage_role', 'N', 'N', 'N', '', 2, 'N', NULL, NULL, '[]', '2023-12-28 22:22:50', '2024-11-04 14:27:36', '1', 0);
 INSERT INTO `sys_menu` VALUES (4, 1, '2', '菜单管理', 'route.manage_menu', 'manage_menu', '/manage/menu', 'ic:round-menu', '1', 'view.manage_menu', 'N', 'N', 'N', '', 3, 'N', NULL, NULL, '[]', '2023-12-28 22:22:50', '2024-11-04 14:30:22', '1', 0);
-INSERT INTO `sys_menu` VALUES (5, 0, '1', '首页', 'route.home', 'home', '/home', 'icon-park-outline:data-sheet', '1', 'layout.blank$view.home', 'N', 'N', 'Y', '', 1, 'N', NULL, NULL, '[]', '2024-02-05 22:30:15', '2025-04-24 15:19:21', '1', 0);
+INSERT INTO `sys_menu` VALUES (5, 0, '1', '首页', 'route.home', 'home', '/home', 'icon-park-outline:data-sheet', '1', 'layout.base$view.home', 'N', 'N', 'Y', '', 1, 'N', NULL, NULL, '[]', '2024-02-05 22:30:15', '2025-04-24 15:19:21', '1', 0);
 INSERT INTO `sys_menu` VALUES (6, 1, '2', '字典管理', 'route.manage_dict', 'manage_dict', '/manage/dict', 'ic:round-menu-book', '1', 'view.manage_dict', 'N', 'N', 'N', '', 4, 'N', NULL, NULL, '[]', '2025-04-15 01:51:05', '2025-04-22 08:25:07', '1', 0);
 INSERT INTO `sys_menu` VALUES (7, 0, '1', '监控管理', 'route.monitor', 'monitor', '/monitor', 'icon-park-solid:monitor-one', '1', 'layout.base', 'N', 'N', 'N', NULL, 3, 'N', NULL, NULL, '[]', '2025-04-21 17:20:50', '2025-04-21 20:23:16', '1', 0);
 INSERT INTO `sys_menu` VALUES (8, 7, '1', '日志管理', 'route.monitor_logs', 'monitor_logs', '/monitor/logs', 'mdi:math-log', '1', 'layout.base', 'N', 'N', 'N', NULL, 1, 'N', NULL, NULL, '[]', '2025-04-21 17:22:08', '2025-04-24 12:44:36', '1', 0);
 INSERT INTO `sys_menu` VALUES (9, 8, '2', '文件日志', 'route.monitor_logs_file', 'monitor_logs_file', '/monitor/logs/file', 'basil:document-outline', '1', 'view.monitor_logs_file', 'N', 'N', 'N', NULL, 2, 'N', NULL, NULL, '[]', '2025-04-21 17:23:41', '2025-04-24 09:24:57', '1', 0);
-INSERT INTO `sys_menu` VALUES (10, 8, '2', '操作日志', 'route.monitor_logs_operation', 'monitor_logs_operation', '/monitor/logs/operation', 'ic:round-list-alt', '1', 'view.monitor_logs_operation', 'N', 'N', 'N', '', 1, 'N', 0, '', '[]', '2025-04-24 09:24:38', '2025-04-24 10:24:06', '1', 0);
+INSERT INTO `sys_menu` VALUES (10, 8, '2', '操作日志', 'route.monitor_logs_operation', 'monitor_logs_operation', '/monitor/logs/operation', 'ic:round-list-alt', '1', 'view.monitor_logs_operation', 'N', 'N', 'N', NULL, 1, 'N', NULL, NULL, '[]', '2025-04-24 09:24:38', '2025-04-24 10:24:06', '1', 0);
 
 -- ----------------------------
 -- Table structure for sys_permission
@@ -259,11 +267,11 @@ INSERT INTO `sys_permission` VALUES (34, 6, '字典管理', '/sysDict/removeItem
 INSERT INTO `sys_permission` VALUES (35, 6, '字典管理', '/sysDict/removeById', '删除单个字典', '2025-04-15 06:21:46', '2025-04-15 06:21:46', '1', 0);
 INSERT INTO `sys_permission` VALUES (36, 6, '字典管理', '/sysDict/updateItem', '修改子字典', '2025-04-15 06:22:58', '2025-04-15 06:22:58', '1', 0);
 INSERT INTO `sys_permission` VALUES (37, 7, '文件管理', '/sysFile/upload', '上传文件', '2025-04-18 07:39:21', '2025-04-18 07:39:21', '1', 0);
-INSERT INTO `sys_permission` VALUES (38, 9, '文件日志', '/monitor/monLogsFile/page', '分页获取文件日志', '2025-04-22 07:26:40', '2025-04-22 07:26:40', '1', 0);
+INSERT INTO `sys_permission` VALUES (38, 9, '文件日志', '/monLogsFile/page', '分页获取文件日志', '2025-04-22 07:26:40', '2025-04-22 07:26:40', '1', 0);
 INSERT INTO `sys_permission` VALUES (39, 2, '用户管理', '/sysUser/allUserName', '获取所有用户枚举', '2025-04-22 07:49:35', '2025-04-22 07:49:35', '1', 0);
 INSERT INTO `sys_permission` VALUES (40, 6, '字典管理', '/sysDict/getItemInfo', '获取子字典详细', '2025-04-22 08:25:07', '2025-04-22 08:25:07', '1', 0);
-INSERT INTO `sys_permission` VALUES (41, 9, '文件日志', '/monitor/monLogsFile/remove', '删除日志并删除文件', '2025-04-22 09:15:21', '2025-04-22 09:15:21', '1', 0);
-INSERT INTO `sys_permission` VALUES (42, 10, '操作日志', '/monitor/monLogsOperation/page', '分页获取操作日志', '2025-04-24 10:24:06', '2025-04-24 10:24:06', '1', 0);
+INSERT INTO `sys_permission` VALUES (41, 9, '文件日志', '/monLogsFile/remove', '删除日志并删除文件', '2025-04-22 09:15:21', '2025-04-22 09:15:21', '1', 0);
+INSERT INTO `sys_permission` VALUES (42, 10, '操作日志', '/monLogsOperation/page', '分页获取操作日志', '2025-04-24 10:24:06', '2025-04-24 10:24:06', '1', 0);
 
 -- ----------------------------
 -- Table structure for sys_role
@@ -299,7 +307,7 @@ CREATE TABLE `sys_role_menu`  (
   `update_time` datetime NULL DEFAULT NULL COMMENT '修改时间',
   `is_deleted` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '是否删除(0:否,1:是)',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 16 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '角色菜单管理' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 17 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '角色菜单管理' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_role_menu
@@ -420,7 +428,7 @@ CREATE TABLE `sys_user`  (
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
-INSERT INTO `sys_user` VALUES (1, 'admin', '2d4b97b5f46ac80c82e8f8a5812ad89b082583129fa7b7fd7575b286647c9bb5', 'admin', '', 1, '', '2024-09-30 23:08:05', '2025-04-24 17:52:21', '2025-04-24 17:52:21', 'VECaJx', '1', 0);
+INSERT INTO `sys_user` VALUES (1, 'admin', '2d4b97b5f46ac80c82e8f8a5812ad89b082583129fa7b7fd7575b286647c9bb5', 'admin', '', 1, '', '2024-09-30 23:08:05', '2025-04-28 11:01:06', '2025-04-28 11:01:06', 'VECaJx', '1', 0);
 
 -- ----------------------------
 -- Table structure for sys_user_role
