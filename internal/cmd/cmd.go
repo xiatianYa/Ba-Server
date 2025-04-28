@@ -74,13 +74,15 @@ var (
 						file.NewV1(),
 					)
 				})
-				group.Group("/monitor", func(group *ghttp.RouterGroup) {
-					group.Group("/", func(group *ghttp.RouterGroup) {
-						group.Bind(
-							logsFile.NewV1(),
-							logsOption.NewV1(),
-						)
-					})
+				group.Group("/monLogsFile", func(group *ghttp.RouterGroup) {
+					group.Bind(
+						logsFile.NewV1(),
+					)
+				})
+				group.Group("/monLogsOperation", func(group *ghttp.RouterGroup) {
+					group.Bind(
+						logsOption.NewV1(),
+					)
 				})
 			})
 			s.Run()

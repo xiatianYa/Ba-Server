@@ -120,7 +120,7 @@ func (s sMenu) SaveSysMenu(ctx context.Context, req *v1.SaveSysMenuReq) (res *v1
 				Description: button.Desc,
 				Status:      consts.ONE,
 			}
-			_, err02 := permissionModel.Insert(sysPermission)
+			_, err02 := permissionModel.OmitEmpty().Insert(sysPermission)
 			if err02 != nil {
 				return err02
 			}

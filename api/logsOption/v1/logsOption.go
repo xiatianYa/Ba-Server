@@ -6,7 +6,7 @@ import (
 )
 
 type GetMonOptionLogsPageReq struct {
-	g.Meta    `path:"/monLogsOperation/page" tags:"page" method:"get" summary:"获取文件日志分页"`
+	g.Meta    `path:"/page" tags:"page" method:"get" summary:"获取文件日志分页"`
 	Current   int    `v:"required" json:"current"`
 	Size      int    `v:"required" json:"size"`
 	UserId    int64  `json:"userName"`
